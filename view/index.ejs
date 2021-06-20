@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <button onclick="runCode()">Run code</button>
+    <select id="language">
+      <% Object.keys(languages).forEach(language => {%>
+      <option value="<%= language %>"><%= languages[language].name %></option>
+      <% }) %>
+    </select>
+    <textarea id="data"></textarea>
+    <p id="stdout"></p>
+    <p style="color: red" id="stderr"></p>
+  </body>
+  <script>
+    async function runCode() {
+      try {
+        const language = document.getElementById('language').value;
+        const data = document.getElementById('data').value;
+        const rawResponse = await fetch(
+          'http://localhost:3000/<%= challenge %>',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              language,
+              data,
+            }),
+          }
+        );
+        const content = await rawResponse.json();
+        let stdoutElem = document.getElementById('stdout');
+        stdoutElem.textContent = content['stdout'];
+        let stderrElem = document.getElementById('stderr');
+        stderrElem.textContent = content['stderr'];
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  </script>
+</html>
