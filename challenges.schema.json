@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "required": ["functionName", "tests"],
+  "properties": {
+    "functionName": {
+      "type": "string",
+      "description": "The name of the function called in the tests"
+    },
+    "tests": {
+      "type": "array",
+      "description": "The array of generated tests",
+      "items": {
+        "type": "object",
+        "required": ["params", "expected"],
+        "properties": {
+          "params": {
+            "type": "array",
+            "description": "The array of inputs for the tested function",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expected": {
+            "type": "string",
+            "description": "The expected output of the tested function"
+          }
+        }
+      }
+    }
+  }
+}

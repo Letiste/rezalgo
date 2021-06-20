@@ -1,4 +1,5 @@
 {
+  "$schema": "../../challenges.schema.json",
   "functionName": "add",
   "tests": [
     {
