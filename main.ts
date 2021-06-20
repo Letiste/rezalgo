@@ -29,7 +29,11 @@ const challenges = readdirSync(path.join(__dirname, 'challenges'), {
 
 for (const challenge of challenges) {
   server.get(`/${challenge}`, (_, reply) => {
-    reply.view('/view/index.ejs', { languages, challenge });
+    reply.view('/view/index.ejs', {
+      languages,
+      challenge,
+      helpers: require(path.join(__dirname, `helpers/${challenge}`)).helpers,
+    });
   });
 
   server.post<{ Body: FromSchema<typeof bodySchema> }>(
@@ -38,7 +42,8 @@ for (const challenge of challenges) {
     async function (request) {
       const { language, data } = request.body;
       const { stdout, stderr } = await podman(challenge, language, data);
-      return { stdout, stderr };
+      let success = !stderr;
+      return { stdout, stderr, success };
     }
   );
 }

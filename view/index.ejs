@@ -8,20 +8,32 @@
   </head>
   <body>
     <button onclick="runCode()">Run code</button>
-    <select id="language">
+    <select id="language" onchange="switchHelpers(this.value)">
       <% Object.keys(languages).forEach(language => {%>
       <option value="<%= language %>"><%= languages[language].name %></option>
       <% }) %>
     </select>
-    <textarea id="data"></textarea>
+    <textarea id="data" value="toto"></textarea>
+    <p style="color: green" id="success"></p>
     <p id="stdout"></p>
     <p style="color: red" id="stderr"></p>
   </body>
   <script>
+    const helpers = <%- JSON.stringify(helpers) %>;
+    const textArea = document.getElementById('data')
+    let selectedLanguage = document.getElementById('language').value;
+    textArea.value = helpers[selectedLanguage]
+
+    async function switchHelpers(language) {
+      helpers[selectedLanguage] = textArea.value
+      console.log(helpers)
+      textArea.value = helpers[language]
+      selectedLanguage = language
+    }
+
     async function runCode() {
       try {
-        const language = document.getElementById('language').value;
-        const data = document.getElementById('data').value;
+        const data = textArea.value;
         const rawResponse = await fetch(
           'http://localhost:3000/<%= challenge %>',
           {
@@ -31,7 +43,7 @@
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              language,
+              language: selectedLanguage,
               data,
             }),
           }
@@ -41,6 +53,8 @@
         stdoutElem.textContent = content['stdout'];
         let stderrElem = document.getElementById('stderr');
         stderrElem.textContent = content['stderr'];
+        let successElem = document.getElementById('success');
+        successElem.textContent = content['success'] ? 'Success !' : '';
       } catch (err) {
         console.log(err);
       }
