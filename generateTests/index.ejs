@@ -1,0 +1,7 @@
+<%- template.import %>
+<% tests.forEach((test) => { %>
+<%- template.if({functionName, ...test}) %>
+  <%- template.log({functionName, ...test}) %>
+  <%- template.exit %>
+<%- template.fi %> 
+<% }) %>

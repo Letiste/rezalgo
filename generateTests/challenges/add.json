@@ -1,0 +1,13 @@
+{
+  "functionName": "add",
+  "tests": [
+    {
+      "params": ["2", "2"],
+      "expected": "4"
+    },
+    {
+      "params": ["2", "3"],
+      "expected": "5"
+    }
+  ]
+}

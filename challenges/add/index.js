@@ -1,8 +1,12 @@
+
+
 if (add(2, 2) !== 4) {
-  console.error(`should equal 4 but instead was ${add(2, 2)}`);
-  process.exit(1);
-}
-if (add(2, 4) !== 6) {
-  console.error(`should equal 6 but instead was ${add(2, 4)}`);
-  process.exit(1);
-}
+  console.error(`expected 4 but was ${add(2, 2)}`)
+  process.exit(1)
+} 
+
+if (add(2, 3) !== 5) {
+  console.error(`expected 5 but was ${add(2, 3)}`)
+  process.exit(1)
+} 
+
