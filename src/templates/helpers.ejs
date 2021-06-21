@@ -1,0 +1,6 @@
+export const helpers = {
+<% helpers.forEach(({language, languageMap}) => { %>
+  <%- language %>: `<%- languageMap.defFunctionStart({functionName, params}) %>
+
+<%- languageMap.defFunctionEnd %>`, 
+<% }) %>}

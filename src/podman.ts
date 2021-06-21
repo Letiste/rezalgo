@@ -34,7 +34,7 @@ function createTmpFile(
   fs.writeFileSync(`/tmp/${name}`, `${data}\n`);
   const challengeData = fs
     .readFileSync(
-      path.join(__dirname, `../dist/tests/${challenge}/index.${language}`)
+      path.join(__dirname, `../dist/tests/${challenge}/test.${language}`)
     )
     .toString();
   fs.writeFileSync(`/tmp/${name}`, challengeData, { flag: 'a+' });

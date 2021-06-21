@@ -1,9 +1,11 @@
-export const template = {
+export const languageMap = {
   import: "import sys",
   if: ifTemplate,
   fi: "",
   log: logTemplate,
-  exit: "sys.exit(1)"
+  exit: "sys.exit(1)",
+  defFunctionStart: defFunctionStartTemplate,
+  defFucntionEnd: ""
 }
 
 interface functionInput {
@@ -34,4 +36,9 @@ function functionTemplate({functionName, params}: functionInput): string {
 function logTemplate({functionName, params, expected}: templateInput): string {
   const calledFunction = functionTemplate({functionName, params})
   return `print(f'expected ${expected} but was {${calledFunction}}', file=sys.stderr)`
+}
+
+function defFunctionStartTemplate({functionName, params}: functionInput): string {
+  const calledFunction = functionTemplate({functionName, params})
+  return `def ${calledFunction} :`
 }

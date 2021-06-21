@@ -7,6 +7,8 @@
     <title>Home</title>
   </head>
   <body>
+    <h1><%- challenge.name %> </h1>
+    <p><%- challenge.description %> </p>
     <button onclick="runCode()">Run code</button>
     <select id="language" onchange="switchHelpers(this.value)">
       <% Object.keys(languages).forEach(language => {%>
@@ -35,7 +37,7 @@
       try {
         const data = textArea.value;
         const rawResponse = await fetch(
-          'http://localhost:3000/<%= challenge %>',
+          'http://localhost:3000/<%= challenge.functionName %>',
           {
             method: 'POST',
             headers: {
