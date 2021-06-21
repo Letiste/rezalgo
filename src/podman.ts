@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { languages } from './languages';
+import { languages } from '../schemas';
 
 type Language = keyof typeof languages;
 
@@ -34,7 +34,7 @@ function createTmpFile(
   fs.writeFileSync(`/tmp/${name}`, `${data}\n`);
   const challengeData = fs
     .readFileSync(
-      path.join(__dirname, `challenges/${challenge}/index.${language}`)
+      path.join(__dirname, `../dist/tests/${challenge}/index.${language}`)
     )
     .toString();
   fs.writeFileSync(`/tmp/${name}`, challengeData, { flag: 'a+' });

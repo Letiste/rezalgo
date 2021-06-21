@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node main.ts",
-    "watch": "ts-node-dev main.ts"
+    "start": "ts-node src/generateChallenges.ts && ts-node index.ts",
+    "watch": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",

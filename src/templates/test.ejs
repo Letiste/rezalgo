@@ -1,0 +1,7 @@
+<%- languageMap.import %>
+<% tests.forEach((test) => { %>
+<%- languageMap.if({functionName, ...test}) %>
+  <%- languageMap.log({functionName, ...test}) %>
+  <%- languageMap.exit %>
+<%- languageMap.fi %> 
+<% }) %>
