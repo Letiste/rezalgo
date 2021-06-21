@@ -2,6 +2,8 @@ import fastify from 'fastify';
 import pov from 'point-of-view';
 import ejs from 'ejs';
 import cors from 'fastify-cors';
+import fastifyStatic from 'fastify-static';
+import path from 'path';
 
 const server = fastify({ logger: true });
 
@@ -14,6 +16,11 @@ server.register(pov, {
 server.register(cors, {
   origin: '*',
 });
+
+server.register(fastifyStatic, {
+  root: path.join(__dirname, 'public'),
+  prefix: '/public/'
+})
 
 server.register(require('./src/routes'))
 

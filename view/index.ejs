@@ -4,7 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <script src="public/lib/codemirror.js"/></script>
+    <script src="public/mode/javascript/javascript.js"/></script>
+    <link rel="stylesheet" href="public/lib/codemirror.css">
+    <link rel="stylesheet" href="public/theme/hopscotch.css">
+    <title><%- challenge.name %></title>
+    <style>
+      .CodeMirror * {
+        font-size: 14px;
+        line-height: 19px;
+      }
+    </style>
   </head>
   <body>
     <h1><%- challenge.name %> </h1>
@@ -15,7 +25,12 @@
       <option value="<%= language %>"><%= languages[language].name %></option>
       <% }) %>
     </select>
-    <textarea id="data" value="toto"></textarea>
+    <select onchange="switchFontSize(this.value)">
+      <% for( let index = 0; index < 10; index++ ) { %>
+        <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
+      <% } %>
+    </select>
+    <textarea id="data"></textarea>
     <p style="color: green" id="success"></p>
     <p id="stdout"></p>
     <p style="color: red" id="stderr"></p>
@@ -23,19 +38,28 @@
   <script>
     const helpers = <%- JSON.stringify(helpers) %>
     const textArea = document.getElementById('data')
+    const myCodeMirror = CodeMirror.fromTextArea(textArea, {mode: "javascript", theme:"hopscotch"})
     let selectedLanguage = document.getElementById('language').value
-    textArea.value = helpers[selectedLanguage]
+    myCodeMirror.setValue(helpers[selectedLanguage])
+    console.log(Array.from(document.styleSheets).find(ss => !ss.href))
+    const codeMirrorStyle = Array.from(document.styleSheets).find(ss => !ss.href).cssRules[0].style
+
+    function switchFontSize(fontSize) {
+      codeMirrorStyle.fontSize = `${fontSize}px`
+      codeMirrorStyle.fontSize = `${Number(fontSize) + 5}px`
+      myCodeMirror.refresh()
+    }
 
     async function switchHelpers(language) {
       helpers[selectedLanguage] = textArea.value
       console.log(helpers)
-      textArea.value = helpers[language]
+      myCodeMirror.setValue(helpers[language])
       selectedLanguage = language
     }
 
     async function runCode() {
       try {
-        const data = textArea.value;
+        const data = myCodeMirror.getValue();
         const rawResponse = await fetch(
           'http://localhost:3000/<%= challenge.functionName %>',
           {
