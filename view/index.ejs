@@ -26,10 +26,10 @@
     <button onclick="runCode()">Run code</button>
     <select id="language" onchange="switchHelpers(this)">
       <% Object.keys(languages).forEach(language => {%>
-      <option value="<%= language %>"><%= languages[language].name %></option>
+      <option value="<%= language %>" ><%= languages[language].name %></option>
       <% }) %>
     </select>
-    <select onchange="switchFontSize(this.value)">
+    <select id="fontSize" onchange="switchFontSize(this.value)">
       <% for( let index = 0; index < 10; index++ ) { %>
         <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
       <% } %>
@@ -37,8 +37,10 @@
     <select onchange="switchTheme(this.value)">
       <option value="default" selected>default</option>
     <% themes.forEach(theme => { %>
-     <option value="<%= theme %> "><%= theme %> </option>
-    <% }) %></select>
+      <option value="<%= theme %> "><%= theme %> </option>
+    <% }) %>
+    </select>
+    <button onclick="resetCode()">Reset</button>
     <textarea id="data"></textarea>
     <p style="color: green" id="success"></p>
     <p id="stdout"></p>
@@ -47,33 +49,52 @@
   <script>
     const helpers = <%- JSON.stringify(helpers) %>
     const textArea = document.getElementById('data')
+    let selectedLanguage = localStorage.getItem("selectedLanguage") || "js"
+    const selectLanguage = document.getElementById("language")
+    selectLanguage.selectedIndex = Array.from(selectLanguage.options).find(option => option.value === selectedLanguage).index
+    const theme = localStorage.getItem("theme") || "default"
+    const mode = localStorage.getItem("mode") || "javascript"
     const myCodeMirrorOptions = {
-      mode: "javascript",
-      theme:"default",
+      mode,
+      theme,
       lineNumbers: true,
       tabSize: 2
     }
     const myCodeMirror = CodeMirror.fromTextArea(textArea, myCodeMirrorOptions)
-    let selectedLanguage = document.getElementById('language').value
     const codeMirrorStyle = Array.from(document.styleSheets).find(ss => !ss.href).cssRules[0].style
-    myCodeMirror.setValue(helpers[selectedLanguage])
+    myCodeMirror.setValue(localStorage.getItem(selectedLanguage) || helpers[selectedLanguage])
+
     function switchFontSize(fontSize) {
       codeMirrorStyle.fontSize = `${fontSize}px`
       codeMirrorStyle.lineHeight = `${Number(fontSize) + 5}px`
       myCodeMirror.refresh()
+      localStorage.setItem("fontSize", fontSize)
     }
+
+    const fontSize = localStorage.getItem("fontSize") || "14"
+    switchFontSize(fontSize)
+    document.getElementById("fontSize").value = fontSize
 
     function switchTheme(theme) {
       myCodeMirror.setOption("theme", theme)
       myCodeMirror.refresh()
+      localStorage.setItem("theme", theme)
     }
 
     function switchHelpers(select) {
       const language = select[select.selectedIndex]
-      helpers[selectedLanguage] = myCodeMirror.getValue()
-      myCodeMirror.setValue(helpers[language.value])
+      localStorage.setItem(selectedLanguage, myCodeMirror.getValue())
+      myCodeMirror.setValue(localStorage.getItem(language.value) || helpers[language.value])
       myCodeMirror.setOption("mode", language.text)
       selectedLanguage = language.value
+      localStorage.setItem("selectedLanguage", selectedLanguage)
+      localStorage.setItem("mode", language.text)
+    }
+
+    function resetCode() {
+      myCodeMirror.setValue(helpers[selectedLanguage])
+      myCodeMirror.refresh()
+      localStorage.removeItem(selectedLanguage)
     }
 
     async function runCode() {
