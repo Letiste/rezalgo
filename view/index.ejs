@@ -5,9 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="public/lib/codemirror.js"/></script>
-    <script src="public/mode/javascript/javascript.js"/></script>
+    <% Object.keys(languages).forEach(language => { %>
+      <script src="<%= `public/mode/${languages[language].name}/${languages[language].name}.js` %> "/></script>
+    <% }) %>
     <link rel="stylesheet" href="public/lib/codemirror.css">
-    <link rel="stylesheet" href="public/theme/hopscotch.css">
+    <% themes.forEach(theme => { %>
+     <link rel="stylesheet" href="<%= `public/theme/${theme}.css` %> ">
+    <% }) %>
     <title><%- challenge.name %></title>
     <style>
       .CodeMirror * {
@@ -20,7 +24,7 @@
     <h1><%- challenge.name %> </h1>
     <p><%- challenge.description %> </p>
     <button onclick="runCode()">Run code</button>
-    <select id="language" onchange="switchHelpers(this.value)">
+    <select id="language" onchange="switchHelpers(this)">
       <% Object.keys(languages).forEach(language => {%>
       <option value="<%= language %>"><%= languages[language].name %></option>
       <% }) %>
@@ -30,6 +34,11 @@
         <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
       <% } %>
     </select>
+    <select onchange="switchTheme(this.value)">
+      <option value="default" selected>default</option>
+    <% themes.forEach(theme => { %>
+     <option value="<%= theme %> "><%= theme %> </option>
+    <% }) %></select>
     <textarea id="data"></textarea>
     <p style="color: green" id="success"></p>
     <p id="stdout"></p>
@@ -38,23 +47,33 @@
   <script>
     const helpers = <%- JSON.stringify(helpers) %>
     const textArea = document.getElementById('data')
-    const myCodeMirror = CodeMirror.fromTextArea(textArea, {mode: "javascript", theme:"hopscotch"})
+    const myCodeMirrorOptions = {
+      mode: "javascript",
+      theme:"default",
+      lineNumbers: true,
+      tabSize: 2
+    }
+    const myCodeMirror = CodeMirror.fromTextArea(textArea, myCodeMirrorOptions)
     let selectedLanguage = document.getElementById('language').value
-    myCodeMirror.setValue(helpers[selectedLanguage])
-    console.log(Array.from(document.styleSheets).find(ss => !ss.href))
     const codeMirrorStyle = Array.from(document.styleSheets).find(ss => !ss.href).cssRules[0].style
-
+    myCodeMirror.setValue(helpers[selectedLanguage])
     function switchFontSize(fontSize) {
       codeMirrorStyle.fontSize = `${fontSize}px`
-      codeMirrorStyle.fontSize = `${Number(fontSize) + 5}px`
+      codeMirrorStyle.lineHeight = `${Number(fontSize) + 5}px`
       myCodeMirror.refresh()
     }
 
-    async function switchHelpers(language) {
-      helpers[selectedLanguage] = textArea.value
-      console.log(helpers)
-      myCodeMirror.setValue(helpers[language])
-      selectedLanguage = language
+    function switchTheme(theme) {
+      myCodeMirror.setOption("theme", theme)
+      myCodeMirror.refresh()
+    }
+
+    function switchHelpers(select) {
+      const language = select[select.selectedIndex]
+      helpers[selectedLanguage] = myCodeMirror.getValue()
+      myCodeMirror.setValue(helpers[language.value])
+      myCodeMirror.setOption("mode", language.text)
+      selectedLanguage = language.value
     }
 
     async function runCode() {

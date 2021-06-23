@@ -7,7 +7,8 @@ import { bodySchema, languages } from '../schemas';
 import { podman } from './podman';
 
 const challenges = readdirSync(path.join(__dirname, 'challenges')).map((file) => require(path.join(__dirname, 'challenges', file)));
-console.log(challenges)
+
+const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) => file.split(".")[0])
 
 export default async function routes(fastify: FastifyInstance) {
   for (const challenge of challenges) {
@@ -17,6 +18,7 @@ export default async function routes(fastify: FastifyInstance) {
         challenge,
         helpers: require(path.join(__dirname, `../dist/helpers/${challenge.functionName}`))
           .helpers,
+          themes
       });
     });
 

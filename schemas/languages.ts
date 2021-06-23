@@ -1,11 +1,11 @@
 export const languages = {
   js: {
-    name: "Javascript",
+    name: "javascript",
     image: "docker.io/library/node:14-alpine",
     runner: "node"
   },
   py: {
-    name: "Python",
+    name: "python",
     image: "docker.io/library/python:3.9-alpine",
     runner: "python3"
   }

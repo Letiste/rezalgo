@@ -1,7 +1,7 @@
 {
   "$schema": "../../challenges.schema.json",
   "name": "Substraction",
-  "description": "Create a function add that return the substraction of the two numbers passed as parameters",
+  "description": "Create a function sub that return the substraction of the two numbers passed as parameters",
   "functionName": "sub",
   "params": ["a", "b"],
   "tests": [
