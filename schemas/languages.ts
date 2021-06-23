@@ -1,3 +1,9 @@
+/**
+ * The languages supported for the challenges and the necessary
+ * information to run the containers (image and command to run 
+ * the code)
+ */
+
 export const languages = {
   js: {
     name: "javascript",

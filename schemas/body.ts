@@ -1,5 +1,10 @@
 import {languages} from './languages'
 
+/**
+ * Schema of the body for the POST request
+ * serving for validation.
+ */
+
 export const bodySchema = {
   type: "object",
   required: ["language", "data"],

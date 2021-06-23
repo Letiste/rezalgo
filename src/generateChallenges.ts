@@ -5,6 +5,10 @@ import {existsSync, mkdirSync, readdirSync, writeFileSync} from "fs"
 import {languages} from "../schemas"
 
 const languagesMap = Object.keys(languages).map(language => ({language, languageMap: require(`./languagesMap/${language}Template`).languageMap}))
+/**
+ * Generate the helpers (structure of the function for the challenge)
+ * and the tests based on the json definition
+ */
 
 async function generateChallenges() {
   console.log("Creating challenges...")
