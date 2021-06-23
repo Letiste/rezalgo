@@ -90,6 +90,7 @@
       myCodeMirror.setValue(localStorage.getItem(language.value) || helpers[language.value])
       myCodeMirror.setOption("mode", language.text)
       selectedLanguage = language.value
+      myCodeMirror.refresh()
       localStorage.setItem("selectedLanguage", selectedLanguage)
       localStorage.setItem("mode", language.text)
     }
