@@ -12,7 +12,7 @@ const languagesMap = Object.keys(languages).map(language => ({language, language
 
 async function generateChallenges() {
   console.log("Creating challenges...")
-  const challenges = readdirSync(path.join(__dirname, 'challenges')).map(challenge => ({name: challenge.split('.')[0],spec: path.join(__dirname, 'challenges', challenge)}))
+  const challenges = readdirSync(path.join(__dirname, '../challenges')).map(challenge => ({name: challenge.split('.')[0],spec: path.join(__dirname, '../challenges', challenge)}))
   const promises: Promise<void>[] = []
   challenges.forEach(({name, spec}) => {
     const challengesSpec = require(spec)

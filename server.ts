@@ -1,11 +1,11 @@
+import path from 'path';
 import fastify from 'fastify';
 import pov from 'point-of-view';
 import ejs from 'ejs';
 import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';
-import path from 'path';
 
-const server = fastify({ logger: true });
+const server = fastify({ logger: false });
 
 server.register(pov, {
   engine: {

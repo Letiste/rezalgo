@@ -1,10 +1,17 @@
-export const languageMap = {
+import { LanguageMap } from "./LanguageMap"
+
+export const languageMap: LanguageMap = {
+  imports: [""],
   if: ifTemplate,
   fi: "}",
   log: logTemplate,
   exit: "process.exit(1)",
   defFunctionStart: defFunctionStartTemplate,
-  defFunctionEnd: "}"
+  defFunctionEnd: "}",
+  timeStart: "const timeStart = Date.now()",
+  timeEnd: "console.log('TIME DURATION: ', Date.now() - timeStart)",
+  memoryStart: "const memoryStart = process.memoryUsage().heapUsed",
+  memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)"
 }
 
 interface functionInput {

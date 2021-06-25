@@ -1,11 +1,17 @@
-export const languageMap = {
-  import: "import sys",
+import { LanguageMap } from "./LanguageMap"
+
+export const languageMap: LanguageMap = {
+  imports: ["import sys","import time", "import resource"],
   if: ifTemplate,
   fi: "",
   log: logTemplate,
   exit: "sys.exit(1)",
   defFunctionStart: defFunctionStartTemplate,
-  defFucntionEnd: ""
+  defFunctionEnd: "",
+  timeStart: "timeStart = int(round(time.time() * 1000))",
+  timeEnd: "print('TIME DURATION: ', int(round(time.time() * 1000)) - timeStart)",
+  memoryStart: "",
+  memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)"
 }
 
 interface functionInput {

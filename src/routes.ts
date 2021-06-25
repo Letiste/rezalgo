@@ -3,10 +3,10 @@ import { FastifyInstance } from 'fastify';
 import { readdirSync } from 'fs';
 import { FromSchema } from 'json-schema-to-ts';
 
-import { bodySchema, languages } from '../schemas';
+import { bodySchema, responseSchema, languages } from '../schemas';
 import { podman } from './podman';
 
-const challenges = readdirSync(path.join(__dirname, 'challenges')).map((file) => require(path.join(__dirname, 'challenges', file)));
+const challenges = readdirSync(path.join(__dirname, '../challenges')).map((file) => require(path.join(__dirname, '../challenges', file)));
 
 const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) => file.split(".")[0])
 
@@ -22,14 +22,25 @@ export default async function routes(fastify: FastifyInstance) {
       });
     });
 
-    fastify.post<{ Body: FromSchema<typeof bodySchema> }>(
+    fastify.post<{ Body: FromSchema<typeof bodySchema>, Response: FromSchema<typeof responseSchema>}>(
       `/${challenge.functionName}`,
-      { schema: { body: bodySchema } },
-      async function (request) {
+      { schema: { body: bodySchema, response: {200: responseSchema} } },
+      async function (request, reply) {
         const { language, data } = request.body;
         const { stdout, stderr } = await podman(challenge.functionName, language, data);
+        const stdoutSplit = stdout.split("\n")
+        // first pop to remove blank string from last \n
+        stdoutSplit.pop()
+        
+        const time = stdoutSplit.pop()?.replace(/TIME DURATION: *([0-9]+)/, function(_, p1: string) {
+          return p1
+        })
+        const memory = stdoutSplit.pop()?.replace(/MEMORY USAGE: *([0-9]+)/, function(_, p1: string) {
+          return p1
+        })
         let success = !stderr;
-        return { stdout, stderr, success };
+        reply.code(200)
+        reply.send({ stdout: stdoutSplit.join("\n"), stderr, success, time, memory });
       }
     );
   }
