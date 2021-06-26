@@ -1,7 +1,7 @@
 {
   "$schema": "../../challenges.schema.json",
   "name": "Addition",
-  "description": "Create a function add that return the sum of the two numbers passed as parameters",
+  "description": "Create a function `add` that return the **sum** of the two numbers passed as parameters\n\nNext line !",
   "functionName": "add",
   "params": ["a", "b"],
   "tests": [

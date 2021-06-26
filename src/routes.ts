@@ -2,6 +2,7 @@ import path from 'path';
 import { FastifyInstance } from 'fastify';
 import { readdirSync } from 'fs';
 import { FromSchema } from 'json-schema-to-ts';
+import marked from "marked";
 
 import { podmanInputSchema, podmanOutputSchema, languages, postSchema, getSchema } from './schemas';
 import { podman } from './podman';
@@ -13,6 +14,7 @@ const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) =
 export default async function routes(fastify: FastifyInstance) {
   for (const challenge of challenges) {
     fastify.get(`/${challenge.functionName}`,{schema: getSchema }, async (_, reply) => {
+      challenge.description = marked(challenge.description)
       reply.view('/view/index.ejs', {
         languages,
         challenge,
