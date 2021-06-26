@@ -7,6 +7,7 @@ import fastifyCompress from 'fastify-compress';
 import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';
 import fastifySwagger from 'fastify-swagger';
+import fastifyHelmet from 'fastify-helmet';
 
 const server = fastify({ logger: false });
 
@@ -19,6 +20,8 @@ server.register(pov, {
 server.register(cors, {
   origin: '*',
 });
+
+server.register(fastifyHelmet, {contentSecurityPolicy: false})
 
 server.register(fastifyCompress)
 
