@@ -85,9 +85,8 @@ async function runCode() {
     let timeElem = document.getElementById('time');
     timeElem.textContent = content['time'] + "ms"
     let memoryElem = document.getElementById('memory');
-    let memory = Number(content['memory']) / 1024
+    let memory = content['memory'] / 1024
     memoryElem.textContent = memory > 1024 ? (memory / 1024).toFixed(1) + "MB" : memory.toFixed(1) + "KB"
-    1.
   } catch (err) {
     console.log(err);
   }

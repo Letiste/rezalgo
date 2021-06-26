@@ -5,16 +5,19 @@ import {languages} from './languages'
  * serving for validation.
  */
 
-export const bodySchema = {
+export const podmanInputSchema = {
   type: "object",
+  description: "The input to run the challenge.",
   required: ["language", "data"],
   properties: {
     language: {
       type: "string",
+      description: "The language in which th challenge will be runned.",
       enum: Object.keys(languages) as Array<keyof typeof languages>,
     },
     data: {
-      type: "string"
+      type: "string",
+      description: "The code to be runned."
     }
   }
 } as const

@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { languages } from '../schemas';
+import { languages } from './schemas';
 
 type Language = keyof typeof languages;
 

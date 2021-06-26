@@ -2,7 +2,7 @@ import ejs from 'ejs'
 import path from 'path'
 import {existsSync, mkdirSync, readdirSync, writeFileSync} from "fs"
 
-import {languages} from "../schemas"
+import {languages} from "./schemas"
 
 const languagesMap = Object.keys(languages).map(language => ({language, languageMap: require(`./languagesMap/${language}Template`).languageMap}))
 /**
