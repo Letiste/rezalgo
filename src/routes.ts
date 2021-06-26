@@ -29,6 +29,7 @@ export default async function routes(fastify: FastifyInstance) {
         const { language, data } = request.body;
         const { stdout, stderr } = await podman(challenge.functionName, language, data);
         const stdoutSplit = stdout.split("\n")
+
         // first pop to remove blank string from last \n
         stdoutSplit.pop()
         

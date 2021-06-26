@@ -24,7 +24,7 @@
   <body>
     <h1><%- challenge.name %> </h1>
     <p><%- challenge.description %> </p>
-    <button onclick="runCode()">Run code</button>
+    <button id="submit" onclick="runCode()">Run code</button>
     <select id="language" onchange="switchHelpers(this)">
       <% Object.keys(languages).forEach(language => {%>
       <option value="<%= language %>" ><%= languages[language].name %></option>

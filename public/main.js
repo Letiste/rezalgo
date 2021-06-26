@@ -58,8 +58,33 @@ function resetCode() {
   localStorage.removeItem(selectedLanguage);
 }
 
+function setContent({stdout, stderr, success, time, memory}) {
+  let stdoutElem = document.getElementById('stdout');
+  stdoutElem.textContent = stdout;
+  let stderrElem = document.getElementById('stderr');
+  stderrElem.textContent = stderr;
+  let successElem = document.getElementById('success');
+  successElem.textContent = success ? 'Success !' : '';
+  let timeElem = document.getElementById('time');
+  if (typeof time === "number") {
+    timeElem.textContent = time + "ms"
+  } else {
+    timeElem.textContent = time
+  }
+  let memoryElem = document.getElementById('memory');
+  if (typeof memory === "number") {
+    let mem = memory / 1024
+    memoryElem.textContent = mem > 1024 ? (mem / 1024).toFixed(1) + "MB" : mem.toFixed(1) + "KB"
+  } else {
+    memoryElem.textContent = memory
+  }
+}
+
 async function runCode() {
+  const buttonElem = document.getElementById("submit")
+  buttonElem.disabled = true
   try {
+    setContent({stdout: "", stderr: "", success: false, time: "Pending...", memory: "Pending..."})
     const data = myCodeMirror.getValue();
     const rawResponse = await fetch(
       window.location.href,
@@ -76,18 +101,10 @@ async function runCode() {
       }
     );
     const content = await rawResponse.json();
-    let stdoutElem = document.getElementById('stdout');
-    stdoutElem.textContent = content['stdout'];
-    let stderrElem = document.getElementById('stderr');
-    stderrElem.textContent = content['stderr'];
-    let successElem = document.getElementById('success');
-    successElem.textContent = content['success'] ? 'Success !' : '';
-    let timeElem = document.getElementById('time');
-    timeElem.textContent = content['time'] + "ms"
-    let memoryElem = document.getElementById('memory');
-    let memory = content['memory'] / 1024
-    memoryElem.textContent = memory > 1024 ? (memory / 1024).toFixed(1) + "MB" : memory.toFixed(1) + "KB"
+    setContent(content)
   } catch (err) {
     console.log(err);
+  } finally {
+    buttonElem.disabled = false
   }
 }
