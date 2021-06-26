@@ -3,6 +3,7 @@ import fs from 'fs';
 import fastify from 'fastify';
 import pov from 'point-of-view';
 import ejs from 'ejs';
+import fastifyCompress from 'fastify-compress';
 import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';
 import fastifySwagger from 'fastify-swagger';
@@ -18,6 +19,8 @@ server.register(pov, {
 server.register(cors, {
   origin: '*',
 });
+
+server.register(fastifyCompress)
 
 server.register(fastifyStatic, {
   root: path.join(__dirname, 'public'),
