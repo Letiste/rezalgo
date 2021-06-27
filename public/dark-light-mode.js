@@ -25,6 +25,9 @@ const colors = {
     "--stderr-bg-color": "hsl(351, 100%, 96%)",
     "--stderr-border-color": "hsl(0, 73%, 77%)",
     "--stderr-font-color": "hsl(0, 73%, 41%)",
+    "--button-disabled-bg-color": "hsl(0, 0%, 88%)",
+    "--button-disabled-border-color": "hsl(0, 0%, 70%)",
+    "--button-disabled-font-color": "hsl(0, 0%, 28%)",
   },
   darkMode: {
     "--body-color": "hsl(219, 44%, 6%)",
@@ -44,6 +47,9 @@ const colors = {
     "--stderr-bg-color": "hsl(348, 79%, 4%)",
     "--stderr-border-color": "hsl(0, 94%, 14%)",
     "--stderr-font-color": "hsl(0, 62%, 49%)",
+    "--button-disabled-bg-color": "hsla(228, 11%, 18%, 0.6)",
+    "--button-disabled-border-color": "hsl(225, 23%, 23%)",
+    "--button-disabled-font-color": "hsla(0, 0%, 66%, 0.96)",
   }
 }
 

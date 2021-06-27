@@ -75,6 +75,13 @@ button, select {
 button {
   padding: 10px 15px;
 }
+
+button:disabled {
+  cursor: progress;
+  border: 2px solid var(--button-disabled-border-color);
+  background-color: var(--button-disabled-bg-color);
+  color: var(--button-disabled-font-color);
+}
 .select-wrapper {
   display: inline-block;
   position: relative;
