@@ -1,7 +1,7 @@
 import { LanguageMap } from "./LanguageMap"
 
 export const languageMap: LanguageMap = {
-  imports: [""],
+  imports: [],
   if: ifTemplate,
   fi: "}",
   log: logTemplate,

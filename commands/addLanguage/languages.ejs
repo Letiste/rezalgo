@@ -1,0 +1,15 @@
+/**
+ * The languages supported for the challenges and the necessary
+ * information to run the containers (image and command to run 
+ * the code)
+ */
+
+export const languages = {
+  <% Object.entries(languages).forEach(([extension, {name, image, runner}]) => { %>
+  <%= extension %>: {
+    name: "<%= name %>", 
+    image: "<%= image %>", 
+    runner: "<%= runner %>", 
+  },
+  <% }) %>
+} as const
