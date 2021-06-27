@@ -49,7 +49,7 @@ export default async function routes(fastify: FastifyInstance) {
         
         let success = !stderr;
         reply.code(200)
-        reply.send({ stdout: stdoutSplit.join("<br>"), stderr, success, time, memory });
+        reply.send({ stdout: stdoutSplit.join("<br>"), stderr: stderr.replace(/\n/g, "<br>"), success, time, memory });
       }
     );
   }
