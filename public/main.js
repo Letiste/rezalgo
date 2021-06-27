@@ -12,6 +12,8 @@ const myCodeMirrorOptions = {
   mode,
   lineNumbers: true,
   tabSize: 2,
+  matchBrackets: true,
+  autoCloseBrackets: true
 };
 const myCodeMirror = CodeMirror.fromTextArea(textArea, myCodeMirrorOptions);
 const codeMirrorStyle = Array.from(document.styleSheets).find((ss) => !ss.href)
