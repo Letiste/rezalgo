@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="public/lib/codemirror.js"/></script>
     <script defer src="public/main.js"/></script>
+    <script defer src="public/dark-light-mode.js"/></script>
     <% Object.keys(languages).forEach(language => { %>
       <script src="<%= `public/mode/${languages[language].name}/${languages[language].name}.js` %> "/></script>
     <% }) %>
@@ -26,24 +27,41 @@
     <span onclick="switchDarkLightMode(this.textContent)" id="dark-light-mode"></span>
     <div class="container">
       <div id="info">
-        <h1><%- challenge.name %> </h1>
-        <div id="description"><%- challenge.description %></div>
-        <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
+        <button id="pres-output" onclick="togglePresOutput()">Show Output</button>
+        <div id="challenge-presentation">
+          <h1><%- challenge.name %> </h1>
+          <div id="description"><%- challenge.description %></div>
+          <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
           <div class="example">
             <div class="example__number">Example <%= indice %>:</div>
             <div><em>Input:</em> <%= input %> </div>
             <div><em>Output:</em> <%= output %> </div>
             <% if (explanation) { %>
-              <div><em>Explanation:</em> <%= explanation %> </div>       
-              <% } %>
-              <% if (notes) { %>
-                <div><em>Notes:</em> <%= notes %> </div>
-                <% } %>
-              </div>
-              <% }) %>
-            </div>
-            <div>
-              <button id="submit" onclick="runCode()">Run code &nbsp; ►</button>
+            <div><em>Explanation:</em> <%= explanation %> </div>       
+            <% } %>
+            <% if (notes) { %>
+            <div><em>Notes:</em> <%= notes %> </div>
+            <% } %>
+          </div>
+          <% }) %>
+        </div>
+        <div id="challenge-output">
+          <div><span id="memory"></span></div>
+          <div><span id="time"></span></div>
+          <p id="success"></p>
+          <div id="stdout">
+            <span class="std"></span>
+            <p class="output"></p>
+          </div>
+          <div id="stderr">
+            <span class="std"></span>
+            <p class="output"></p>
+          </div>
+        </div>
+      </div>
+     
+      <div id="editor">
+        <button id="submit" onclick="runCode()">Run code &nbsp; ►</button>
               <div class="select-wrapper">
                 <select id="language" onchange="switchHelpers(this)">
                   <% Object.keys(languages).forEach(language => {%>
@@ -57,23 +75,19 @@
           <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
         <% } %>
         </select>
+        </div> 
+        <div class="select-wrapper">
+          <select id="theme" onchange="switchTheme(this.value)">
+            <option value="default" selected>default</option>
+          <% themes.forEach(theme => { %>
+            <option value="<%= theme %> "><%= theme %> </option>
+          <% }) %>
+          </select>
+        </div>
+        <button onclick="resetCode()">Reset <span>⟳</span></button>
+        <textarea id="data"></textarea>
       </div>
-      <div class="select-wrapper">
-        <select id="theme" onchange="switchTheme(this.value)">
-          <option value="default" selected>default</option>
-        <% themes.forEach(theme => { %>
-          <option value="<%= theme %> "><%= theme %> </option>
-        <% }) %>
-        </select>
-      </div>
-      <button onclick="resetCode()">Reset <span>⟳</span></button>
-      <textarea id="data"></textarea>
-      <span id="memory"></span>
-      <span id="time"></span>
-      <p style="color: green" id="success"></p>
-      <p id="stdout"></p>
-      <p style="color: red" id="stderr"></p>
-    </div>
+
   </div>
   </body>
   <script>

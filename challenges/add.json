@@ -11,6 +11,18 @@
   {
     "input": "a = 4, b = 15",
     "output": "19"
+  },
+  {
+    "input": "a = 4, b = 15",
+    "output": "19"
+  },
+  {
+    "input": "a = 4, b = 15",
+    "output": "19"
+  },
+  {
+    "input": "a = 4, b = 15",
+    "output": "19"
   }
 ],
   "functionName": "add",

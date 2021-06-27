@@ -2,15 +2,16 @@ body {
   padding: 0;
   margin: 0;
   background-color: var(--body-color);
+  color: var(--font-color);
 }
 
 .container {
-  margin-top: 30px;
   padding: 1rem;
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  grid-template: 
+  "info editor" calc(100vh - 1rem - 30px) / 1fr 1fr;
   gap: 20px;
+
 }
 
 h1 {
@@ -19,8 +20,8 @@ h1 {
 }
 
 #info {
+  grid-area: info;
   overflow-y: scroll;
-  max-height: 100vh;
   padding: 30px;
   background-color: var(--bg-color);
   border: 2px solid var(--border-color);
@@ -51,9 +52,12 @@ code {
   font-weight: 600;
 }
 
+#editor {
+  grid-area: editor;
+}
 .CodeMirror {
   margin-top: 2rem;
-  height: 70vh
+  height: 85vh;
 }
 
 button, select {
@@ -93,27 +97,52 @@ select {
   cursor: pointer;
   z-index: 10;
 }
-
-#time:not(:empty) {
+#challenge-output {
+  display: none;
+}
+#time:not(:empty), #memory:not(:empty) {
+  display: inline-block;
   padding: 8px 12px;
-  border: 4px solid blue;
+  margin-bottom: 1rem;
   border-radius: 8px;
   font-size: 1.3rem;
-  color: darkblue
+}
+
+#time:not(:empty) {
+  color: var(--time-font-color);
+  border: 2px solid var(--time-border-color);
+  background-color: var(--time-bg-color);
 }
 
 #memory:not(:empty) {
-  padding: 8px 12px;
-  border: 4px solid orange;
-  border-radius: 8px;
-  font-size: 1.3rem;
-  color: darkorange
+  margin-top: 1rem;
+  color: var(--memory-font-color);
+  border: 2px solid var(--memory-border-color);
+  background-color: var(--memory-bg-color);
 }
 
+.output:not(:empty) {
+  padding: 20px;
+  border-radius: 8px;
+  max-height: 20vh;
+  overflow-y: scroll;
+}
+
+#stdout .output:not(:empty) {
+  color: var(--stdout-font-color);
+  border: 2px solid var(--stdout-border-color);
+  background-color: var(--stdout-bg-color);
+}
+
+#stderr .output:not(:empty) {
+  color: var(--stderr-font-color);
+  border: 2px solid var(--stderr-border-color);
+  background-color: var(--stderr-bg-color);
+}
 
 #dark-light-mode {
   position: absolute;
-  top: 30px;
+  top: 15px;
   right: 30px;
   font-size: 1.3rem;
   cursor: pointer;

@@ -32,7 +32,7 @@ export default async function routes(fastify: FastifyInstance) {
       async function (request, reply) {
         const { language, data } = request.body;
         const { stdout, stderr } = await podman(slugName, language, data);
-        const stdoutSplit = stdout.split("\n")
+        let stdoutSplit = stdout.split("\n")
 
         // first pop to remove blank string from last \n
         stdoutSplit.pop()
@@ -43,9 +43,13 @@ export default async function routes(fastify: FastifyInstance) {
         const memory = Number(stdoutSplit.pop()?.replace(/MEMORY USAGE: *([0-9]+)/, function(_, p1: string) {
           return p1
         })) || 0
+
+        // remove duplicated stdout, as it's outputted at each test
+        stdoutSplit = stdoutSplit.slice(0, stdoutSplit.length / challenge.tests.length)
+        
         let success = !stderr;
         reply.code(200)
-        reply.send({ stdout: stdoutSplit.join("\n"), stderr, success, time, memory });
+        reply.send({ stdout: stdoutSplit.join("<br>"), stderr, success, time, memory });
       }
     );
   }

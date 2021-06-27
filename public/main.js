@@ -60,24 +60,41 @@ function resetCode() {
 }
 
 function setContent({stdout, stderr, success, time, memory}) {
-  let stdoutElem = document.getElementById('stdout');
-  stdoutElem.textContent = stdout;
-  let stderrElem = document.getElementById('stderr');
-  stderrElem.textContent = stderr;
+  let [stdoutStdElem, stderrStdElem] = document.getElementsByClassName("std")
+  stdoutStdElem.textContent = stdout ? "Stdout :" : ""
+  stderrStdElem.textContent = stderr ? "Stderr :" : ""
+  let [stdoutOutputElem, stderrOuputElem] = document.getElementsByClassName("output")
+  stdoutOutputElem.innerHTML = stdout;
+  stderrOuputElem.innerHTML = stderr;
   let successElem = document.getElementById('success');
   successElem.textContent = success ? 'Success !' : '';
   let timeElem = document.getElementById('time');
   if (typeof time === "number") {
-    timeElem.textContent = `Time duration: ${time} ms`
+    timeElem.textContent = `⏱ Time duration : ${time} ms`
   } else {
     timeElem.textContent = time
   }
   let memoryElem = document.getElementById('memory');
   if (typeof memory === "number") {
     let mem = memory > 1024 * 1024 ? (memory / (1024 * 1024)).toFixed(1) + " MB" : (memory / 1024).toFixed(1) + " KB"
-    memoryElem.textContent = `Memory used: ${mem}`
+    memoryElem.textContent = `💾 Memory used: ${mem}`
   } else {
     memoryElem.textContent = memory
+  }
+}
+
+function togglePresOutput() {
+  const presOutputElem = document.getElementById("pres-output")
+  const outputElem = document.getElementById("challenge-output")
+  const presElem = document.getElementById("challenge-presentation")
+  if (presOutputElem.textContent === "Show Output") {
+    presOutputElem.textContent = "Show Presentation"
+    outputElem.style.display = "initial"
+    presElem.style.display = "none"
+  } else {
+    presOutputElem.textContent = "Show Output"
+    outputElem.style.display = "none"
+    presElem.style.display = "initial"
   }
 }
 
@@ -85,6 +102,9 @@ async function runCode() {
   const buttonElem = document.getElementById("submit")
   buttonElem.disabled = true
   try {
+    if (document.getElementById("pres-output").textContent !== "Show Presentation") {
+      togglePresOutput()
+    }
     setContent({stdout: "", stderr: "", success: false, time: "Pending...", memory: "Pending..."})
     const data = myCodeMirror.getValue();
     const rawResponse = await fetch(
@@ -109,34 +129,4 @@ async function runCode() {
     buttonElem.disabled = false
   }
 }
-const root = document.documentElement
-const elem = document.getElementById("dark-light-mode")
-function switchDarkLightMode() {
-  let isDarkMode = localStorage.getItem("dark-mode") === "true" ? false : true
-  localStorage.setItem("dark-mode", isDarkMode)
-  setDarkLightMode()
-}
-
-function setDarkLightMode() {
-  const isDarkMode = localStorage.getItem("dark-mode") === "true" ? true : false
-  elem.textContent = isDarkMode ? "🌕" : "☀️"
-  let bodyColor = "hsl(0, 0%, 100%)"
-  let bgColor = "hsla(226, 100%, 98%, 0.6)"
-  let borderColor = "hsl(228, 96%, 89%)"
-  let fontColor = "hsl(241, 46%, 20%)"
-  let codeColor = "hsla(224, 25%, 80%, 0.5)"
-  if (isDarkMode) {
-    bodyColor = "hsl(222, 47%, 9%)"
-    bgColor = "hsla(226, 100%, 8%, 0.6)"
-    borderColor = "hsl(228, 96%, 20%)"
-    fontColor = "hsl(241.4, 100%, 91.6%)"
-    codeColor = "hsla(224, 25%, 30%, 0.5)"
-  }
-  root.style.setProperty("--body-color", bodyColor)
-  root.style.setProperty("--bg-color", bgColor)
-  root.style.setProperty("--border-color", borderColor)
-  root.style.setProperty("--font-color", fontColor)
-  root.style.setProperty("--code-color", codeColor)
-}
-setDarkLightMode()
 
