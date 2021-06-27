@@ -17,7 +17,7 @@ const myCodeMirror = CodeMirror.fromTextArea(textArea, myCodeMirrorOptions);
 const codeMirrorStyle = Array.from(document.styleSheets).find((ss) => !ss.href)
   .cssRules[0].style;
 myCodeMirror.setValue(
-  localStorage.getItem(selectedLanguage) || helpers[selectedLanguage]
+  localStorage.getItem(`${location.pathname}:${selectedLanguage}`) || helpers[selectedLanguage]
 );
 
 function switchFontSize(fontSize) {
@@ -40,13 +40,14 @@ switchTheme(theme);
 document.getElementById('theme').value = theme;
 
 function switchHelpers(select) {
+  const challenge = location.pathname
   const language = select[select.selectedIndex];
-  localStorage.setItem(selectedLanguage, myCodeMirror.getValue());
+  localStorage.setItem(`${challenge}:${selectedLanguage}`, myCodeMirror.getValue());
+  selectedLanguage = language.value;
   myCodeMirror.setValue(
-    localStorage.getItem(language.value) || helpers[language.value]
+    localStorage.getItem(`${challenge}:${selectedLanguage}`) || helpers[selectedLanguage]
   );
   myCodeMirror.setOption('mode', language.text);
-  selectedLanguage = language.value;
   myCodeMirror.refresh();
   localStorage.setItem('selectedLanguage', selectedLanguage);
   localStorage.setItem('mode', language.text);
@@ -55,7 +56,7 @@ function switchHelpers(select) {
 function resetCode() {
   myCodeMirror.setValue(helpers[selectedLanguage]);
   myCodeMirror.refresh();
-  localStorage.removeItem(selectedLanguage);
+  localStorage.removeItem(`${location.pathname}:${selectedLanguage}`);
 }
 
 function setContent({stdout, stderr, success, time, memory}) {
