@@ -23,34 +23,35 @@
     </style>
   </head>
   <body>
+    <span onclick="switchDarkLightMode(this.textContent)" id="dark-light-mode"></span>
     <div class="container">
-    <div id="info">
-      <h1><%- challenge.name %> </h1>
-      <div id="description"><%- challenge.description %></div>
-      <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
-      <div class="example">
-        <div class="example__number">Example <%= indice %>:</div>
-        <div><em>Input:</em> <%= input %> </div>
-        <div><em>Output:</em> <%= output %> </div>
-        <% if (explanation) { %>
-        <div><em>Explanation:</em> <%= explanation %> </div>       
-        <% } %>
-        <% if (notes) { %>
-        <div><em>Notes:</em> <%= notes %> </div>
-        <% } %>
-    </div>
-      <% }) %>
-    </div>
-    <div>
-      <button id="submit" onclick="runCode()">Run code &nbsp; ►</button>
-      <div class="select-wrapper">
-        <select id="language" onchange="switchHelpers(this)">
-          <% Object.keys(languages).forEach(language => {%>
-          <option value="<%= language %>" ><%= languages[language].name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="select-wrapper">
+      <div id="info">
+        <h1><%- challenge.name %> </h1>
+        <div id="description"><%- challenge.description %></div>
+        <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
+          <div class="example">
+            <div class="example__number">Example <%= indice %>:</div>
+            <div><em>Input:</em> <%= input %> </div>
+            <div><em>Output:</em> <%= output %> </div>
+            <% if (explanation) { %>
+              <div><em>Explanation:</em> <%= explanation %> </div>       
+              <% } %>
+              <% if (notes) { %>
+                <div><em>Notes:</em> <%= notes %> </div>
+                <% } %>
+              </div>
+              <% }) %>
+            </div>
+            <div>
+              <button id="submit" onclick="runCode()">Run code &nbsp; ►</button>
+              <div class="select-wrapper">
+                <select id="language" onchange="switchHelpers(this)">
+                  <% Object.keys(languages).forEach(language => {%>
+                    <option value="<%= language %>" ><%= languages[language].name %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="select-wrapper">
         <select id="fontSize" onchange="switchFontSize(this.value)">
         <% for( let index = 0; index < 10; index++ ) { %>
           <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>

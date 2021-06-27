@@ -108,3 +108,34 @@ async function runCode() {
     buttonElem.disabled = false
   }
 }
+const root = document.documentElement
+const elem = document.getElementById("dark-light-mode")
+function switchDarkLightMode() {
+  let isDarkMode = localStorage.getItem("dark-mode") === "true" ? false : true
+  localStorage.setItem("dark-mode", isDarkMode)
+  setDarkLightMode()
+}
+
+function setDarkLightMode() {
+  const isDarkMode = localStorage.getItem("dark-mode") === "true" ? true : false
+  elem.textContent = isDarkMode ? "🌕" : "☀️"
+  let bodyColor = "hsl(0, 0%, 100%)"
+  let bgColor = "hsla(226, 100%, 98%, 0.6)"
+  let borderColor = "hsl(228, 96%, 89%)"
+  let fontColor = "hsl(241, 46%, 20%)"
+  let codeColor = "hsla(224, 25%, 80%, 0.5)"
+  if (isDarkMode) {
+    bodyColor = "hsl(222, 47%, 9%)"
+    bgColor = "hsla(226, 100%, 8%, 0.6)"
+    borderColor = "hsl(228, 96%, 20%)"
+    fontColor = "hsl(241.4, 100%, 91.6%)"
+    codeColor = "hsla(224, 25%, 30%, 0.5)"
+  }
+  root.style.setProperty("--body-color", bodyColor)
+  root.style.setProperty("--bg-color", bgColor)
+  root.style.setProperty("--border-color", borderColor)
+  root.style.setProperty("--font-color", fontColor)
+  root.style.setProperty("--code-color", codeColor)
+}
+setDarkLightMode()
+

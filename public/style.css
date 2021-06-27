@@ -1,15 +1,11 @@
 body {
   padding: 0;
   margin: 0;
-}
-
-:root {
-  --border-color: #C7D2FE;
-  --bg-color: hsla(226, 100%, 98%, 0.6);
-  --font-color: hsl(241, 46%, 20%);
+  background-color: var(--body-color);
 }
 
 .container {
+  margin-top: 30px;
   padding: 1rem;
   display: grid;
   grid-auto-flow: column;
@@ -40,7 +36,7 @@ h1 {
 }
 
 code {
-  background: hsla(224, 25%, 80%, 0.5);
+  background: var(--code-color);
   padding: 1px 4px;
   border-radius: 2px;
 }
@@ -71,16 +67,17 @@ button, select {
   color: var(--font-color);
 }
 
+
 button {
   padding: 10px 15px;
 }
 .select-wrapper {
-  background-color: #FFF;
   display: inline-block;
   position: relative;
 }
 .select-wrapper:after {
   content:"▼";
+  color: var(--font-color);
   position: absolute;
   top: 13px;
   right: 10px;
@@ -111,4 +108,13 @@ select {
   border-radius: 8px;
   font-size: 1.3rem;
   color: darkorange
+}
+
+
+#dark-light-mode {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 1.3rem;
+  cursor: pointer;
 }
