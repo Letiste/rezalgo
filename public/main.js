@@ -67,14 +67,14 @@ function setContent({stdout, stderr, success, time, memory}) {
   successElem.textContent = success ? 'Success !' : '';
   let timeElem = document.getElementById('time');
   if (typeof time === "number") {
-    timeElem.textContent = time + "ms"
+    timeElem.textContent = `Time duration: ${time} ms`
   } else {
     timeElem.textContent = time
   }
   let memoryElem = document.getElementById('memory');
   if (typeof memory === "number") {
-    let mem = memory / 1024
-    memoryElem.textContent = mem > 1024 ? (mem / 1024).toFixed(1) + "MB" : mem.toFixed(1) + "KB"
+    let mem = memory > 1024 * 1024 ? (memory / (1024 * 1024)).toFixed(1) + " MB" : (memory / 1024).toFixed(1) + " KB"
+    memoryElem.textContent = `Memory used: ${mem}`
   } else {
     memoryElem.textContent = memory
   }

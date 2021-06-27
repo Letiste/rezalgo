@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "description", "functionName", "params", "tests"],
+  "required": ["name", "description", "examples", "functionName", "params", "tests"],
   "properties": {
     "name": {
       "type": "string",
@@ -9,6 +9,34 @@
     "description": {
       "type": "string",
       "description": "The description of the challenge"
+    },
+    "examples": {
+      "type": "array",
+      "description": "Array of examples",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "An exemple to illustrate what the function should output, based on the input",
+        "required": ["input", "output"],
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": "Input for the example"
+          },
+          "output": {
+            "type": "string",
+            "description": "Output for the example"
+          },
+          "note": {
+            "type": "string",
+            "description": "Optional notes"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Optional explanation"
+          }
+        }
+      }
     },
     "functionName": {
       "type": "string",
@@ -24,6 +52,7 @@
     "tests": {
       "type": "array",
       "description": "The array of generated tests",
+      "minItems": 1,
       "items": {
         "type": "object",
         "required": ["inputs", "expected"],

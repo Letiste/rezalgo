@@ -1,7 +1,11 @@
 {
-  "$schema": "../../challenges.schema.json",
+  "$schema": "../challenges.schema.json",
   "name": "Substraction",
   "description": "Create a function sub that return the substraction of the two numbers passed as parameters",
+  "examples": [{
+    "input": "a = 2, b = 2",
+    "output": "0"
+  }],
   "functionName": "sub",
   "params": ["a", "b"],
   "tests": [

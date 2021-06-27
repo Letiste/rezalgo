@@ -10,6 +10,7 @@
       <script src="<%= `public/mode/${languages[language].name}/${languages[language].name}.js` %> "/></script>
     <% }) %>
     <link rel="stylesheet" href="public/lib/codemirror.css">
+    <link rel="stylesheet" href="public/style.css">
     <% themes.forEach(theme => { %>
      <link rel="stylesheet" href="<%= `public/theme/${theme}.css` %> ">
     <% }) %>
@@ -22,32 +23,57 @@
     </style>
   </head>
   <body>
-    <h1><%- challenge.name %> </h1>
-    <%- challenge.description %>
-    <button id="submit" onclick="runCode()">Run code</button>
-    <select id="language" onchange="switchHelpers(this)">
-      <% Object.keys(languages).forEach(language => {%>
-      <option value="<%= language %>" ><%= languages[language].name %></option>
+    <div class="container">
+    <div id="info">
+      <h1><%- challenge.name %> </h1>
+      <div id="description"><%- challenge.description %></div>
+      <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
+      <div class="example">
+        <div class="example__number">Example <%= indice %>:</div>
+        <div><em>Input:</em> <%= input %> </div>
+        <div><em>Output:</em> <%= output %> </div>
+        <% if (explanation) { %>
+        <div><em>Explanation:</em> <%= explanation %> </div>       
+        <% } %>
+        <% if (notes) { %>
+        <div><em>Notes:</em> <%= notes %> </div>
+        <% } %>
+    </div>
       <% }) %>
-    </select>
-    <select id="fontSize" onchange="switchFontSize(this.value)">
-      <% for( let index = 0; index < 10; index++ ) { %>
-        <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
-      <% } %>
-    </select>
-    <select id="theme" onchange="switchTheme(this.value)">
-      <option value="default" selected>default</option>
-    <% themes.forEach(theme => { %>
-      <option value="<%= theme %> "><%= theme %> </option>
-    <% }) %>
-    </select>
-    <button onclick="resetCode()">Reset</button>
-    <textarea id="data"></textarea>
-    <p style="color: green" id="success"></p>
-    <p id="stdout"></p>
-    <p style="color: red" id="stderr"></p>
-    <p style="color: blue" id="memory"></p>
-    <p style="color: purple" id="time"></p>
+    </div>
+    <div>
+      <button id="submit" onclick="runCode()">Run code &nbsp; ►</button>
+      <div class="select-wrapper">
+        <select id="language" onchange="switchHelpers(this)">
+          <% Object.keys(languages).forEach(language => {%>
+          <option value="<%= language %>" ><%= languages[language].name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select id="fontSize" onchange="switchFontSize(this.value)">
+        <% for( let index = 0; index < 10; index++ ) { %>
+          <option value="<%= 10 + 2 * index %>" <%= index === 2 ? "selected" : "" %>><%= 10 + 2 * index %></option>
+        <% } %>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select id="theme" onchange="switchTheme(this.value)">
+          <option value="default" selected>default</option>
+        <% themes.forEach(theme => { %>
+          <option value="<%= theme %> "><%= theme %> </option>
+        <% }) %>
+        </select>
+      </div>
+      <button onclick="resetCode()">Reset <span>⟳</span></button>
+      <textarea id="data"></textarea>
+      <span id="memory"></span>
+      <span id="time"></span>
+      <p style="color: green" id="success"></p>
+      <p id="stdout"></p>
+      <p style="color: red" id="stderr"></p>
+    </div>
+  </div>
   </body>
   <script>
     const helpers = <%- JSON.stringify(helpers) %>
