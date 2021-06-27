@@ -3,6 +3,7 @@ import { FastifyInstance } from 'fastify';
 import { readdirSync } from 'fs';
 import { FromSchema } from 'json-schema-to-ts';
 import marked from "marked";
+import slugify from 'slugify';
 
 import { podmanInputSchema, podmanOutputSchema, languages, postSchema, getSchema } from './schemas';
 import { podman } from './podman';
@@ -13,23 +14,24 @@ const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) =
 
 export default async function routes(fastify: FastifyInstance) {
   for (const challenge of challenges) {
-    fastify.get(`/${challenge.functionName}`,{schema: getSchema }, async (_, reply) => {
-      challenge.description = marked(challenge.description)
+    challenge.description = marked(challenge.description)
+    const slugName = slugify(challenge.name, {lower: true})
+    fastify.get(`/${slugName}`,{schema: getSchema }, async (_, reply) => {
       reply.view('/view/index.ejs', {
         languages,
         challenge,
-        helpers: require(path.join(__dirname, `../dist/helpers/${challenge.functionName}`))
+        helpers: require(path.join(__dirname, `../dist/helpers/${slugName}`))
           .helpers,
           themes
       });
     });
 
     fastify.post<{ Body: FromSchema<typeof podmanInputSchema>, Response: FromSchema<typeof podmanOutputSchema>}>(
-      `/${challenge.functionName}`,
+      `/${slugName}`,
       { schema: postSchema },
       async function (request, reply) {
         const { language, data } = request.body;
-        const { stdout, stderr } = await podman(challenge.functionName, language, data);
+        const { stdout, stderr } = await podman(slugName, language, data);
         const stdoutSplit = stdout.split("\n")
 
         // first pop to remove blank string from last \n

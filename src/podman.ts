@@ -8,7 +8,7 @@ type Language = keyof typeof languages;
 /**
  * Start a podman container and execute the given code for a challenge and a language
  * 
- * @param challenge The name of the challenge to run, defined by functionName in the corresponding json
+ * @param challenge The name of the challenge to run, defined by name in the corresponding json
  * @param language The language in which the challenge is runned
  * @param data The code to be executed
  * @returns stdout, information logged by the executed code and stderr, the errors that occured
