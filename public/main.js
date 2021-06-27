@@ -132,3 +132,18 @@ async function runCode() {
   }
 }
 
+// from https://www.freecodecamp.org/news/javascript-debounce-example/
+function debounce(func, timeout = 300){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+function saveCode(){
+  console.log("CALLED")
+  localStorage.setItem(`${location.pathname}:${selectedLanguage}`, myCodeMirror.getValue());
+}
+const saveCodeDebounced = debounce(() => saveCode());
+
+myCodeMirror.on('change', saveCodeDebounced)
