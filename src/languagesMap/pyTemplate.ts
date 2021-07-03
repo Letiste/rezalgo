@@ -1,5 +1,9 @@
 import { FunctionCalled, FunctionSignature, LanguageMap, TemplateExpected, TypeMap } from './LanguageMap';
 
+/**
+ * The mapping used to render the helpers and
+ * tests for this language
+ */
 export const languageMap: LanguageMap = {
   imports: ['import sys', 'import time', 'import resource'],
   if: ifTemplate,
@@ -15,6 +19,10 @@ export const languageMap: LanguageMap = {
   comment: commentTemplate,
 };
 
+/**
+ * The mapping of the type in the challenge json file
+ * and the language
+ */
 const typeMap: TypeMap = {
   float: 'float',
   integer: 'int',
@@ -26,11 +34,19 @@ const typeMap: TypeMap = {
   "Array<string>": 'list[str]',
 };
 
+/**
+ * The function used to render an if condition verifying
+ * that given the function and the inputs, the output differs from the expected value
+ */
 function ifTemplate({ name, inputs, expected }: TemplateExpected): string {
   const calledFunction = functionCalledTemplate({ name, inputs });
   return `if (${calledFunction} != ${expected}) :`;
 }
 
+/**
+ * A helper function to render the function called with
+ * the given inputs
+ */
 function functionCalledTemplate({ name, inputs }: FunctionCalled): string {
   let template = `${name}(`;
   inputs.forEach((input, index) => {
@@ -43,11 +59,20 @@ function functionCalledTemplate({ name, inputs }: FunctionCalled): string {
   return template;
 }
 
+/**
+ * The function used to print to stderr when the if
+ * condition is true. It prints the inputs for which
+ * it failed and the actual and expected values
+ */
 function logTemplate({ name, inputs, expected }: TemplateExpected): string {
   const calledFunction = functionCalledTemplate({ name, inputs });
   return `print(f"""Inputs: ${inputs}\nExpected ${expected} but was {${calledFunction}}""", file=sys.stderr)`;
 }
 
+/**
+ * The function used to render the structure and the
+ * signature of the tested function
+ */
 function defFunctionStartTemplate({ name, params, returnType }: FunctionSignature): string {
   let calledFunction = `${name}(`;
   params.forEach(({ name, type }, index) => {
@@ -60,6 +85,9 @@ function defFunctionStartTemplate({ name, params, returnType }: FunctionSignatur
   return `def ${calledFunction} :`;
 }
 
+/**
+ * The function used to comment the given string
+ */
 function commentTemplate(comment: string): string {
   return `# ${comment}`;
 }
