@@ -33,7 +33,7 @@ function generateHelpers(challengesSpec: any, name: string) {
   if (!existsSync(dirPath)) {
     mkdirSync(dirPath, {recursive: true})
   }
-  let data = {...challengesSpec, helpers: languagesMap}
+  let data = {...challengesSpec, helpers: languagesMap, functionName: challengesSpec.function.name, functionParams: challengesSpec.function.params, functionReturnType: challengesSpec.function.returnType }
   return new Promise<void>((resolve, reject) => {ejs.renderFile(path.join(__dirname, "./templates/helpers.ejs"), data, (err, str) => {
     if (err) {
       reject(err)
@@ -50,8 +50,8 @@ function generateTests(challengesSpec: any, name: string) {
   }
   const promises: Promise<void>[] = []
   languagesMap.forEach(({language, languageMap}) => {
-    let data = {...challengesSpec, languageMap}
-    let promise = new Promise<void>((resolve, reject) => {
+    let data = {...challengesSpec, languageMap, functionName: challengesSpec.function.name}
+  let promise = new Promise<void>((resolve, reject) => {
       ejs.renderFile(path.join(__dirname, "./templates/test.ejs"), data, (err, str) => {
         if (err) {
           reject(err)

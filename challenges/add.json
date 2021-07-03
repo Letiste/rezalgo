@@ -1,32 +1,38 @@
 {
   "$schema": "../challenges.schema.json",
   "name": "Addition",
-  "description": "Create a function `add` that return the **sum** of the two numbers passed as parameters",
+  "description": "Create a function `add` that returns the **sum** of the two numbers passed as parameters",
   "examples": [
     {
-    "input": "a = 2, b = 2",
-    "output": "4",
-    "explanation": "really ?"
+      "input": "a = 2, b = 2",
+      "output": "4",
+      "explanation": "really ?"
+    },
+    {
+      "input": "a = 4, b = 15",
+      "output": "19"
+    },
+    {
+      "input": "a = 4, b = 15",
+      "output": "19"
+    },
+    {
+      "input": "a = 4, b = 15",
+      "output": "19"
+    },
+    {
+      "input": "a = 4, b = 15",
+      "output": "19"
+    }
+  ],
+  "function": {
+    "name": "add",
+    "returnType": "integer",
+    "params": [
+      { "name": "a", "type": "integer" },
+      { "name": "b", "type": "integer" }
+    ]
   },
-  {
-    "input": "a = 4, b = 15",
-    "output": "19"
-  },
-  {
-    "input": "a = 4, b = 15",
-    "output": "19"
-  },
-  {
-    "input": "a = 4, b = 15",
-    "output": "19"
-  },
-  {
-    "input": "a = 4, b = 15",
-    "output": "19"
-  }
-],
-  "functionName": "add",
-  "params": ["a", "b"],
   "tests": [
     {
       "inputs": ["2", "2"],

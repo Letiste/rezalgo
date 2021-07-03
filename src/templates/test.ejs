@@ -7,8 +7,8 @@
 <%- languageMap.timeStart %>
 <%- languageMap.memoryStart %>
 <% tests.forEach(({inputs, expected}) => { %>
-<%- languageMap.if({functionName, params: inputs, expected}) %>
-  <%- languageMap.log({functionName, params: inputs, expected}) %>
+<%- languageMap.if({name: functionName, inputs, expected}) %>
+  <%- languageMap.log({name: functionName, inputs, expected}) %>
   <%- languageMap.memoryEnd %>
   <%- languageMap.timeEnd %>
   <%- languageMap.exit %>

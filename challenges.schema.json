@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "description", "examples", "functionName", "params", "tests"],
+  "required": ["name", "description", "examples", "function", "params", "tests"],
   "properties": {
     "name": {
       "type": "string",
@@ -38,15 +38,59 @@
         }
       }
     },
-    "functionName": {
+    "function": {
+      "type": "object",
+      "description": "The function called in the tests",
+      "required": ["name", "returnType", "params"],
+      "properties": {
+        "name": {
       "type": "string",
-      "description": "The name of the function called in the tests"
+          "description": "The name of the function"
     },
     "params": {
       "type": "array",
       "description": "The parameters of the function called in the tests",
       "items": {
-        "type": "string"
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the parameter"
+              },
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["string", "integer", "float", "boolean"]
+                    }
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["string", "integer", "float", "boolean"]
+                  }
+                ],
+                "description": "Type of the parameter"
+              }
+            }
+          }
+        },
+        "returnType": {
+                "type": "string",
+          "enum": [
+            "string",
+            "integer",
+            "float",
+            "boolean",
+            "Array<string>",
+            "Array<integer>",
+            "Array<float>",
+            "Array<boolean>"
+          ],
+          "description": "The return type of the function"
+        }
       }
     },
     "tests": {

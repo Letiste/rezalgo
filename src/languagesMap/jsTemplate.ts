@@ -1,4 +1,4 @@
-import { LanguageMap } from "./LanguageMap"
+import { FunctionCalled, FunctionSignature, LanguageMap, TemplateExpected, TypeMap } from "./LanguageMap"
 
 export const languageMap: LanguageMap = {
   imports: [],
@@ -15,39 +15,49 @@ export const languageMap: LanguageMap = {
   comment: commentTemplate,
 }
 
-interface functionInput {
-  functionName: string,
-  params: string[]
-}
-interface templateInput extends functionInput {
-  expected: string
+const typeMap: TypeMap = {
+  float: "number",
+  integer: "number",
+  boolean: "boolean",
+  string: "string",
+  "Array<float>": "number[]",
+  "Array<integer>": "number[]",
+  "Array<boolean>": "boolean[]",
+  "Array<string>": "string[]",
 }
 
-function ifTemplate({functionName, params, expected}: templateInput): string {
-  const calledFunction = functionTemplate({functionName, params})
+function ifTemplate({name, inputs, expected}: TemplateExpected): string {
+  const calledFunction = functionCalledTemplate({name, inputs})
   return `if (${calledFunction} !== ${expected}) {`
 }
 
-function functionTemplate({functionName, params}: functionInput): string {
-  let template = `${functionName}(`
-  params.forEach((param, index) => {
-    if (index === params.length - 1) {
-      template += `${param})`
+function functionCalledTemplate({name, inputs}: FunctionCalled): string {
+  let template = `${name}(`
+  inputs.forEach((input, index) => {
+    if (index === inputs.length - 1) {
+      template += `${input})`
     } else {
-      template += `${param}, `
+      template += `${input}, `
     }
   })
   return template
 }
 
-function logTemplate({functionName, params, expected}: templateInput): string {
-  const calledFunction = functionTemplate({functionName, params})
-  return `console.error(\`Inputs: ${params}\nExpected ${expected} but was \${${calledFunction}}\`)`
+function logTemplate({name, inputs, expected}: TemplateExpected): string {
+  const calledFunction = functionCalledTemplate({name, inputs})
+  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${${calledFunction}}\`)`
 }
 
-function defFunctionStartTemplate({functionName, params}: functionInput): string {
-  const calledFunction = functionTemplate({functionName, params})
-  return `function ${calledFunction} {`
+function defFunctionStartTemplate({name, params, returnType}: FunctionSignature): string {
+  const calledFunction = functionCalledTemplate({name, inputs: params.map(param => Object.values(param)[0]) })
+  let template = "/**\n"
+  for (const {name, type} of params) {
+    template += ` * @param {${typeMap[type]}} ${name}\n`
+  }
+  template += ` * @returns {${typeMap[returnType]}}\n`
+  template += " */\n"
+  template += `function ${calledFunction} {`
+  return template
 }
 
 function commentTemplate(comment: string): string {

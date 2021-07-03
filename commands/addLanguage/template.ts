@@ -1,4 +1,4 @@
-import { LanguageMap } from "./LanguageMap"
+import { FunctionCalled, FunctionSignature, LanguageMap, TemplateExpected, TypeMap } from "./LanguageMap"
 
 export const languageMap: LanguageMap = {
   imports: [],
@@ -15,23 +15,26 @@ export const languageMap: LanguageMap = {
   comment: commentTemplate,
 }
 
-interface functionInput {
-  functionName: string,
-  params: string[]
-}
-interface templateInput extends functionInput {
-  expected: string
+const typeMap: TypeMap = {
+  float: "",
+  integer: "",
+  boolean: "",
+  string: ""
 }
 
-function ifTemplate({functionName, params, expected}: templateInput): string {
+function ifTemplate({functionName, inputs, expected}: TemplateExpected): string {
   return ""
 }
 
-function logTemplate({functionName, params, expected}: templateInput): string {
+function functionCalledTempalte({name, inputs}: FunctionCalled): string {
   return ""
 }
 
-function defFunctionStartTemplate({functionName, params}: functionInput): string {
+function logTemplate({functionName, inputs, expected}: TemplateExpected): string {
+  return ""
+}
+
+function defFunctionStartTemplate({name, params, returnType}: FunctionSignature): string {
   return ""
 }
 
