@@ -11,7 +11,8 @@ export const languageMap: LanguageMap = {
   timeStart: "const timeStart = Date.now()",
   timeEnd: "console.log('TIME DURATION: ', Date.now() - timeStart)",
   memoryStart: "const memoryStart = process.memoryUsage().heapUsed",
-  memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)"
+  memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)",
+  comment: commentTemplate,
 }
 
 interface functionInput {
@@ -47,4 +48,8 @@ function logTemplate({functionName, params, expected}: templateInput): string {
 function defFunctionStartTemplate({functionName, params}: functionInput): string {
   const calledFunction = functionTemplate({functionName, params})
   return `function ${calledFunction} {`
+}
+
+function commentTemplate(comment: string): string {
+  return (`// ${comment}`)
 }

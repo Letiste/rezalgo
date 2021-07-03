@@ -55,13 +55,13 @@ function createTmpFile(
   name: string,
   data: string
 ): void {
-  fs.writeFileSync(`/tmp/${name}`, `${data}\n`);
   const challengeData = fs
     .readFileSync(
       path.join(__dirname, `../dist/tests/${challenge}/test.${language}`)
     )
     .toString();
-  fs.writeFileSync(`/tmp/${name}`, challengeData, { flag: 'a+' });
+  const testData = challengeData.replace(/.+---WRITE USER CODE HERE---/, `${data}`)
+  fs.writeFileSync(`/tmp/${name}`, testData);
 }
 
 function removeTmpFile(name: string): void {

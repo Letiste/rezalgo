@@ -11,7 +11,8 @@ export const languageMap: LanguageMap = {
   timeStart: "",
   timeEnd: "",
   memoryStart: "",
-  memoryEnd: ""
+  memoryEnd: "",
+  comment: commentTemplate,
 }
 
 interface functionInput {
@@ -31,5 +32,9 @@ function logTemplate({functionName, params, expected}: templateInput): string {
 }
 
 function defFunctionStartTemplate({functionName, params}: functionInput): string {
+  return ""
+}
+
+function commentTemplate(comment: string): string {
   return ""
 }

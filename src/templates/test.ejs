@@ -1,15 +1,18 @@
 <% languageMap.imports.forEach(imp => { %>
-<%- imp %> 
+<%- imp %>
 <% }) %>
-<%- languageMap.timeStart %>  
-<%- languageMap.memoryStart %>  
+
+<%- languageMap.comment("---WRITE USER CODE HERE---") %>
+
+<%- languageMap.timeStart %>
+<%- languageMap.memoryStart %>
 <% tests.forEach(({inputs, expected}) => { %>
 <%- languageMap.if({functionName, params: inputs, expected}) %>
   <%- languageMap.log({functionName, params: inputs, expected}) %>
-  <%- languageMap.memoryEnd %> 
-  <%- languageMap.timeEnd %> 
+  <%- languageMap.memoryEnd %>
+  <%- languageMap.timeEnd %>
   <%- languageMap.exit %>
-<%- languageMap.fi %> 
+<%- languageMap.fi %>
 <% }) %>
-<%- languageMap.memoryEnd %> 
-<%- languageMap.timeEnd %> 
+<%- languageMap.memoryEnd %>
+<%- languageMap.timeEnd %>

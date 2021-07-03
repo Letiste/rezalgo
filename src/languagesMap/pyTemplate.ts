@@ -11,7 +11,8 @@ export const languageMap: LanguageMap = {
   timeStart: "timeStart = int(round(time.time() * 1000))",
   timeEnd: "print('TIME DURATION: ', int(round(time.time() * 1000)) - timeStart)",
   memoryStart: "",
-  memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)"
+  memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)",
+  comment: commentTemplate,
 }
 
 interface functionInput {
@@ -47,4 +48,8 @@ function logTemplate({functionName, params, expected}: templateInput): string {
 function defFunctionStartTemplate({functionName, params}: functionInput): string {
   const calledFunction = functionTemplate({functionName, params})
   return `def ${calledFunction} :`
+}
+
+function commentTemplate(comment: string): string {
+  return (`# ${comment}`)
 }

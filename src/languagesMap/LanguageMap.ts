@@ -9,5 +9,6 @@ export interface LanguageMap {
   timeStart: string,
   timeEnd: string,
   memoryStart: string,
-  memoryEnd: string
+  memoryEnd: string,
+  comment: (comment: string) => string,
 }
