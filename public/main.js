@@ -108,7 +108,7 @@ async function runCode() {
       togglePresOutput()
     }
     setContent({stdout: "", stderr: "", success: false, time: "Pending...", memory: "Pending..."})
-    const data = myCodeMirror.getValue();
+    const data = myCodeMirror.getValue().replace(/\t/g, '  ');
     const rawResponse = await fetch(
       window.location.href,
       {
@@ -141,7 +141,6 @@ function debounce(func, timeout = 300){
   };
 }
 function saveCode(){
-  console.log("CALLED")
   localStorage.setItem(`${location.pathname}:${selectedLanguage}`, myCodeMirror.getValue());
 }
 const saveCodeDebounced = debounce(() => saveCode());
