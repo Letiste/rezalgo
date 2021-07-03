@@ -43,9 +43,6 @@ export default async function routes(fastify: FastifyInstance) {
         const memory = Number(stdoutSplit.pop()?.replace(/MEMORY USAGE: *([0-9]+)/, function(_, p1: string) {
           return p1
         })) || 0
-
-        // remove duplicated stdout, as it's outputted at each test
-        stdoutSplit = stdoutSplit.slice(0, stdoutSplit.length / challenge.tests.length)
         
         let success = !stderr;
         reply.code(200)
