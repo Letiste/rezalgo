@@ -1,16 +1,36 @@
 import path from 'path';
 import ejs from 'ejs';
 import fs from 'fs';
+import prompts, { PromptObject } from 'prompts';
 import slugify from 'slugify';
 
+function validate(inputName: string) {
+  return (input: string) => {
+    if (input.trim().length === 0) {
+      return `${inputName} cannot be empty.`;
+    }
+    return true;
+  };
+}
+
+const questions: PromptObject[] = [
+  {
+    type: 'text',
+    name: 'name',
+    message: 'Name of the new challenge: ',
+    validate: validate('Name'),
+    format: (name: string) => slugify(name, { lower: true }),
+  }
+];
+
 (async () => {
-  const challengeName = process.argv[2];
-  if (!challengeName) {
+  const {name} = await prompts(questions);
+  if (!name) {
     throw new Error("No challenge's name provided.");
   }
-  const slugName = slugify(challengeName, { lower: true });
+  const slugName = slugify(name, { lower: true });
   await new Promise<void>((resolve, reject) => {
-    ejs.renderFile(path.join(__dirname, './challenge.ejs'), { name: challengeName }, (err, str) => {
+    ejs.renderFile(path.join(__dirname, './challenge.ejs'), { name: name }, (err, str) => {
       if (err) {
         reject(err);
       }
