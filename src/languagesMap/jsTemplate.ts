@@ -41,7 +41,7 @@ function functionTemplate({functionName, params}: functionInput): string {
 
 function logTemplate({functionName, params, expected}: templateInput): string {
   const calledFunction = functionTemplate({functionName, params})
-  return `console.error(\`expected ${expected} but was \${${calledFunction}}\`)`
+  return `console.error(\`Inputs: ${params}\nExpected ${expected} but was \${${calledFunction}}\`)`
 }
 
 function defFunctionStartTemplate({functionName, params}: functionInput): string {

@@ -41,7 +41,7 @@ function functionTemplate({functionName, params}: functionInput): string {
 
 function logTemplate({functionName, params, expected}: templateInput): string {
   const calledFunction = functionTemplate({functionName, params})
-  return `print(f'expected ${expected} but was {${calledFunction}}', file=sys.stderr)`
+  return `print(f"""Inputs: ${params}\nExpected ${expected} but was {${calledFunction}}""", file=sys.stderr)`
 }
 
 function defFunctionStartTemplate({functionName, params}: functionInput): string {
