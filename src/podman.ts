@@ -2,8 +2,12 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { languages } from './schemas';
+import Queue from './queue';
 
 type Language = keyof typeof languages;
+const MAX_CONTAINERS_RUNNING = 10;
+
+let currentRunningContainers = 0;
 
 /**
  * Start a podman container and execute the given code for a challenge and a language
@@ -22,10 +26,23 @@ export function podman(
   const name = Date.now().toString();
   createTmpFile(challenge, language, name, data);
   return new Promise((resolve) => {
-    exec(execute(language, name), (_, stdout: string, stderr: string) => {
+    const cb = (_: any, stdout: string, stderr: string) => {
       removeTmpFile(name);
+      currentRunningContainers = Math.max(0, currentRunningContainers - 1);
+      Queue.runJob();
       resolve({ stdout, stderr });
+    }
+
+    currentRunningContainers++;
+    if (currentRunningContainers > MAX_CONTAINERS_RUNNING) {
+      Queue.addJob({
+        fn: execute,
+        params: { language, name },
+        cb,
     });
+    } else {
+      exec(execute(language, name), cb);
+    }
   });
 }
 
@@ -49,18 +66,9 @@ function execute(language: Language, name: string): string {
  * @param data The code added to the file
  */
 
-function createTmpFile(
-  challenge: string,
-  language: Language,
-  name: string,
-  data: string
-): void {
-  const challengeData = fs
-    .readFileSync(
-      path.join(__dirname, `../dist/tests/${challenge}/test.${language}`)
-    )
-    .toString();
-  const testData = challengeData.replace(/.+---WRITE USER CODE HERE---/, `${data}`)
+function createTmpFile(challenge: string, language: Language, name: string, data: string): void {
+  const challengeData = fs.readFileSync(path.join(__dirname, `../dist/tests/${challenge}/test.${language}`)).toString();
+  const testData = challengeData.replace(/.+---WRITE USER CODE HERE---/, `${data}`);
   fs.writeFileSync(`/tmp/${name}`, testData);
 }
 
