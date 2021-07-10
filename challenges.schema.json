@@ -4,11 +4,13 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The title of the challenge"
+      "description": "The title of the challenge",
+      "minLength": 1
     },
     "description": {
       "type": "string",
-      "description": "The description of the challenge"
+      "description": "The description of the challenge",
+      "minLength": 1
     },
     "constraints": {
       "type": "array",
@@ -16,7 +18,8 @@
       "minItems": 1,
       "items": {
         "type": "string",
-        "description": "Constraint for the challenge"
+        "description": "Constraint for the challenge",
+        "minLength": 1
       }
     },
     "examples": {
@@ -30,19 +33,23 @@
         "properties": {
           "input": {
             "type": "string",
-            "description": "Input for the example"
+            "description": "Input for the example",
+            "minLength": 1
           },
           "output": {
             "type": "string",
-            "description": "Output for the example"
+            "description": "Output for the example",
+            "minLength": 1
           },
           "note": {
             "type": "string",
-            "description": "Optional notes"
+            "description": "Optional notes",
+            "minLength": 1
           },
           "explanation": {
             "type": "string",
-            "description": "Optional explanation"
+            "description": "Optional explanation",
+            "minLength": 1
           }
         }
       }
@@ -54,7 +61,8 @@
       "properties": {
         "name": {
       "type": "string",
-          "description": "The name of the function"
+          "description": "The name of the function",
+          "minLength": 1
     },
     "params": {
       "type": "array",
@@ -65,7 +73,8 @@
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Name of the parameter"
+                "description": "Name of the parameter",
+                "minLength": 1
               },
               "type": {
                 "anyOf": [
@@ -114,12 +123,14 @@
             "type": "array",
             "description": "The array of inputs for the tested function",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           },
           "expected": {
             "type": "string",
-            "description": "The expected output of the tested function"
+            "description": "The expected output of the tested function",
+            "minLength": 1
           }
         }
       }

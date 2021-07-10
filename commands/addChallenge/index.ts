@@ -19,7 +19,6 @@ const questions: PromptObject[] = [
     name: 'name',
     message: 'Name of the new challenge: ',
     validate: validate('Name'),
-    format: (name: string) => slugify(name, { lower: true }),
   }
 ];
 
