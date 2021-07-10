@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node dist/server.js",
     "watch": "ts-node-dev server.ts",
-    "build": "npm run clean && npm run generate && tsc && cp -r ./challenges ./dist/ &&  cp -r ./view ./dist/ && cp -r ./public ./dist/",
+    "build": "npm run clean && npm run generate && tsc && npm run copy-files",
     "clean": "rm -rf ./dist",
+    "copy-files": "cp -r ./challenges ./dist/ &&  cp -r ./view ./dist/ && cp -r ./public ./dist/ && cp package*.json ./dist/" ,
     "generate": "ts-node src/generateChallenges.ts",
     "add:challenge": "ts-node commands/addChallenge/index.ts",
     "add:language": "ts-node commands/addLanguage/index.ts",
