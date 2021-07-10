@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="public/lib/codemirror.js"/></script>
-    <script src="public/addon/edit/matchbrackets.js"/></script>
-    <script src="public/addon/edit/closebrackets.js"/></script>
-    <script defer src="public/main.js"/></script>
-    <script defer src="public/dark-light-mode.js"/></script>
+    <script src="public/lib/codemirror.min.js"/></script>
+    <script src="public/addon/edit/matchbrackets.min.js"/></script>
+    <script src="public/addon/edit/closebrackets.min.js"/></script>
+    <script defer src="public/main.min.js"/></script>
+    <script defer src="public/dark-light-mode.min.js"/></script>
     <% Object.keys(languages).forEach(language => { %>
-      <script src="<%= `public/mode/${languages[language].name}/${languages[language].name}.js` %> "/></script>
+      <script src="<%= `public/mode/${languages[language].name}/${languages[language].name}.min.js` %> "/></script>
     <% }) %>
     <link rel="stylesheet" href="public/lib/codemirror.css">
     <link rel="stylesheet" href="public/style.css">

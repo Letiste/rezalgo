@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node dist/server.js",
     "watch": "ts-node-dev server.ts",
-    "build": "npm run clean && npm run generate && tsc && npm run copy-files",
+    "build": "npm run clean && npm run generate && tsc && npm run copy-files && npm run uglifyjs",
     "clean": "rm -rf ./dist",
-    "copy-files": "cp -r ./challenges ./dist/ &&  cp -r ./view ./dist/ && cp -r ./public ./dist/ && cp package*.json ./dist/" ,
+    "copy-files": "cp -r ./challenges ./dist/ &&  cp -r ./view ./dist/ && cp -r ./public ./dist/ && cp package*.json ./dist/ ",
+    "uglifyjs": "npx uglifyjs dist/public/dark-light-mode.js -c -m > dist/public/dark-light-mode.min.js && npx uglifyjs dist/public/main.js -c -m > dist/public/main.min.js",
     "generate": "ts-node src/generateChallenges.ts",
     "add:challenge": "ts-node commands/addChallenge/index.ts",
     "add:language": "ts-node commands/addLanguage/index.ts",
@@ -19,10 +20,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "^5.62.0",
     "ejs": "^3.1.6",
     "fastify": "^3.18.0",
-    "fastify-compress": "^3.6.0",
     "fastify-cors": "^6.0.1",
     "fastify-helmet": "^5.3.1",
     "fastify-static": "^4.2.2",
@@ -42,6 +41,7 @@
     "json-schema-to-ts": "^1.6.4",
     "prompts": "^2.4.1",
     "ts-node": "^10.0.0",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "uglify-js": "^3.13.10"
   }
 }
