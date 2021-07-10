@@ -9,7 +9,7 @@ import fastifyStatic from 'fastify-static';
 import fastifySwagger from 'fastify-swagger';
 import fastifyHelmet from 'fastify-helmet';
 
-const server = fastify({ logger: false });
+const server = fastify({ logger: true });
 
 server.register(pov, {
   engine: {
@@ -46,7 +46,7 @@ server.register(fastifySwagger, {
 server.register(require('./src/routes'));
 
 const PORT = process.env.PORT || '3000';
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = process.env.HOST || '127.0.0.1';
 
 server.listen({port: Number(PORT), host: HOST}, function (err, address) {
   if (err) {
