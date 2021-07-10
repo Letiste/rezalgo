@@ -45,7 +45,10 @@ server.register(fastifySwagger, {
 
 server.register(require('./src/routes'));
 
-server.listen(3000, function (err, address) {
+const PORT = process.env.PORT || '3000';
+const HOST = process.env.HOST || '0.0.0.0';
+
+server.listen({port: Number(PORT), host: HOST}, function (err, address) {
   if (err) {
     server.log.error(err);
     process.exit(1);
