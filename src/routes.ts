@@ -1,8 +1,8 @@
-import path from 'path';
+import * as path from 'path';
 import { FastifyInstance } from 'fastify';
 import { readdirSync } from 'fs';
 import { FromSchema } from 'json-schema-to-ts';
-import marked from "marked";
+import * as marked from "marked";
 import slugify from 'slugify';
 
 import { podmanInputSchema, podmanOutputSchema, languages, postSchema, getSchema } from './schemas';
@@ -20,7 +20,7 @@ export default async function routes(fastify: FastifyInstance) {
       reply.view('/view/index.ejs', {
         languages,
         challenge,
-        helpers: require(path.join(__dirname, `../dist/helpers/${slugName}`))
+        helpers: require(path.join(__dirname, `../helpers/${slugName}`))
           .helpers,
           themes
       });

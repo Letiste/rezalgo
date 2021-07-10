@@ -1,8 +1,8 @@
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
 import fastify from 'fastify';
 import pov from 'point-of-view';
-import ejs from 'ejs';
+import * as ejs from 'ejs';
 import fastifyCompress from 'fastify-compress';
 import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';

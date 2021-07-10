@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import { languages } from './schemas';
 import Queue from './queue';
 
@@ -67,7 +67,7 @@ function execute(language: Language, name: string): string {
  */
 
 function createTmpFile(challenge: string, language: Language, name: string, data: string): void {
-  const challengeData = fs.readFileSync(path.join(__dirname, `../dist/tests/${challenge}/test.${language}`)).toString();
+  const challengeData = fs.readFileSync(path.join(__dirname, `../tests/${challenge}/test.${language}`)).toString();
   const testData = challengeData.replace(/.+---WRITE USER CODE HERE---/, `${data}`);
   fs.writeFileSync(`/tmp/${name}`, testData);
 }

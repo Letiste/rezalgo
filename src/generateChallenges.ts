@@ -1,5 +1,5 @@
-import ejs from 'ejs'
-import path from 'path'
+import * as ejs from 'ejs'
+import * as path from 'path'
 import {existsSync, mkdirSync, readdirSync, writeFileSync} from "fs"
 import slugify from 'slugify'
 
@@ -38,7 +38,7 @@ function generateHelpers(challengesSpec: any, name: string) {
     if (err) {
       reject(err)
     }
-    resolve(writeFileSync(path.join(__dirname, `../dist/helpers/${name}/index.ts`), str))
+    resolve(writeFileSync(path.join(__dirname, `../dist/helpers/${name}/index.js`), str))
   })
 })
 }

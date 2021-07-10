@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/generateChallenges.ts && ts-node server.ts",
+    "start": "node dist/server.js",
     "watch": "ts-node-dev server.ts",
+    "build": "yarn clean && npm run generate && tsc && cp -r ./challenges ./dist/ && cp -r ./public ./dist/",
+    "clean": "rm -rf ./dist",
     "generate": "ts-node src/generateChallenges.ts",
     "add:challenge": "ts-node commands/addChallenge/index.ts",
     "add:language": "ts-node commands/addLanguage/index.ts",
@@ -16,10 +18,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/fastify-cors": "^2.1.0",
-    "@types/marked": "^2.0.3",
-    "@types/prompts": "^2.0.13",
-    "ajv": "^8.6.1",
     "codemirror": "^5.62.0",
     "ejs": "^3.1.6",
     "fastify": "^3.18.0",
@@ -30,16 +28,19 @@
     "fastify-swagger": "^4.8.0",
     "marked": "^2.1.3",
     "point-of-view": "^4.15.0",
-    "prompts": "^2.4.1",
-    "slugify": "^1.5.3",
-    "typescript": "^4.3.4"
+    "slugify": "^1.5.3"
   },
   "devDependencies": {
     "@types/ejs": "^3.0.6",
+    "@types/fastify-cors": "^2.1.0",
+    "@types/marked": "^2.0.3",
     "@types/node": "^15.12.4",
+    "@types/prompts": "^2.0.13",
+    "ajv": "^8.6.1",
+    "husky": "^7.0.0",
     "json-schema-to-ts": "^1.6.4",
+    "prompts": "^2.4.1",
     "ts-node": "^10.0.0",
-    "ts-node-dev": "^1.1.6",
-    "husky": "^7.0.0"
+    "typescript": "^4.3.4"
   }
 }

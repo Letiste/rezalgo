@@ -1,6 +1,6 @@
 import Ajv from "ajv";
 import { readdirSync } from "fs";
-import path from "path";
+import * as path from "path";
 const ajv = new Ajv();
 
 import * as schema from '../../challenges.schema.json';
