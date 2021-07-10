@@ -5,7 +5,7 @@ import {languages} from './languages'
  * serving for validation.
  */
 
-export const podmanInputSchema = {
+export const containerInputSchema = {
   type: "object",
   description: "The input to run the challenge.",
   required: ["language", "data"],

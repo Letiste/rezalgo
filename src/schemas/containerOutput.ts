@@ -1,4 +1,4 @@
-export const podmanOutputSchema = {
+export const containerOutputSchema = {
   description: "The output of the code runned in a container for the challenge.",
   type: "object",
   required: ["stdout", "stderr", "success", "time", "memory"],

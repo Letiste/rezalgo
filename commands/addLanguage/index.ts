@@ -30,7 +30,7 @@ const questions: PromptObject[] = [
   {
     type: 'text',
     name: 'image',
-    message: "Podman's image: ",
+    message: "Container's image: ",
     validate: validate('Image'),
   },
   {

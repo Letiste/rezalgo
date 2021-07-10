@@ -12,8 +12,8 @@ interface Job {
   cb: (...args: any) => any
 }
 /**
- * A simple impletation of a Job Queue to queue
- * podman containers when there are already too
+ * A simple implementation of a Job Queue to queue
+ * containers when there are already too
  * much running
  */
 class Queue {

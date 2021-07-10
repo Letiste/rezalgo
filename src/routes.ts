@@ -5,8 +5,8 @@ import { FromSchema } from 'json-schema-to-ts';
 import * as marked from "marked";
 import slugify from 'slugify';
 
-import { podmanInputSchema, podmanOutputSchema, languages, postSchema, getSchema } from './schemas';
-import { podman } from './podman';
+import { containerInputSchema, containerOutputSchema, languages, postSchema, getSchema } from './schemas';
+import { runChallenge } from './runChallenge';
 
 const challenges = readdirSync(path.join(__dirname, '../challenges')).map((file) => require(path.join(__dirname, '../challenges', file)));
 
@@ -26,12 +26,12 @@ export default async function routes(fastify: FastifyInstance) {
       });
     });
 
-    fastify.post<{ Body: FromSchema<typeof podmanInputSchema>, Response: FromSchema<typeof podmanOutputSchema>}>(
+    fastify.post<{ Body: FromSchema<typeof containerInputSchema>, Response: FromSchema<typeof containerOutputSchema>}>(
       `/${slugName}`,
       { schema: postSchema },
       async function (request, reply) {
         const { language, data } = request.body;
-        const { stdout, stderr } = await podman(slugName, language, data);
+        const { stdout, stderr } = await runChallenge(slugName, language, data);
         let stdoutSplit = stdout.split("\n")
 
         // first pop to remove blank string from last \n

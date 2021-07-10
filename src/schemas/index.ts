@@ -1,5 +1,5 @@
-export * from './podmanInput'
+export * from './containerInput'
 export * from './languages'
-export * from './podmanOutput'
+export * from './containerOutput'
 export * from "./post"
 export * from "./get"

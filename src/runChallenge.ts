@@ -10,7 +10,7 @@ const MAX_CONTAINERS_RUNNING = process.env.MAX_CONTAINERS_RUNNING || '10';
 let currentRunningContainers = 0;
 
 /**
- * Start a podman container and execute the given code for a challenge and a language
+ * Start a container and execute the given code for a challenge and a language
  * 
  * @param challenge The name of the challenge to run, defined by name in the corresponding json
  * @param language The language in which the challenge is runned
@@ -18,7 +18,7 @@ let currentRunningContainers = 0;
  * @returns stdout, information logged by the executed code and stderr, the errors that occured
  */
 
-export function podman(
+export function runChallenge(
   challenge: string,
   language: Language,
   data: string
@@ -36,12 +36,12 @@ export function podman(
     currentRunningContainers++;
     if (currentRunningContainers > Number(MAX_CONTAINERS_RUNNING)) {
       Queue.addJob({
-        fn: execute,
+        fn: startContainer,
         params: { language, name },
         cb,
     });
     } else {
-      exec(execute(language, name), cb);
+      exec(startContainer(language, name), cb);
     }
   });
 }
@@ -50,10 +50,10 @@ export function podman(
  * 
  * @param language The language in which the challenge is runned
  * @param name The name of the executed file
- * @returns The command to be executed to start the podman's container
+ * @returns The command to be executed to start the container
  */
 
-function execute(language: Language, name: string): string {
+function startContainer(language: Language, name: string): string {
   const { image, runner } = languages[language];
   return `podman run --rm -v /tmp/${name}:/app/${name} ${image} ${runner} /app/${name}`;
 }

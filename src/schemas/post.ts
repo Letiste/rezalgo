@@ -1,9 +1,9 @@
-import { podmanInputSchema } from "./podmanInput";
-import { podmanOutputSchema } from "./podmanOutput";
+import { containerInputSchema } from "./containerInput";
+import { containerOutputSchema } from "./containerOutput";
 
 export const postSchema = {
-  body: podmanInputSchema,
+  body: containerInputSchema,
   consumes: ["application/json"],
   produces: ["application/json"],
-  response: { 200: podmanOutputSchema },
+  response: { 200: containerOutputSchema },
 };
