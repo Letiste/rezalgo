@@ -54,7 +54,7 @@ const colors = {
 }
 
 function setDarkLightMode() {
-  const isDarkMode = localStorage.getItem("dark-mode")
+  const isDarkMode = localStorage.getItem("dark-mode") || "lightMode"
   elem.textContent = isDarkMode === "darkMode" ? "🌕" : "☀️"
   Object.entries(colors[isDarkMode]).forEach(([key, value]) => {
     root.style.setProperty(key, value)
