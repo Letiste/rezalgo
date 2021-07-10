@@ -9,7 +9,8 @@
     "generate": "ts-node src/generateChallenges.ts",
     "add:challenge": "ts-node commands/addChallenge/index.ts",
     "add:language": "ts-node commands/addLanguage/index.ts",
-    "validate:challenges": "ts-node commands/validateChallenges/index.ts"
+    "validate:challenges": "ts-node commands/validateChallenges/index.ts",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "@types/node": "^15.12.4",
     "json-schema-to-ts": "^1.6.4",
     "ts-node": "^10.0.0",
-    "ts-node-dev": "^1.1.6"
+    "ts-node-dev": "^1.1.6",
+    "husky": "^7.0.0"
   }
 }
