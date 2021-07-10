@@ -5,7 +5,7 @@ import { languages } from './schemas';
 import Queue from './queue';
 
 type Language = keyof typeof languages;
-const MAX_CONTAINERS_RUNNING = 10;
+const MAX_CONTAINERS_RUNNING = process.env.MAX_CONTAINERS_RUNNING || '10';
 
 let currentRunningContainers = 0;
 
@@ -34,7 +34,7 @@ export function podman(
     }
 
     currentRunningContainers++;
-    if (currentRunningContainers > MAX_CONTAINERS_RUNNING) {
+    if (currentRunningContainers > Number(MAX_CONTAINERS_RUNNING)) {
       Queue.addJob({
         fn: execute,
         params: { language, name },
