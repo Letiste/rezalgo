@@ -2,6 +2,7 @@
   "$schema": "../challenges.schema.json",
   "name": "Addition",
   "description": "Create a function `add` that returns the **sum** of the two numbers passed as parameters",
+  "constraints": ["0 < a, b"],
   "examples": [
     {
       "input": "a = 2, b = 2",

@@ -33,6 +33,14 @@
         <div id="challenge-presentation">
           <h1><%- challenge.name %> </h1>
           <div id="description"><%- challenge.description %></div>
+          <div class="constraint">
+            <strong>Constraints:</strong>
+            <ul>
+            <% challenge.constraints.forEach((constraint) => { %>
+              <li><%= constraint %> </li>
+            <% }) %>
+            </ul>
+          </div>
           <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
           <div class="example">
             <div class="example__number">Example <%= indice %>:</div>

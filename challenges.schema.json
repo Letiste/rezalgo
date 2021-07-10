@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "description", "examples", "function", "params", "tests"],
+  "required": ["name", "description", "constraints", "examples", "function", "tests"],
   "properties": {
     "name": {
       "type": "string",
@@ -9,6 +9,15 @@
     "description": {
       "type": "string",
       "description": "The description of the challenge"
+    },
+    "constraints": {
+      "type": "array",
+      "description": "Inputs constraints for the challenge",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "Constraint for the challenge"
+      }
     },
     "examples": {
       "type": "array",
