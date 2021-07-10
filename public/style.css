@@ -54,10 +54,11 @@ code {
 
 #editor {
   grid-area: editor;
+  margin-top: 40px;
+  overflow: hidden;
 }
 .CodeMirror {
-  margin-top: 2rem;
-  height: 85vh;
+  height: 100%;
 }
 
 button, select {
