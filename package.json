@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "watch": "ts-node-dev server.ts",
-    "build": "npm run clean && npm run generate && tsc && npm run copy-files && npm run uglifyjs",
+    "build": "npm run clean && npm run generate && tsc --build tsconfig.build.json && npm run copy-files && npm run uglifyjs",
     "clean": "rm -rf ./dist",
     "copy-files": "cp -r ./challenges ./dist/ &&  cp -r ./view ./dist/ && cp -r ./public ./dist/ && cp package*.json ./dist/ ",
     "uglifyjs": "npx uglifyjs dist/public/dark-light-mode.js -c -m > dist/public/dark-light-mode.min.js && npx uglifyjs dist/public/main.js -c -m > dist/public/main.min.js",

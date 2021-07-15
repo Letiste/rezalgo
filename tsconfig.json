@@ -25,6 +25,6 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "files": ["src/routes.ts", "src/queue.ts", "src/runChallenge.ts", "server.ts"],
+  "include": ["src/**/*", "commands/**/index.ts"],
   "exclude": ["commands/**/*"]
 }
