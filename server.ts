@@ -50,7 +50,7 @@ server.listen({port: Number(PORT), host: HOST}, function (err, address) {
     server.log.error(err);
     process.exit(1);
   }
-  server.log.info(`server listening of ${address}`);
+  server.log.info(`server listening at ${address}`);
 });
 
 server.ready((err) => {

@@ -1,10 +1,9 @@
-import { exec } from 'child_process';
 import { languages } from './schemas';
 
 type Language = keyof typeof languages;
 
 interface Job {
-  fn: (language: Language, name: string) => string,
+  fn: (language: Language, name: string) => Promise<{stdout: string, stderr: string}>,
   params: {
     language: Language,
     name: string
@@ -33,7 +32,7 @@ class Queue {
     const job = this.jobs.shift()
     if (job) {
       const {language, name} = job.params
-      exec(job.fn(language, name), job.cb)
+      job.fn(language, name).then(job.cb)
     }
   }
 }

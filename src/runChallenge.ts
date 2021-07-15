@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as http from 'http';
 import { languages } from './schemas';
 import Queue from './queue';
 
@@ -26,7 +27,7 @@ export function runChallenge(
   const name = Date.now().toString();
   createTmpFile(challenge, language, name, data);
   return new Promise((resolve) => {
-    const cb = (_: any, stdout: string, stderr: string) => {
+    const cb = ({stdout, stderr}: {stdout: string, stderr: string}) => {
       removeTmpFile(name);
       currentRunningContainers = Math.max(0, currentRunningContainers - 1);
       Queue.runJob();
@@ -36,12 +37,12 @@ export function runChallenge(
     currentRunningContainers++;
     if (currentRunningContainers > Number(MAX_CONTAINERS_RUNNING)) {
       Queue.addJob({
-        fn: startContainer,
+        fn: runContainer,
         params: { language, name },
         cb,
     });
     } else {
-      exec(startContainer(language, name), cb);
+      runContainer(language, name).then(cb)
     }
   });
 }
@@ -50,12 +51,44 @@ export function runChallenge(
  * 
  * @param language The language in which the challenge is runned
  * @param name The name of the executed file
- * @returns The command to be executed to start the container
+ * @returns The output of the container
  */
 
-function startContainer(language: Language, name: string): string {
+async function runContainer(language: Language, name: string): Promise<{stdout: string, stderr: string}> {
   const { image, runner } = languages[language];
-  return `podman run --rm -v /tmp/${name}:/app/${name} ${image} ${runner} /app/${name}`;
+  const output = await dockerSocketRequest('create', 'POST', JSON.stringify({Image: image, Cmd: [...runner.split(' '), `/app/${name}`], HostConfig: {Binds: [`/tmp/${name}:/app/${name}`]}}));
+  const Id= JSON.parse(output).Id
+  await dockerSocketRequest(`${Id}/start`, 'POST')
+  await dockerSocketRequest(`${Id}/wait`, 'POST')
+  const stdout =  await dockerSocketRequest(`${Id}/logs?stdout=1`, 'GET')
+  const stderr =  await dockerSocketRequest(`${Id}/logs?stderr=1`, 'GET')
+  dockerSocketRequest(Id, 'DELETE')
+  return {stdout, stderr}
+}
+
+async function dockerSocketRequest(path: string, method: 'POST' | 'GET' | 'DELETE', data?: string) {
+  return new Promise<any>((resolve, reject) => {
+
+  const options = {
+    socketPath: process.env.SOCKET_PATH || '/var/run/docker.sock',
+    path: `/${process.env.DOCKER_API_VERSION || 'v1.41'}/containers/${path}`,
+    method: method,
+    headers: {'Content-Type': 'application/json'}
+  }
+  const callback = (res: http.IncomingMessage) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    res.setEncoding('utf8');
+    let output = Buffer.from('');
+    res.on('data', (data: string | Buffer) => output = Buffer.concat([output, Buffer.from(data)]))
+    res.on('close', () => resolve(output.toString()))
+    res.on('error', (error: any) => reject(error))
+  }
+  const clientRequest = http.request(options, callback)
+  if (data) {
+    clientRequest.write(data)
+  }
+  clientRequest.end()
+  })
 }
 
 /**
