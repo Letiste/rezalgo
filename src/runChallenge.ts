@@ -1,9 +1,8 @@
-import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as http from 'http';
 import { languages } from './schemas';
 import Queue from './queue';
+import { createContainer, deleteContainer, getStderrContainer, getStdoutContainer, startContainer, waitContainer } from './containerApiUtils';
 
 type Language = keyof typeof languages;
 const MAX_CONTAINERS_RUNNING = process.env.MAX_CONTAINERS_RUNNING || '10';
@@ -56,40 +55,14 @@ export function runChallenge(
 
 async function runContainer(language: Language, name: string): Promise<{stdout: string, stderr: string}> {
   const { image, runner } = languages[language];
-  const output = await dockerSocketRequest('create', 'POST', JSON.stringify({Image: image, Cmd: [...runner.split(' '), `/app/${name}`], HostConfig: {Binds: [`/tmp/${name}:/app/${name}`]}}));
-  const Id= JSON.parse(output).Id
-  await dockerSocketRequest(`${Id}/start`, 'POST')
-  await dockerSocketRequest(`${Id}/wait`, 'POST')
-  const stdout =  await dockerSocketRequest(`${Id}/logs?stdout=1`, 'GET')
-  const stderr =  await dockerSocketRequest(`${Id}/logs?stderr=1`, 'GET')
-  dockerSocketRequest(Id, 'DELETE')
+  const id = await createContainer(image, runner, name)
+  await startContainer(id)
+  await waitContainer(id)
+  const [stdout, stderr] = await Promise.all([getStdoutContainer(id), getStderrContainer(id)])
+  deleteContainer(id)
   return {stdout, stderr}
 }
 
-async function dockerSocketRequest(path: string, method: 'POST' | 'GET' | 'DELETE', data?: string) {
-  return new Promise<any>((resolve, reject) => {
-
-  const options = {
-    socketPath: process.env.SOCKET_PATH || '/var/run/docker.sock',
-    path: `/${process.env.DOCKER_API_VERSION || 'v1.41'}/containers/${path}`,
-    method: method,
-    headers: {'Content-Type': 'application/json'}
-  }
-  const callback = (res: http.IncomingMessage) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    res.setEncoding('utf8');
-    let output = Buffer.from('');
-    res.on('data', (data: string | Buffer) => output = Buffer.concat([output, Buffer.from(data)]))
-    res.on('close', () => resolve(output.toString()))
-    res.on('error', (error: any) => reject(error))
-  }
-  const clientRequest = http.request(options, callback)
-  if (data) {
-    clientRequest.write(data)
-  }
-  clientRequest.end()
-  })
-}
 
 /**
  * 

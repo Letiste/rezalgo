@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "files": ["src/routes.ts", "src/queue.ts", "src/runChallenge.ts", "server.ts"],
+  "files": ["src/routes.ts", "src/queue.ts", "src/runChallenge.ts", "src/containerApiUtils.ts", "server.ts"],
   "include": [],
   "exclude": ["commands/**/*"]
 }
