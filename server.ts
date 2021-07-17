@@ -9,9 +9,14 @@ import fastifySwagger from 'fastify-swagger';
 import fastifyHelmet from 'fastify-helmet';
 import fastifyEnvalid from 'fastify-envalid';
 
-import {validateEnvVariables} from "./src/schemas";
+import { validateEnvVariables } from './src/schemas';
 
-const server = fastify({ logger: true });
+const server = fastify({
+  logger: {
+    level: process.env.LOG_LEVEL || 'info',
+    prettyPrint: process.env.NODE_ENV === 'production' ? false : true
+  },
+});
 
 server.register(pov, {
   engine: {
@@ -23,9 +28,9 @@ server.register(cors, {
   origin: '*',
 });
 
-server.register(fastifyHelmet, {contentSecurityPolicy: false})
+server.register(fastifyHelmet, { contentSecurityPolicy: false });
 
-server.register(fastifyEnvalid)
+server.register(fastifyEnvalid);
 
 server.register(fastifyStatic, {
   root: path.join(__dirname, 'public'),
@@ -40,7 +45,10 @@ server.register(fastifySwagger, {
       title: 'RezAlgo',
       version: '1.0.0',
       contact: { email: 'contact@rezoleo.fr' },
-      license: { name: 'MIT License', url: "https://opensource.org/licenses/MIT" },
+      license: {
+        name: 'MIT License',
+        url: 'https://opensource.org/licenses/MIT',
+      },
     },
   },
 });
@@ -50,7 +58,7 @@ server.register(require('./src/routes'));
 const PORT = process.env.PORT || '3000';
 const HOST = process.env.HOST || '127.0.0.1';
 
-server.listen({port: Number(PORT), host: HOST}, function (err, address) {
+server.listen({ port: Number(PORT), host: HOST }, function (err, address) {
   if (err) {
     server.log.error(err);
     process.exit(1);
@@ -59,10 +67,10 @@ server.listen({port: Number(PORT), host: HOST}, function (err, address) {
 });
 
 server.ready((err) => {
+  server.cleanEnv(process.env, validateEnvVariables(server.validators));
   if (err) throw err;
   fs.writeFileSync(
     path.join(__dirname, 'swagger.json'),
     JSON.stringify(server.swagger())
   );
-  server.cleanEnv(process.env, validateEnvVariables(server.validators))
 });
