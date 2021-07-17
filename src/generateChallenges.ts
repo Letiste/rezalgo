@@ -50,7 +50,7 @@ function generateTests(challengesSpec: any, name: string) {
   }
   const promises: Promise<void>[] = []
   languagesMap.forEach(({language, languageMap}) => {
-    let data = {...challengesSpec, languageMap, functionName: challengesSpec.function.name}
+    let data = {...challengesSpec, languageMap, functionName: challengesSpec.function.name, functionReturnType: challengesSpec.function.returnType}
   let promise = new Promise<void>((resolve, reject) => {
       ejs.renderFile(path.join(__dirname, "./templates/test.ejs"), data, (err, str) => {
         if (err) {

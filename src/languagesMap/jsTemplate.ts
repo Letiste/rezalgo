@@ -1,4 +1,4 @@
-import { FunctionCalled, FunctionSignature, LanguageMap, TemplateExpected, TypeMap } from "./LanguageMap"
+import { FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
 
 /**
  * The mapping used to render the helpers and
@@ -10,6 +10,7 @@ export const languageMap: LanguageMap = {
   fi: "}",
   log: logTemplate,
   exit: "process.exit(1)",
+  functionCalledTemplate: functionCalledTemplate,
   defFunctionStart: defFunctionStartTemplate,
   defFunctionEnd: "}",
   timeStart: "const timeStart = Date.now()",
@@ -17,6 +18,7 @@ export const languageMap: LanguageMap = {
   memoryStart: "const memoryStart = process.memoryUsage().heapUsed",
   memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)",
   comment: commentTemplate,
+  variableAffectation: variableAffectation,
 }
 
 /**
@@ -38,16 +40,15 @@ const typeMap: TypeMap = {
  * The function used to render an if condition verifying
  * that given the function and the inputs, the output differs from the expected value
  */
-function ifTemplate({name, inputs, expected}: TemplateExpected): string {
-  const calledFunction = functionCalledTemplate({name, inputs})
-  return `if (${calledFunction} !== ${expected}) {`
+function ifTemplate(actual: string, expected: string): string {
+  return `if (${actual} !== ${expected}) {`
 }
 
 /**
- * A helper function to render the function called with
+ * The function used to render the function called with
  * the given inputs
  */
-function functionCalledTemplate({name, inputs}: FunctionCalled): string {
+function functionCalledTemplate(name: string, inputs: string[]): string {
   let template = `${name}(`
   inputs.forEach((input, index) => {
     if (index === inputs.length - 1) {
@@ -64,9 +65,8 @@ function functionCalledTemplate({name, inputs}: FunctionCalled): string {
  * condition is true. It prints the inputs for which
  * it failed and the actual and expected values
  */
-function logTemplate({name, inputs, expected}: TemplateExpected): string {
-  const calledFunction = functionCalledTemplate({name, inputs})
-  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${${calledFunction}}\`)`
+function logTemplate(actual: string, inputs: string[], expected: string): string {
+  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${${actual}}\`)`
 }
 
 /**
@@ -74,7 +74,7 @@ function logTemplate({name, inputs, expected}: TemplateExpected): string {
  * signature of the tested function
  */
 function defFunctionStartTemplate({name, params, returnType}: FunctionSignature): string {
-  const calledFunction = functionCalledTemplate({name, inputs: params.map(param => Object.values(param)[0]) })
+  const calledFunction = functionCalledTemplate(name, params.map(param => Object.values(param)[0]))
   let template = "/**\n"
   for (const {name, type} of params) {
     template += ` * @param {${typeMap[type]}} ${name}\n`
@@ -90,4 +90,11 @@ function defFunctionStartTemplate({name, params, returnType}: FunctionSignature)
  */
 function commentTemplate(comment: string): string {
   return (`// ${comment}`)
+}
+
+/**
+ * The function used to create a variable and affect it a value
+ */
+function variableAffectation(name: string, _type: keyof TypeMap, value: string): string {
+  return `const ${name} = ${value}`
 }

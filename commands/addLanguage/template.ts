@@ -1,4 +1,4 @@
-import { FunctionCalled, FunctionSignature, LanguageMap, TemplateExpected, TypeMap } from "./LanguageMap"
+import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
 
 /**
  * The mapping used to render the helpers and
@@ -10,6 +10,7 @@ export const languageMap: LanguageMap = {
   fi: "",
   log: logTemplate,
   exit: "",
+  functionCalledTemplate: functionCalledTemplate,
   defFunctionStart: defFunctionStartTemplate,
   defFunctionEnd: "",
   timeStart: "",
@@ -17,6 +18,7 @@ export const languageMap: LanguageMap = {
   memoryStart: "",
   memoryEnd: "",
   comment: commentTemplate,
+  variableAffectation: variableAffectation,
 }
 
 /**
@@ -38,15 +40,15 @@ const typeMap: TypeMap = {
  * The function used to render an if condition verifying
  * that given the function and the inputs, the output differs from the expected value
  */
-function ifTemplate({functionName, inputs, expected}: TemplateExpected): string {
+function ifTemplate(actual: string, expected: string): string {
   return ""
 }
 
 /**
- * A helper function to render the function called with
+ * The function used to render the function called with
  * the given inputs
  */
-function functionCalledTemplate({name, inputs}: FunctionCalled): string {
+function functionCalledTemplate(name: string, inputs: string[]): string {
   return ""
 }
 
@@ -55,7 +57,7 @@ function functionCalledTemplate({name, inputs}: FunctionCalled): string {
  * condition is true. It prints the inputs for which
  * it failed and the actual and expected values
  */
-function logTemplate({functionName, inputs, expected}: TemplateExpected): string {
+function logTemplate(actual: string, inputs: string[], expected: string): string {
   return ""
 }
 
@@ -71,5 +73,12 @@ function defFunctionStartTemplate({name, params, returnType}: FunctionSignature)
  * The function used to comment the given string
  */
 function commentTemplate(comment: string): string {
+  return ""
+}
+
+/**
+ * The function used to create a variable and affect it a value
+ */
+function variableAffectation(name: string, type: keyof TypeMap, value: string) {
   return ""
 }

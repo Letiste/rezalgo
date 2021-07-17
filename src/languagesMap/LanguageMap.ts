@@ -1,26 +1,19 @@
 export interface LanguageMap {
   imports: string[],
-  if: (...args: any) => string,
+  if: (actual: string, expected: string) => string,
   fi: string,
-  log: (...args: any) => string,
+  log: (actual: string, inputs: string[], expected: string) => string,
   exit: string,
-  defFunctionStart: (...args: any) => string,
+  functionCalledTemplate: (name: string, inputs: string[]) => string,
+  defFunctionStart: ({name, params, returnType}: FunctionSignature) => string,
   defFunctionEnd: string,
   timeStart: string,
   timeEnd: string,
   memoryStart: string,
   memoryEnd: string,
   comment: (comment: string) => string,
+  variableAffectation: (name: string, type: keyof TypeMap, value: string) => string,
 }
-
-export interface FunctionCalled {
-  name: string,
-  inputs: string[],
-}
-export interface TemplateExpected extends FunctionCalled {
-  expected: string
-}
-
 export interface FunctionSignature {
   name: string,
   params: {name: string, type: keyof TypeMap}[],
