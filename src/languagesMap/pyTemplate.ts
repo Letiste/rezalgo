@@ -6,6 +6,9 @@ import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
  */
 export const languageMap: LanguageMap = {
   imports: ['import sys', 'import time', 'import resource'],
+  beforeCodeUser: "",
+  beforeTest: "",
+  afterTest: "",
   if: ifTemplate,
   fi: '',
   log: logTemplate,

@@ -1,25 +1,25 @@
-import { FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
+import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
 
 /**
  * The mapping used to render the helpers and
  * tests for this language
  */
 export const languageMap: LanguageMap = {
-  imports: [],
-  beforeCodeUser: "",
-  beforeTest: "",
-  afterTest: "",
+  imports: ["import java.lang *;"],
+  beforeCodeUser: "public class Test {",
+  beforeTest: "public static void main(String[] args) {",
+  afterTest: "}",
   if: ifTemplate,
   fi: "}",
   log: logTemplate,
-  exit: "process.exit(1)",
+  exit: "System.exit(1)",
   functionCalledTemplate: functionCalledTemplate,
   defFunctionStart: defFunctionStartTemplate,
   defFunctionEnd: "}",
-  timeStart: "const timeStart = Date.now()",
-  timeEnd: "console.log('TIME DURATION: ', Date.now() - timeStart)",
-  memoryStart: "const memoryStart = process.memoryUsage().heapUsed",
-  memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)",
+  timeStart: "int timeStart = System.currentTimeMillis();",
+  timeEnd: 'System.out.println("TIME DURATION: " + (System.currentTimeMillis() - timeStart));',
+  memoryStart: "",
+  memoryEnd: 'System.out.println("MEMORY USAGE: " + (Runtime.getRuntime.totalMemory() - Runtime.getRuntime.freeMemory()));',
   comment: commentTemplate,
   variableAffectation: variableAffectation,
 }
@@ -29,14 +29,14 @@ export const languageMap: LanguageMap = {
  * and the language
  */
 const typeMap: TypeMap = {
-  float: "number",
-  integer: "number",
+  float: "float",
+  integer: "int",
   boolean: "boolean",
-  string: "string",
-  "Array<float>": "number[]",
-  "Array<integer>": "number[]",
+  string: "String",
+  "Array<float>": "float[]",
+  "Array<integer>": "int[]",
   "Array<boolean>": "boolean[]",
-  "Array<string>": "string[]",
+  "Array<string>": "String[]",
 }
 
 /**
@@ -44,7 +44,7 @@ const typeMap: TypeMap = {
  * that given the function and the inputs, the output differs from the expected value
  */
 function ifTemplate(actual: string, expected: string): string {
-  return `if (${actual} !== ${expected}) {`
+  return `if (!${actual}.equals(${expected})) {`
 }
 
 /**
@@ -52,15 +52,15 @@ function ifTemplate(actual: string, expected: string): string {
  * the given inputs
  */
 function functionCalledTemplate(name: string, inputs: string[]): string {
-  let template = `${name}(`
+  let template = `${name}(`;
   inputs.forEach((input, index) => {
     if (index === inputs.length - 1) {
-      template += `${input})`
+      template += `${input})`;
     } else {
-      template += `${input}, `
+      template += `${input}, `;
     }
-  })
-  return template
+  });
+  return template;
 }
 
 /**
@@ -69,7 +69,7 @@ function functionCalledTemplate(name: string, inputs: string[]): string {
  * it failed and the actual and expected values
  */
 function logTemplate(actual: string, inputs: string[], expected: string): string {
-  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${${actual}}\`)`
+  return `System.err.format("Inputs: %s"+\n"Expected %s but was %s", ${inputs}, ${expected}, ${actual});`
 }
 
 /**
@@ -77,27 +77,27 @@ function logTemplate(actual: string, inputs: string[], expected: string): string
  * signature of the tested function
  */
 function defFunctionStartTemplate({name, params, returnType}: FunctionSignature): string {
-  const calledFunction = functionCalledTemplate(name, params.map(param => Object.values(param)[0]))
-  let template = "/**\n"
-  for (const {name, type} of params) {
-    template += ` * @param {${typeMap[type]}} ${name}\n`
-  }
-  template += ` * @returns {${typeMap[returnType]}}\n`
-  template += " */\n"
-  template += `function ${calledFunction} {`
-  return template
+  let calledFunction = `${name}(`;
+  params.forEach(({ name, type }, index) => {
+    calledFunction += `${typeMap[type]} ${name}`;
+    if (index < params.length - 1) {
+      calledFunction += ", "
+    }
+  });
+  calledFunction += `)`
+  return `public static ${typeMap[returnType]} ${calledFunction} {`;
 }
 
 /**
  * The function used to comment the given string
  */
 function commentTemplate(comment: string): string {
-  return (`// ${comment}`)
+  return `// ${comment}`
 }
 
 /**
  * The function used to create a variable and affect it a value
  */
-function variableAffectation(name: string, _type: keyof TypeMap, value: string): string {
-  return `const ${name} = ${value}`
+function variableAffectation(name: string, type: keyof TypeMap, value: string) {
+  return `${typeMap[type]} ${name} = ${value};`
 }

@@ -1,7 +1,7 @@
-import ejs from 'ejs';
-import fs from 'fs';
-import path from 'path';
-import prompts, { PromptObject } from 'prompts';
+import * as ejs from 'ejs';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as prompts from 'prompts';
 import { languages } from '../../src/schemas';
 
 function validate(inputName: string) {
@@ -13,7 +13,7 @@ function validate(inputName: string) {
   };
 }
 
-const questions: PromptObject[] = [
+const questions: prompts.PromptObject[] = [
   {
     type: 'text',
     name: 'name',
@@ -38,6 +38,12 @@ const questions: PromptObject[] = [
     name: 'runner',
     message: 'Command to run the file: ',
     validate: validate('Command'),
+  },
+  {
+    type: 'text',
+    name: 'codeMirrorMode',
+    message: 'Name of the new language mode for Code Mirror: ',
+    validate: validate('Code Mirror Mode'),
   },
 ];
 

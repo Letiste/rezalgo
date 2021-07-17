@@ -2,8 +2,11 @@
 <%- imp %>
 <% }) %>
 
+<%- languageMap.beforeCodeUser %> 
+
 <%- languageMap.comment("---WRITE USER CODE HERE---") %>
 
+<%- languageMap.beforeTest %> 
 <%- languageMap.timeStart %>
 <%- languageMap.memoryStart %>
 <% tests.forEach(({inputs, expected}, indice) => { %>
@@ -17,3 +20,4 @@
 <% }) %>
 <%- languageMap.memoryEnd %>
 <%- languageMap.timeEnd %>
+<%- languageMap.afterTest %> 

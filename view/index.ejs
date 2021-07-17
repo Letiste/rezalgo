@@ -75,7 +75,7 @@
               <div class="select-wrapper">
                 <select id="language" onchange="switchHelpers(this)">
                   <% Object.keys(languages).forEach(language => {%>
-                    <option value="<%= language %>" ><%= languages[language].name %></option>
+                    <option value="<%= `${language}:${languages[language].codeMirrorMode}` %>" ><%= languages[language].name %></option>
                     <% }) %>
                   </select>
                 </div>

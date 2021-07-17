@@ -6,6 +6,9 @@ import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
  */
 export const languageMap: LanguageMap = {
   imports: [],
+  beforeCodeUser: "",
+  beforeTest: "",
+  afterTest: "",
   if: ifTemplate,
   fi: "",
   log: logTemplate,
@@ -41,7 +44,7 @@ const typeMap: TypeMap = {
  * that given the function and the inputs, the output differs from the expected value
  */
 function ifTemplate(actual: string, expected: string): string {
-  return ""
+  return ``
 }
 
 /**
@@ -49,7 +52,7 @@ function ifTemplate(actual: string, expected: string): string {
  * the given inputs
  */
 function functionCalledTemplate(name: string, inputs: string[]): string {
-  return ""
+  return ``
 }
 
 /**
@@ -58,7 +61,7 @@ function functionCalledTemplate(name: string, inputs: string[]): string {
  * it failed and the actual and expected values
  */
 function logTemplate(actual: string, inputs: string[], expected: string): string {
-  return ""
+  return ``
 }
 
 /**
@@ -66,19 +69,19 @@ function logTemplate(actual: string, inputs: string[], expected: string): string
  * signature of the tested function
  */
 function defFunctionStartTemplate({name, params, returnType}: FunctionSignature): string {
-  return ""
+  return ``
 }
 
 /**
  * The function used to comment the given string
  */
 function commentTemplate(comment: string): string {
-  return ""
+  return ``
 }
 
 /**
  * The function used to create a variable and affect it a value
  */
 function variableAffectation(name: string, type: keyof TypeMap, value: string) {
-  return ""
+  return ``
 }

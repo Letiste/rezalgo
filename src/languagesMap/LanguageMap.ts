@@ -1,5 +1,8 @@
 export interface LanguageMap {
   imports: string[],
+  beforeCodeUser: string,
+  beforeTest: string,
+  afterTest: string,
   if: (actual: string, expected: string) => string,
   fi: string,
   log: (actual: string, inputs: string[], expected: string) => string,

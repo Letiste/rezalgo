@@ -5,14 +5,26 @@
  */
 
 export const languages = {
+  
   js: {
-    name: "javascript",
-    image: "node:16-alpine",
-    runner: "node"
+    name: "javascript", 
+    image: "node:16-alpine", 
+    runner: "node",
+    codeMirrorMode: "javascript" 
   },
+  
   py: {
-    name: "python",
-    image: "python:3.9-alpine",
-    runner: "python3"
-  }
+    name: "python", 
+    image: "python:3.9-alpine", 
+    runner: "python3", 
+    codeMirrorMode: "python"
+  },
+  
+  java: {
+    name: "java", 
+    image: "openjdk:18-alpine", 
+    runner: "java", 
+    codeMirrorMode: "text/x-java"
+  },
+  
 } as const

@@ -75,7 +75,7 @@ async function runContainer(language: Language, name: string): Promise<{stdout: 
 function createTmpFile(challenge: string, language: Language, name: string, data: string): void {
   const challengeData = fs.readFileSync(path.join(__dirname, `../tests/${challenge}/test.${language}`)).toString();
   const testData = challengeData.replace(/.+---WRITE USER CODE HERE---/, `${data}`);
-  fs.writeFileSync(`/tmp/${name}`, testData);
+  fs.writeFileSync(`/tmp/${name}.${language}`, testData);
 }
 
 function removeTmpFile(name: string): void {

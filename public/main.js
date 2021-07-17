@@ -1,11 +1,11 @@
 const textArea = document.getElementById('data');
 let selectedLanguage = localStorage.getItem('selectedLanguage') || 'js';
 const selectLanguage = document.getElementById('language');
+let mode = localStorage.getItem('mode') || 'javascript';
 selectLanguage.selectedIndex = Array.from(selectLanguage.options).find(
-  (option) => option.value === selectedLanguage
+  (option) => option.value === `${selectedLanguage}:${mode}`
 ).index;
 const theme = localStorage.getItem('theme') || 'default';
-const mode = localStorage.getItem('mode') || 'javascript';
 const fontSize = localStorage.getItem('fontSize') || '14';
 
 const myCodeMirrorOptions = {
@@ -45,14 +45,14 @@ function switchHelpers(select) {
   const challenge = location.pathname
   const language = select[select.selectedIndex];
   localStorage.setItem(`${challenge}:${selectedLanguage}`, myCodeMirror.getValue());
-  selectedLanguage = language.value;
+  [selectedLanguage, mode] = language.value.split(':');
   myCodeMirror.setValue(
     localStorage.getItem(`${challenge}:${selectedLanguage}`) || helpers[selectedLanguage]
   );
-  myCodeMirror.setOption('mode', language.text);
+  myCodeMirror.setOption('mode', mode);
   myCodeMirror.refresh();
   localStorage.setItem('selectedLanguage', selectedLanguage);
-  localStorage.setItem('mode', language.text);
+  localStorage.setItem('mode', mode);
 }
 
 function resetCode() {
