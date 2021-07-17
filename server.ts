@@ -7,6 +7,9 @@ import cors from 'fastify-cors';
 import fastifyStatic from 'fastify-static';
 import fastifySwagger from 'fastify-swagger';
 import fastifyHelmet from 'fastify-helmet';
+import fastifyEnvalid from 'fastify-envalid';
+
+import {validateEnvVariables} from "./src/schemas";
 
 const server = fastify({ logger: true });
 
@@ -21,6 +24,8 @@ server.register(cors, {
 });
 
 server.register(fastifyHelmet, {contentSecurityPolicy: false})
+
+server.register(fastifyEnvalid)
 
 server.register(fastifyStatic, {
   root: path.join(__dirname, 'public'),
@@ -59,4 +64,5 @@ server.ready((err) => {
     path.join(__dirname, 'swagger.json'),
     JSON.stringify(server.swagger())
   );
+  server.cleanEnv(process.env, validateEnvVariables(server.validators))
 });

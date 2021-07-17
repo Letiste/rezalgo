@@ -16,8 +16,8 @@ async function dockerSocketRequest(path: string, method: 'POST' | 'GET' | 'DELET
   return new Promise<any>((resolve, reject) => {
 
   const options = {
-    socketPath: process.env.SOCKET_PATH || '/var/run/docker.sock',
-    path: `/${process.env.DOCKER_API_VERSION || 'v1.41'}/containers/${path}`,
+    socketPath: process.env.SOCKET_PATH,
+    path: `/${process.env.DOCKER_API_VERSION}/containers/${path}`,
     method: method,
     headers: {'Content-Type': 'application/json'}
   }
