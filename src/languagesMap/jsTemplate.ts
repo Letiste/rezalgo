@@ -1,25 +1,50 @@
 import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
 
-const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList: {
-    definition: `/**
- * Definition for singly-linked list.
- * class ListNode {
- *   constructor(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- *   }
+const LinkedList ={
+  definition: `/**
+* Definition for singly-linked list.
+* class ListNode {
+*   constructor(val, next) {
+*     this.val = (val===undefined ? 0 : val)
+*     this.next = (next===undefined ? null : next)
+*   }
+* }
+*/
+`,
+  implementation: `class ListNode {
+constructor(val, next) {
+  this.val = (val===undefined ? 0 : val)
+  this.next = (next===undefined ? null : next)
+}
+}
+`
+}
+
+const TreeNode ={
+  definition: `/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     constructor(val, left, right) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
  * }
  */
 `,
-    implementation: `class ListNode {
-  constructor(val, next) {
+  implementation: `class TreeNode {
+  constructor(val, left, right) {
     this.val = (val===undefined ? 0 : val)
-    this.next = (next===undefined ? null : next)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
   }
 }
 `
-  }
+}
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList,
+  TreeNode
 }
 
 /**

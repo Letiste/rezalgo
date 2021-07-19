@@ -26,7 +26,7 @@
       "output": "19"
     }
   ],
-  "additionalDataStructure": "LinkedList",
+  "additionalDataStructure": "TreeNode",
   "function": {
     "name": "add",
     "returnType": "integer",

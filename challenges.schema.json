@@ -115,7 +115,8 @@
       "type": "string",
       "description": "Additional data structure to be used for the challenge",
       "enum": [
-        "LinkedList"
+        "LinkedList",
+        "TreeNode"
       ]
     },
     "tests": {

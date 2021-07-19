@@ -39,9 +39,12 @@ export interface TypeMap {
   'Array<string>': string;
 }
 
+interface AdditionalDataStructure {
+  implementation: string;
+  definition: string;
+}
+
 export interface AdditionalDataStructures {
-  LinkedList: {
-    implementation: string;
-    definition: string;
-  };
+  LinkedList: AdditionalDataStructure;
+  TreeNode: AdditionalDataStructure;
 }

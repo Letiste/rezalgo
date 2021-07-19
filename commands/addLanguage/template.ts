@@ -8,6 +8,10 @@ const additionalDataStructures: AdditionalDataStructures = {
   LinkedList: {
     definition: ``,
     implementation: ``
+  },
+  TreeNode: {
+    definition: ``,
+    implementation: ``
   }
 }
 

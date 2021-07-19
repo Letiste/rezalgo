@@ -1,27 +1,62 @@
 import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
 
-const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList: {
-    definition: `/**
- * Definition for singly-linked list.
- * public class ListNode {
+const LinkedList = {
+  definition: `/**
+* Definition for singly-linked list.
+* public class ListNode {
+*     int val;
+*     ListNode next;
+*     ListNode() {}
+*     ListNode(int val) { this.val = val; }
+*     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+* }
+*/
+`,
+  implementation: `public class ListNode {
+int val;
+ListNode next;
+ListNode() {}
+ListNode(int val) { this.val = val; }
+ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+}
+`
+}
+
+const TreeNode = {
+  definition: `/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
  *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
  * }
  */
 `,
-    implementation: `public class ListNode {
+  implementation: `public class TreeNode {
   int val;
-  ListNode next;
-  ListNode() {}
-  ListNode(int val) { this.val = val; }
-  ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+  TreeNode left;
+  TreeNode right;
+  TreeNode() {}
+  TreeNode(int val) { this.val = val; }
+  TreeNode(int val, TreeNode left, TreeNode right) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
 }
 `
-  }
+}
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList,
+  TreeNode
 }
 
 /**
@@ -29,7 +64,7 @@ const additionalDataStructures: AdditionalDataStructures = {
  * tests for this language
  */
 export const languageMap: LanguageMap = {
-  imports: [],
+  imports: ["import java.util.*;"],
   beforeCodeUser: "public class Test {",
   beforeTest: "public static void main(String[] args) {",
   afterTest: "}}",

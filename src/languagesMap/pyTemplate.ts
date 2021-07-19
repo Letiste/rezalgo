@@ -1,19 +1,38 @@
 import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
 
-const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList: {
-    definition: `# Definition for singly-linked list.
+const LinkedList = {
+  definition: `# Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
 `,
-    implementation: `class ListNode:
-  def __init__(self, val=0, next=None):
-    self.val = val
-    self.next = next
+  implementation: `class ListNode:
+def __init__(self, val=0, next=None):
+  self.val = val
+  self.next = next
 `
-  }
+}
+
+const TreeNode = {
+  definition: `# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+`,
+  implementation: `class TreeNode:
+  def __init__(self, val=0, left=None, right=None):
+    self.val = val
+    self.left = left
+    self.right = right
+`
+}
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList,
+  TreeNode,
 }
 
 /**
