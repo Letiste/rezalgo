@@ -26,6 +26,7 @@
       "output": "19"
     }
   ],
+  "additionalDataStructure": "LinkedList",
   "function": {
     "name": "add",
     "returnType": "integer",

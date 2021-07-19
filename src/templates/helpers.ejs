@@ -1,6 +1,6 @@
 const helpers = {
-<% helpers.forEach(({language, languageMap}) => { %>
-  <%- language %>: `<%- languageMap.defFunctionStart({name: functionName, params: functionParams, returnType: functionReturnType}) %>
+<% helpers.forEach(({language, languageMap}, indice) => { %>
+<%- language %>: `<%- additionalDataStructuresDefinition[indice] %><%- languageMap.defFunctionStart({name: functionName, params: functionParams, returnType: functionReturnType}) %>
   
 <%- languageMap.defFunctionEnd %>`, 
 <% }) %>}

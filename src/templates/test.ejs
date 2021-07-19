@@ -4,6 +4,8 @@
 
 <%- languageMap.beforeCodeUser %> 
 
+<%- additionalDataStructureImplementation %> 
+
 <%- languageMap.comment("---WRITE USER CODE HERE---") %>
 
 <%- languageMap.beforeTest %> 
@@ -11,7 +13,7 @@
 <%- languageMap.memoryStart %>
 <% tests.forEach(({inputs, expected}, indice) => { %>
 <%- languageMap.variableAffectation(`test${indice}`, functionReturnType, languageMap.functionCalledTemplate(functionName, inputs)) %> 
-<%- languageMap.if(`test${indice}`, expected) %>
+<%- languageMap.if(`test${indice}`, expected, functionReturnType) %>
   <%- languageMap.log(`test${indice}`, inputs, expected) %>
   <%- languageMap.memoryEnd %>
   <%- languageMap.timeEnd %>

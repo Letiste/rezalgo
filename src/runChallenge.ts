@@ -27,7 +27,7 @@ export function runChallenge(
   createTmpFile(challenge, language, name, data);
   return new Promise((resolve) => {
     const cb = ({stdout, stderr}: {stdout: string, stderr: string}) => {
-      removeTmpFile(name);
+      removeTmpFile(`${name}.${language}`);
       currentRunningContainers = Math.max(0, currentRunningContainers - 1);
       Queue.runJob();
       resolve({ stdout, stderr });
@@ -41,7 +41,7 @@ export function runChallenge(
         cb,
     });
     } else {
-      runContainer(language, name).then(cb)
+      runContainer(language, `${name}.${language}`).then(cb)
     }
   });
 }

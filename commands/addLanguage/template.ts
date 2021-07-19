@@ -1,4 +1,15 @@
-import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+
+/**
+ * The implementation and definition of data structures
+ * used in challenges
+ */
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList: {
+    definition: ``,
+    implementation: ``
+  }
+}
 
 /**
  * The mapping used to render the helpers and
@@ -22,6 +33,7 @@ export const languageMap: LanguageMap = {
   memoryEnd: "",
   comment: commentTemplate,
   variableAffectation: variableAffectation,
+  additionalDataStructures,
 }
 
 /**

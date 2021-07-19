@@ -111,6 +111,13 @@
         }
       }
     },
+    "additionalDataStructure": {
+      "type": "string",
+      "description": "Additional data structure to be used for the challenge",
+      "enum": [
+        "LinkedList"
+      ]
+    },
     "tests": {
       "type": "array",
       "description": "The array of generated tests",

@@ -1,27 +1,52 @@
-import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList: {
+    definition: `/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+`,
+    implementation: `public class ListNode {
+  int val;
+  ListNode next;
+  ListNode() {}
+  ListNode(int val) { this.val = val; }
+  ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+}
+`
+  }
+}
 
 /**
  * The mapping used to render the helpers and
  * tests for this language
  */
 export const languageMap: LanguageMap = {
-  imports: ["import java.lang *;"],
+  imports: [],
   beforeCodeUser: "public class Test {",
   beforeTest: "public static void main(String[] args) {",
-  afterTest: "}",
+  afterTest: "}}",
   if: ifTemplate,
   fi: "}",
   log: logTemplate,
-  exit: "System.exit(1)",
+  exit: "System.exit(1);",
   functionCalledTemplate: functionCalledTemplate,
   defFunctionStart: defFunctionStartTemplate,
   defFunctionEnd: "}",
-  timeStart: "int timeStart = System.currentTimeMillis();",
+  timeStart: "long timeStart = System.currentTimeMillis();",
   timeEnd: 'System.out.println("TIME DURATION: " + (System.currentTimeMillis() - timeStart));',
   memoryStart: "",
-  memoryEnd: 'System.out.println("MEMORY USAGE: " + (Runtime.getRuntime.totalMemory() - Runtime.getRuntime.freeMemory()));',
+  memoryEnd: 'System.out.println("MEMORY USAGE: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));',
   comment: commentTemplate,
   variableAffectation: variableAffectation,
+  additionalDataStructures
 }
 
 /**
@@ -43,7 +68,10 @@ const typeMap: TypeMap = {
  * The function used to render an if condition verifying
  * that given the function and the inputs, the output differs from the expected value
  */
-function ifTemplate(actual: string, expected: string): string {
+function ifTemplate(actual: string, expected: string, type: keyof TypeMap): string {
+  if (['float', 'integer', 'boolean'].includes(type)) {
+    return `if (${actual} != ${expected}) {`
+  }
   return `if (!${actual}.equals(${expected})) {`
 }
 
@@ -69,7 +97,7 @@ function functionCalledTemplate(name: string, inputs: string[]): string {
  * it failed and the actual and expected values
  */
 function logTemplate(actual: string, inputs: string[], expected: string): string {
-  return `System.err.format("Inputs: %s"+\n"Expected %s but was %s", ${inputs}, ${expected}, ${actual});`
+  return `System.err.format("Inputs: ${inputs}\\nExpected ${expected} but was %s", ${actual});`
 }
 
 /**

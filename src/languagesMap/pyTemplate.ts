@@ -1,9 +1,25 @@
-import { FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList: {
+    definition: `# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+`,
+    implementation: `class ListNode:
+  def __init__(self, val=0, next=None):
+    self.val = val
+    self.next = next
+`
+  }
+}
 
 /**
  * The mapping used to render the helpers and
  * tests for this language
- */
+ */ 
 export const languageMap: LanguageMap = {
   imports: ['import sys', 'import time', 'import resource'],
   beforeCodeUser: "",
@@ -22,12 +38,13 @@ export const languageMap: LanguageMap = {
   memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)",
   comment: commentTemplate,
   variableAffectation: variableAffectation,
-};
+  additionalDataStructures,
+};  
 
 /**
  * The mapping of the type in the challenge json file
  * and the language
- */
+ */ 
 const typeMap: TypeMap = {
   float: 'float',
   integer: 'int',
@@ -37,7 +54,7 @@ const typeMap: TypeMap = {
   "Array<integer>": 'list[int]',
   "Array<boolean>": 'list[bool]',
   "Array<string>": 'list[str]',
-};
+};  
 
 /**
  * The function used to render an if condition verifying

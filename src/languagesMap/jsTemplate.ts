@@ -1,4 +1,26 @@
-import { FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
+
+const additionalDataStructures: AdditionalDataStructures = {
+  LinkedList: {
+    definition: `/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *   constructor(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ *   }
+ * }
+ */
+`,
+    implementation: `class ListNode {
+  constructor(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+  }
+}
+`
+  }
+}
 
 /**
  * The mapping used to render the helpers and
@@ -22,6 +44,7 @@ export const languageMap: LanguageMap = {
   memoryEnd: "console.log('MEMORY USAGE: ', process.memoryUsage().heapUsed - memoryStart)",
   comment: commentTemplate,
   variableAffectation: variableAffectation,
+  additionalDataStructures,
 }
 
 /**

@@ -22,7 +22,7 @@ export const languages = {
   
   java: {
     name: "java", 
-    image: "openjdk:18-alpine", 
+    image: "openjdk:17-alpine", 
     runner: "java", 
     codeMirrorMode: "text/x-java"
   },
