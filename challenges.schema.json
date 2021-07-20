@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required": ["name", "description", "constraints", "examples", "function", "tests"],
+  "required": ["name", "description", "constraints", "examples", "function", "memoryLimit", "timeLimit", "tests"],
   "properties": {
     "name": {
       "type": "string",
@@ -118,6 +118,16 @@
         "LinkedList",
         "TreeNode"
       ]
+    },
+    "memoryLimit": {
+      "type": "number",
+      "description": "Memory usage's limit in megabytes for the challenge",
+      "minimum": 0
+    },
+    "timeLimit": {
+      "type": "number",
+      "description": "Time limit in seconds for the challenge",
+      "minimum": 0
     },
     "tests": {
       "type": "array",

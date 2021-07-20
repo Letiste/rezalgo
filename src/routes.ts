@@ -30,8 +30,9 @@ export default async function routes(fastify: FastifyInstance) {
       `/${slugName}`,
       { schema: postSchema },
       async function (request, reply) {
+        const {memoryLimit, timeLimit} = challenge
         const { language, data } = request.body;
-        const { stdout, stderr } = await runChallenge(slugName, language, data);
+        const { stdout, stderr } = await runChallenge(slugName, language, data, memoryLimit, timeLimit);
         let stdoutSplit = stdout.split("\n")
 
         // first pop to remove blank string from last \n

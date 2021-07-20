@@ -3,10 +3,12 @@ import { languages } from './schemas';
 type Language = keyof typeof languages;
 
 interface Job {
-  fn: (language: Language, name: string) => Promise<{stdout: string, stderr: string}>,
+  fn: (language: Language, name: string, memoryLimit: number, timeLimit: number) => Promise<{stdout: string, stderr: string}>,
   params: {
     language: Language,
-    name: string
+    name: string,
+    memoryLimit: number,
+    timeLimit: number
   },
   cb: (...args: any) => any
 }
@@ -31,8 +33,8 @@ class Queue {
   public runJob() {
     const job = this.jobs.shift()
     if (job) {
-      const {language, name} = job.params
-      job.fn(language, name).then(job.cb)
+      const {language, name, memoryLimit, timeLimit} = job.params
+      job.fn(language, name, memoryLimit, timeLimit).then(job.cb)
     }
   }
 }

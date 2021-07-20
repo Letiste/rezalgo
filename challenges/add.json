@@ -27,6 +27,8 @@
     }
   ],
   "additionalDataStructure": "TreeNode",
+  "memoryLimit": 213.5,
+  "timeLimit": 3,
   "function": {
     "name": "add",
     "returnType": "integer",
