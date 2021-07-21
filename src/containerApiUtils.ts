@@ -6,6 +6,8 @@ import * as http from 'http';
  */
 const HEADER_LENGTH = 8;
 
+const httpAgent = new http.Agent({keepAlive: true})
+
 /**
  * Make a request to docker using unix socket
  * @param path Path of the request
@@ -18,11 +20,12 @@ async function dockerSocketRequest(
   data?: string
 ) {
   return new Promise<any>((resolve, reject) => {
-    const options = {
+    const options: http.RequestOptions = {
       socketPath: process.env.SOCKET_PATH,
       path: `/${process.env.CONTAINER_API_VERSION}/libpod/containers/${path}`,
       method: method,
       headers: { 'Content-Type': 'application/json' },
+      agent: httpAgent,
     };
     const callback = (res: http.IncomingMessage) => {
       console.log(`STATUS: ${res.statusCode}`);
