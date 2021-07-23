@@ -54,7 +54,7 @@ export const languageMap: LanguageMap = {
   timeStart: 'timeStart = int(round(time.time() * 1000))',
   timeEnd: "print('TIME DURATION: ', int(round(time.time() * 1000)) - timeStart)",
   memoryStart: '',
-  memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)",
+  memoryEnd: "print('MEMORY USAGE: ', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)",
   comment: commentTemplate,
   variableAffectation: variableAffectation,
   additionalDataStructures,
