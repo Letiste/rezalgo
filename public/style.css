@@ -108,7 +108,7 @@ select {
 #challenge-output {
   display: none;
 }
-#time:not(:empty), #memory:not(:empty) {
+#time:not(:empty), #memory:not(:empty), #success:not(:empty){
   display: inline-block;
   padding: 8px 12px;
   margin-bottom: 1rem;
@@ -136,6 +136,11 @@ select {
   overflow-y: scroll;
 }
 
+#success:not(:empty) {
+  color: var(--success-font-color);
+  border: 2px solid var(--success-border-color);
+  background-color: var(--success-bg-color);
+}
 #stdout .output:not(:empty) {
   color: var(--stdout-font-color);
   border: 2px solid var(--stdout-border-color);
