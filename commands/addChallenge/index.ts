@@ -1,7 +1,7 @@
-import path from 'path';
-import ejs from 'ejs';
-import fs from 'fs';
-import prompts, { PromptObject } from 'prompts';
+import * as path from 'path';
+import * as ejs from 'ejs';
+import * as fs from 'fs';
+import * as prompts from 'prompts';
 import slugify from 'slugify';
 
 function validate(inputName: string) {
@@ -13,7 +13,7 @@ function validate(inputName: string) {
   };
 }
 
-const questions: PromptObject[] = [
+const questions: prompts.PromptObject[] = [
   {
     type: 'text',
     name: 'name',
@@ -29,7 +29,7 @@ const questions: PromptObject[] = [
   }
   const slugName = slugify(name, { lower: true });
   await new Promise<void>((resolve, reject) => {
-    ejs.renderFile(path.join(__dirname, './challenge.ejs'), { name: name }, (err, str) => {
+    ejs.renderFile(path.join(__dirname, './challenge.ejs'), { name: name }, (err: Error | null, str: string) => {
       if (err) {
         reject(err);
       }
