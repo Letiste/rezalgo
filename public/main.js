@@ -69,7 +69,7 @@ function setContent({stdout, stderr, success, time, memory}) {
   stdoutOutputElem.innerHTML = stdout;
   stderrOuputElem.innerHTML = stderr;
   let successElem = document.getElementById('success');
-  successElem.textContent = success ? `Success ! Here is your flag: ${success}` : '';
+  successElem.textContent = success ? `Success 🎉! Here is your flag: ${success}` : '';
   let timeElem = document.getElementById('time');
   if (typeof time === "number") {
     timeElem.textContent = `⏱ Time duration : ${time} ms`
