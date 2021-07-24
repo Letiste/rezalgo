@@ -75,6 +75,7 @@ export async function createContainer(
       JSON.stringify({
         image: image,
         command: [...runner.split(' '), `/app/${name}`],
+        env: {JDK_SILENT_JAVA_OPTIONS: `-Xmx${memoryLimit}m -Xms${memoryLimit}m`},
         mounts: [
           { type: 'bind', source: `/tmp/${name}`, destination: `/app/${name}` },
         ],

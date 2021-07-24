@@ -92,7 +92,7 @@ const typeMap: TypeMap = {
  * that given the function and the inputs, the output differs from the expected value
  */
 function ifTemplate(actual: string, expected: string): string {
-  return `if (${actual} !== ${expected}) {`
+  return `if (JSON.stringify(${actual}) !== JSON.stringify(${expected})) {`
 }
 
 /**
@@ -117,7 +117,7 @@ function functionCalledTemplate(name: string, inputs: string[]): string {
  * it failed and the actual and expected values
  */
 function logTemplate(actual: string, inputs: string[], expected: string): string {
-  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${${actual}}\`)`
+  return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${JSON.stringify(${actual})}\`)`
 }
 
 /**

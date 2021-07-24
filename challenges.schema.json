@@ -120,7 +120,7 @@
       ]
     },
     "memoryLimit": {
-      "type": "number",
+      "type": "integer",
       "description": "Memory usage's limit in megabytes for the challenge",
       "minimum": 0
     },

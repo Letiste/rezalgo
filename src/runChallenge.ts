@@ -101,7 +101,7 @@ async function runContainer(
     deleteContainer(id);
     return {
       stdout: '',
-      stderr: `Memory usage over the limit of ${memoryLimit}MB`,
+      stderr: 'Memory usage over the limit',
     };
   }
   const [stdout, stderr] = await Promise.all([

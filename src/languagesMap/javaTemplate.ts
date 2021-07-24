@@ -93,10 +93,10 @@ const typeMap: TypeMap = {
   integer: "int",
   boolean: "boolean",
   string: "String",
-  "Array<float>": "float[]",
-  "Array<integer>": "int[]",
-  "Array<boolean>": "boolean[]",
-  "Array<string>": "String[]",
+  "Array<float>": "List<Float>",
+  "Array<integer>": "List<Integer>",
+  "Array<boolean>": "List<Boolean>",
+  "Array<string>": "List<String>",
 }
 
 /**
@@ -106,6 +106,9 @@ const typeMap: TypeMap = {
 function ifTemplate(actual: string, expected: string, type: keyof TypeMap): string {
   if (['float', 'integer', 'boolean'].includes(type)) {
     return `if (${actual} != ${expected}) {`
+  }
+  if (type.startsWith('Array')) {
+    return `if (!${actual}.equals(Arrays.asList(${expected.replace(/[\[\]]/g, "")}))) {`
   }
   return `if (!${actual}.equals(${expected})) {`
 }
@@ -132,7 +135,7 @@ function functionCalledTemplate(name: string, inputs: string[]): string {
  * it failed and the actual and expected values
  */
 function logTemplate(actual: string, inputs: string[], expected: string): string {
-  return `System.err.format("Inputs: ${inputs}\\nExpected ${expected} but was %s", ${actual});`
+  return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", ${actual});`
 }
 
 /**
