@@ -51,4 +51,10 @@ export default async function routes(fastify: FastifyInstance) {
       }
     );
   }
+
+  fastify.get('*', function (_, reply) {
+    reply.view('/view/404.ejs', {
+      challenges: challenges.map(challenge => ({name: challenge.name, url: slugify(challenge.name, {lower: true})}))
+    })
+  })
 }

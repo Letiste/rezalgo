@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: hsl(241, 46%, 20%);
+        background-color: hsla(226, 100%, 98%, 0.6);
+      }
+      p {margin: 0;}
+      ul {margin: 0.8rem}
+      a {
+        color: hsl(225, 73%, 16%);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Challenge not found</h1>
+    <p>Ono! The challenge you are looking for does not exist 😢.</p>
+    <p>Here is the list of available challenges:</p>
+    <ul>
+      <% challenges.forEach(({name, url}) => { %> 
+      <li><a href="/<%= url %> "><strong><%= name %></strong></a></li>  
+      <% }) %>
+    </ul>
+  </body>
+</html>
