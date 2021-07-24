@@ -5,7 +5,7 @@ export const containerOutputSchema = {
   example: {
     stdout: "Stdout from my code",
     stderr: "",
-    success: true,
+    success: "my-secret-flag",
     time: 125,
     memory: 14592
   },
@@ -15,12 +15,12 @@ export const containerOutputSchema = {
       description: "The stdout of the code runned."
     },
     success: {
-      type: "boolean",
-      description: "Boolean indicating the success of the challenge. When true, stderr is empty."
+      type: "string",
+      description: "String containing the ctf flag validating the challenge. When not empty, stderr is empty."
     },
     stderr: {
       type: "string",
-      description: "The stderr of the code runned. It can be syntax error or failed conditions."
+      description: "The stderr of the code runned. It can be syntax error or failed conditions. When not empty, sucess is empty."
     },
     time: {
       type: "number",

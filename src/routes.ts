@@ -44,8 +44,10 @@ export default async function routes(fastify: FastifyInstance) {
         const memory = Number(stdoutSplit.pop()?.replace(/MEMORY USAGE: *([0-9]+)/, function(_, p1: string) {
           return p1
         })) || 0
-        
-        let success = !stderr;
+        let success = ""
+        if (!stderr) {
+          success = challenge.flag;
+        }
         reply.code(200)
         reply.send({ stdout: stdoutSplit.join("<br>"), stderr: stderr.replace(/\n/g, "<br>"), success, time, memory });
       }

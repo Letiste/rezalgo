@@ -69,7 +69,7 @@ function setContent({stdout, stderr, success, time, memory}) {
   stdoutOutputElem.innerHTML = stdout;
   stderrOuputElem.innerHTML = stderr;
   let successElem = document.getElementById('success');
-  successElem.textContent = success ? 'Success !' : '';
+  successElem.textContent = success ? `Success ! Here is your flag: ${success}` : '';
   let timeElem = document.getElementById('time');
   if (typeof time === "number") {
     timeElem.textContent = `⏱ Time duration : ${time} ms`
@@ -107,7 +107,7 @@ async function runCode() {
     if (document.getElementById("pres-output").textContent !== "Show Presentation") {
       togglePresOutput()
     }
-    setContent({stdout: "", stderr: "", success: false, time: "Pending...", memory: "Pending..."})
+    setContent({stdout: "", stderr: "", success: "", time: "Pending...", memory: "Pending..."})
     const data = myCodeMirror.getValue().replace(/\t/g, '  ');
     const rawResponse = await fetch(
       window.location.href,

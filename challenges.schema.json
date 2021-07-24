@@ -1,11 +1,15 @@
 {
   "type": "object",
-  "required": ["name", "description", "constraints", "examples", "function", "memoryLimit", "timeLimit", "tests"],
+  "required": ["name", "flag", "description", "constraints", "examples", "function", "memoryLimit", "timeLimit", "tests"],
   "properties": {
     "name": {
       "type": "string",
       "description": "The title of the challenge",
       "minLength": 1
+    },
+    "flag": {
+      "type": "string",
+      "description": "The flag to validate the challenge CTF, sent as a success"
     },
     "description": {
       "type": "string",
