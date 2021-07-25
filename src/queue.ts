@@ -3,14 +3,15 @@ import { languages } from './schemas';
 type Language = keyof typeof languages;
 
 interface Job {
-  fn: (language: Language, name: string, memoryLimit: number, timeLimit: number) => Promise<{stdout: string, stderr: string}>,
-  params: {
+  fn: (
     language: Language,
     name: string,
-    memoryLimit: number,
-    timeLimit: number
-  },
-  cb: (...args: any) => any
+  ) => Promise<{ stdout: string; stderr: string }>;
+  params: {
+    language: Language;
+    name: string;
+  };
+  cb: (...args: any) => any;
 }
 /**
  * A simple implementation of a Job Queue to queue
@@ -18,25 +19,25 @@ interface Job {
  * much running
  */
 class Queue {
-  private jobs: Job[] = []
+  private jobs: Job[] = [];
 
   /**
    * Add a job to the queue
-   * @param job 
+   * @param job
    */
   public addJob(job: Job) {
-    this.jobs.push(job)
+    this.jobs.push(job);
   }
   /**
    * Run the first job
    */
   public runJob() {
-    const job = this.jobs.shift()
+    const job = this.jobs.shift();
     if (job) {
-      const {language, name, memoryLimit, timeLimit} = job.params
-      job.fn(language, name, memoryLimit, timeLimit).then(job.cb)
+      const { language, name } = job.params;
+      job.fn(language, name).then(job.cb);
     }
   }
 }
 
-export default new Queue()
+export default new Queue();

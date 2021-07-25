@@ -12,6 +12,8 @@ export function validateEnvVariables(validators: Validators) {
       desc: 'Version of the api in the request',
     }),
     MAX_CONTAINERS_RUNNING: validators.num({ default: 10 }),
+    MAX_TIME_CONTAINER: validators.num({default: 5, desc: 'Time in seconds before a running container is forcefully stopped'}),
+    MAX_MEMORY_CONTAINER: validators.num({default: 100, desc: 'Memory usage in megabytes allowed before a running container is forcefully stopped'}),
     LOG_LEVEL: validators.str({ default: 'info' }),
   };
 }

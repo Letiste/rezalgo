@@ -12,7 +12,9 @@ import {
 } from './containerApiUtils';
 
 type Language = keyof typeof languages;
-const MAX_CONTAINERS_RUNNING = process.env.MAX_CONTAINERS_RUNNING || '10';
+const MAX_CONTAINERS_RUNNING = process.env.MAX_CONTAINERS_RUNNING || 10;
+const MAX_TIME_CONTAINER = process.env.MAX_TIME_CONTAINER || 5;
+const MAX_MEMORY_CONTAINER = process.env.MAX_MEMORY_CONTAINER || 100;
 
 let currentRunningContainers = 0;
 
@@ -29,8 +31,6 @@ export function runChallenge(
   challenge: string,
   language: Language,
   data: string,
-  memoryLimit: number,
-  timeLimit: number
 ): Promise<{ stdout: string; stderr: string }> {
   const name = Date.now().toString();
   createTmpFile(challenge, language, name, data);
@@ -46,15 +46,13 @@ export function runChallenge(
     if (currentRunningContainers > Number(MAX_CONTAINERS_RUNNING)) {
       Queue.addJob({
         fn: runContainer,
-        params: { language, name, memoryLimit, timeLimit },
+        params: { language, name },
         cb,
       });
     } else {
       runContainer(
         language,
         `${name}.${language}`,
-        memoryLimit,
-        timeLimit
       ).then(cb);
     }
   });
@@ -70,24 +68,15 @@ export function runChallenge(
 async function runContainer(
   language: Language,
   name: string,
-  memoryLimit: number,
-  timeLimit: number
 ): Promise<{ stdout: string; stderr: string }> {
   const { image, runner } = languages[language];
   let timeStart = Date.now();
-  const id = await createContainer(image, runner, name, memoryLimit);
-  const id = await createContainer(image, runner, name)
-  await startContainer(id)
-  await waitContainer(id)
-  const [stdout, stderr] = await Promise.all([getStdoutContainer(id), getStderrContainer(id)])
-  deleteContainer(id)
-  return {stdout, stderr}
-}
+  const id = await createContainer(image, runner, name, Number(MAX_MEMORY_CONTAINER));
   await startContainer(id);
 
   const stopContainer = new Promise<{ action: 'stop'; statusCode: number }>(
     (resolve) =>
-      setTimeout(resolve, timeLimit * 1000, { action: 'stop', statusCode: 0 })
+      setTimeout(resolve, Number(MAX_TIME_CONTAINER) * 1000, { action: 'stop', statusCode: 0 })
   );
   const { action, statusCode } = await Promise.race([
     stopContainer,
@@ -95,7 +84,7 @@ async function runContainer(
   ]);
   if (action === 'stop') {
     deleteContainer(id);
-    return { stdout: '', stderr: `Timit limit of ${timeLimit}s exceeded` };
+    return { stdout: '', stderr: `Timit limit exceeded` };
   }
   if (action === 'wait' && statusCode === 137) {
     deleteContainer(id);

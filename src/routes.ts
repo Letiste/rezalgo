@@ -32,7 +32,7 @@ export default async function routes(fastify: FastifyInstance) {
       async function (request, reply) {
         const {memoryLimit, timeLimit} = challenge
         const { language, data } = request.body;
-        const { stdout, stderr } = await runChallenge(slugName, language, data, memoryLimit, timeLimit);
+        let { stdout, stderr } = await runChallenge(slugName, language, data);
         let stdoutSplit = stdout.split("\n")
 
         // first pop to remove blank string from last \n
@@ -41,9 +41,15 @@ export default async function routes(fastify: FastifyInstance) {
         const time = Number(stdoutSplit.pop()?.replace(/TIME DURATION: *([0-9]+)/, function(_, p1: string) {
           return p1
         })) || 0
+        if (time > timeLimit) {
+          stderr += `Timit limit exceeded ${timeLimit}ms\n`
+        }
         const memory = Number(stdoutSplit.pop()?.replace(/MEMORY USAGE: *([0-9]+)/, function(_, p1: string) {
           return p1
         })) || 0
+        if (memory / 1024**2 > memoryLimit) {
+          stderr += `Memory usage exceeded ${memoryLimit}MB\n`
+        }
         let success = ""
         if (!stderr) {
           success = challenge.flag;

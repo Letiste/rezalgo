@@ -136,7 +136,7 @@
     },
     "timeLimit": {
       "type": "number",
-      "description": "Time limit in seconds for the challenge",
+      "description": "Time limit in milliseconds for the challenge",
       "minimum": 0
     },
     "tests": {
