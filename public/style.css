@@ -56,6 +56,8 @@ code {
   grid-area: editor;
   margin-top: 40px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .CodeMirror {
   height: 100%;
