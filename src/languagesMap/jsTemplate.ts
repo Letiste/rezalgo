@@ -1,6 +1,6 @@
 import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from "./LanguageMap"
 
-const LinkedList ={
+const ListNode = {
   definition: `/**
 * Definition for singly-linked list.
 * class ListNode {
@@ -17,10 +17,24 @@ constructor(val, next) {
   this.next = (next===undefined ? null : next)
 }
 }
+function instantiateLinkedList(arrayNode) {
+  const head = new ListNode()
+  let next = head
+  arrayNode.forEach((node, indice) => {
+    next.val = node
+    if (indice === arrayNode.length - 1) {
+      next.next = null
+    } else {
+      next.next = new ListNode()
+      next = next.next
+    }
+  })
+  return head
+}
 `
 }
 
-const TreeNode ={
+const TreeNode = {
   definition: `/**
  * Definition for a binary tree node.
  * class TreeNode {
@@ -43,7 +57,7 @@ const TreeNode ={
 }
 
 const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList,
+  ListNode,
   TreeNode
 }
 
@@ -85,6 +99,7 @@ const typeMap: TypeMap = {
   "Array<integer>": "number[]",
   "Array<boolean>": "boolean[]",
   "Array<string>": "string[]",
+  ListNode: "ListNode"
 }
 
 /**
@@ -99,9 +114,12 @@ function ifTemplate(actual: string, expected: string): string {
  * The function used to render the function called with
  * the given inputs
  */
-function functionCalledTemplate(name: string, inputs: string[]): string {
+function functionCalledTemplate(name: string, inputs: string[], inputsType?: (keyof TypeMap)[]): string {
   let template = `${name}(`
   inputs.forEach((input, index) => {
+    if (inputsType && inputsType[index] === "ListNode") {
+     input = `instantiateLinkedList(${input})`
+    }
     if (index === inputs.length - 1) {
       template += `${input})`
     } else {

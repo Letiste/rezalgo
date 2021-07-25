@@ -101,7 +101,8 @@
                   "Array<string>",
                   "Array<integer>",
                   "Array<float>",
-                  "Array<boolean>"
+                  "Array<boolean>",
+                  "ListNode"
                 ],
                 "description": "Type of the parameter"
               }
@@ -127,7 +128,7 @@
     "additionalDataStructure": {
       "type": "string",
       "description": "Additional data structure to be used for the challenge",
-      "enum": ["LinkedList", "TreeNode"]
+      "enum": ["ListNode", "TreeNode"]
     },
     "memoryLimit": {
       "type": "integer",

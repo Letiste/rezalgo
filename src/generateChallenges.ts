@@ -81,6 +81,7 @@ function generateTests(challengesSpec: any, name: string) {
       languageMap,
       functionName: challengesSpec.function.name,
       functionReturnType: challengesSpec.function.returnType,
+      inputsType: challengesSpec.function.params.map((param: {type: string}) => param.type),
       additionalDataStructureImplementation: languageMap.additionalDataStructures[challengesSpec.additionalDataStructure]?.implementation || ""
     };
     let promise = new Promise<void>((resolve, reject) => {

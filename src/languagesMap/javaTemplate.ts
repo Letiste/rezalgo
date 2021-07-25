@@ -1,6 +1,6 @@
 import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
 
-const LinkedList = {
+const ListNode = {
   definition: `/**
 * Definition for singly-linked list.
 * public class ListNode {
@@ -19,7 +19,23 @@ ListNode() {}
 ListNode(int val) { this.val = val; }
 ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
+public ListNode instantiateLinkedList(List<Integer> arrayNode) {
+  ListNode head = new ListNode();
+  ListNode next = head;
+  int size = arrayNode.size();
+  for (int i = 0; i < size; i++) {
+    next.val = arrayNode.get(i);
+    if (i == size - 1) {
+      next.next = null;
+    } else {
+      next.next = new ListNode();
+      next = next.next;
+    }
+  }
+  return head;
+}
 `
+
 }
 
 const TreeNode = {
@@ -55,7 +71,7 @@ const TreeNode = {
 }
 
 const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList,
+  ListNode,
   TreeNode
 }
 
@@ -66,8 +82,13 @@ const additionalDataStructures: AdditionalDataStructures = {
 export const languageMap: LanguageMap = {
   imports: ["import java.util.*;"],
   beforeCodeUser: "public class Test {",
-  beforeTest: "public static void main(String[] args) {",
-  afterTest: "}}",
+  beforeTest: "public void test(){",
+  afterTest: `}
+  public static void main(String[] args) {
+    Test runTest = new Test();
+    runTest.test();
+  }
+}`,
   if: ifTemplate,
   fi: "}",
   log: logTemplate,
@@ -97,6 +118,7 @@ const typeMap: TypeMap = {
   "Array<integer>": "List<Integer>",
   "Array<boolean>": "List<Boolean>",
   "Array<string>": "List<String>",
+  ListNode: "ListNode",
 }
 
 /**
@@ -117,10 +139,14 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
  * The function used to render the function called with
  * the given inputs
  */
-function functionCalledTemplate(name: string, inputs: string[]): string {
+function functionCalledTemplate(name: string, inputs: string[], inputsType?: (keyof TypeMap)[]): string {
   let template = `${name}(`;
   inputs.forEach((input, index) => {
-    if (input.startsWith("[")) {
+    if (inputsType && inputsType[index] === "ListNode") {
+      input = `Arrays.asList(${input.slice(1, -1)})`
+      input = `instantiateLinkedList(${input})`
+    }
+    if (inputsType && inputsType[index].startsWith('Array')) {
       input = `Arrays.asList(${input.slice(1, -1)})`
     }
     if (index === inputs.length - 1) {

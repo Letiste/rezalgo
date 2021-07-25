@@ -5,7 +5,7 @@ import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } fro
  * used in challenges
  */
 const additionalDataStructures: AdditionalDataStructures = {
-  LinkedList: {
+  ListNode: {
     definition: ``,
     implementation: ``
   },
@@ -67,7 +67,7 @@ function ifTemplate(actual: string, expected: string): string {
  * The function used to render the function called with
  * the given inputs
  */
-function functionCalledTemplate(name: string, inputs: string[]): string {
+function functionCalledTemplate(name: string, inputs: string[], inputsType?: (keyof TypeMap)[]): string {
   return ``
 }
 

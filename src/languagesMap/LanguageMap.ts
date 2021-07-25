@@ -7,7 +7,7 @@ export interface LanguageMap {
   fi: string;
   log: (actual: string, inputs: string[], expected: string) => string;
   exit: string;
-  functionCalledTemplate: (name: string, inputs: string[]) => string;
+  functionCalledTemplate: (name: string, inputs: string[], inputsType: (keyof TypeMap)[]) => string;
   defFunctionStart: ({ name, params, returnType }: FunctionSignature) => string;
   defFunctionEnd: string;
   timeStart: string;
@@ -37,6 +37,7 @@ export interface TypeMap {
   'Array<integer>': string;
   'Array<boolean>': string;
   'Array<string>': string;
+  ListNode: string;
 }
 
 interface AdditionalDataStructure {
@@ -45,6 +46,6 @@ interface AdditionalDataStructure {
 }
 
 export interface AdditionalDataStructures {
-  LinkedList: AdditionalDataStructure;
+  ListNode: AdditionalDataStructure;
   TreeNode: AdditionalDataStructure;
 }
