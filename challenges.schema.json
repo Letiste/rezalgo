@@ -1,6 +1,16 @@
 {
   "type": "object",
-  "required": ["name", "flag", "description", "constraints", "examples", "function", "memoryLimit", "timeLimit", "tests"],
+  "required": [
+    "name",
+    "flag",
+    "description",
+    "constraints",
+    "examples",
+    "function",
+    "memoryLimit",
+    "timeLimit",
+    "tests"
+  ],
   "properties": {
     "name": {
       "type": "string",
@@ -9,7 +19,8 @@
     },
     "flag": {
       "type": "string",
-      "description": "The flag to validate the challenge CTF, sent as a success"
+      "description": "The flag to validate the challenge CTF, sent as a success",
+      "minLength": 1
     },
     "description": {
       "type": "string",
@@ -64,14 +75,14 @@
       "required": ["name", "returnType", "params"],
       "properties": {
         "name": {
-      "type": "string",
+          "type": "string",
           "description": "The name of the function",
           "minLength": 1
-    },
-    "params": {
-      "type": "array",
-      "description": "The parameters of the function called in the tests",
-      "items": {
+        },
+        "params": {
+          "type": "array",
+          "description": "The parameters of the function called in the tests",
+          "items": {
             "type": "object",
             "required": ["name", "type"],
             "properties": {
@@ -81,18 +92,16 @@
                 "minLength": 1
               },
               "type": {
-                "anyOf": [
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": ["string", "integer", "float", "boolean"]
-                    }
-                  },
-                  {
-                    "type": "string",
-                    "enum": ["string", "integer", "float", "boolean"]
-                  }
+                "type": "string",
+                "enum": [
+                  "string",
+                  "integer",
+                  "float",
+                  "boolean",
+                  "Array<string>",
+                  "Array<integer>",
+                  "Array<float>",
+                  "Array<boolean>"
                 ],
                 "description": "Type of the parameter"
               }
@@ -100,7 +109,7 @@
           }
         },
         "returnType": {
-                "type": "string",
+          "type": "string",
           "enum": [
             "string",
             "integer",
@@ -118,10 +127,7 @@
     "additionalDataStructure": {
       "type": "string",
       "description": "Additional data structure to be used for the challenge",
-      "enum": [
-        "LinkedList",
-        "TreeNode"
-      ]
+      "enum": ["LinkedList", "TreeNode"]
     },
     "memoryLimit": {
       "type": "integer",

@@ -120,6 +120,9 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
 function functionCalledTemplate(name: string, inputs: string[]): string {
   let template = `${name}(`;
   inputs.forEach((input, index) => {
+    if (input.startsWith("[")) {
+      input = `Arrays.asList(${input.slice(1, -1)})`
+    }
     if (index === inputs.length - 1) {
       template += `${input})`;
     } else {
