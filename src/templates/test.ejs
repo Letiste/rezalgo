@@ -14,7 +14,7 @@
 <% tests.forEach(({inputs, expected}, indice) => { %>
 <%- languageMap.variableAffectation(`test${indice}`, functionReturnType, languageMap.functionCalledTemplate(functionName, inputs, inputsType)) %> 
 <%- languageMap.if(`test${indice}`, expected, functionReturnType, inputsType) %>
-  <%- languageMap.log(`test${indice}`, inputs, expected) %>
+  <%- languageMap.log(`test${indice}`, inputs, expected, functionReturnType) %>
   <%- languageMap.memoryEnd %>
   <%- languageMap.timeEnd %>
   <%- languageMap.exit %>

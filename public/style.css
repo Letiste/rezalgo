@@ -46,6 +46,16 @@ code {
   margin-bottom: 0.3rem;
 }
 
+.example p {
+  display: inline;
+}
+
+.example img {
+  max-width: 100%;
+  display: block;
+  margin: 20px 0;
+}
+
 .example__number {
   margin-bottom: 0.8rem;
   margin-top: 1.2rem;

@@ -102,7 +102,8 @@
                   "Array<integer>",
                   "Array<float>",
                   "Array<boolean>",
-                  "ListNode"
+                  "ListNode",
+                  "TreeNode"
                 ],
                 "description": "Type of the parameter"
               }
@@ -119,7 +120,8 @@
             "Array<string>",
             "Array<integer>",
             "Array<float>",
-            "Array<boolean>"
+            "Array<boolean>",
+            "TreeNode"
           ],
           "description": "The return type of the function"
         }

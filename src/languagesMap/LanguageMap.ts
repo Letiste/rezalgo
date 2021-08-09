@@ -5,7 +5,7 @@ export interface LanguageMap {
   afterTest: string;
   if: (actual: string, expected: string, type: keyof TypeMap) => string;
   fi: string;
-  log: (actual: string, inputs: string[], expected: string) => string;
+  log: (actual: string, inputs: string[], expected: string, returnType: keyof TypeMap) => string;
   exit: string;
   functionCalledTemplate: (name: string, inputs: string[], inputsType: (keyof TypeMap)[]) => string;
   defFunctionStart: ({ name, params, returnType }: FunctionSignature) => string;
@@ -38,6 +38,7 @@ export interface TypeMap {
   'Array<boolean>': string;
   'Array<string>': string;
   ListNode: string;
+  TreeNode: string;
 }
 
 interface AdditionalDataStructure {

@@ -15,6 +15,10 @@ const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) =
 export default async function routes(fastify: FastifyInstance) {
   for (const challenge of challenges) {
     challenge.description = marked(challenge.description)
+    for (const example of challenge.examples) {
+      example.input = marked(example.input)
+      example.output = marked(example.output)
+    }
     const slugName = slugify(challenge.name, {lower: true})
     fastify.get(`/${slugName}`,{schema: getSchema }, async (_, reply) => {
       reply.view('/view/index.ejs', {

@@ -19,7 +19,7 @@ ListNode() {}
 ListNode(int val) { this.val = val; }
 ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
-public ListNode instantiateLinkedList(List<Integer> arrayNode) {
+public ListNode arrayToLinkedList(List<Integer> arrayNode) {
   ListNode head = new ListNode();
   ListNode next = head;
   int size = arrayNode.size();
@@ -66,6 +66,52 @@ const TreeNode = {
     this.left = left;
     this.right = right;
   }
+}
+public TreeNode arrayToBinaryTree(List<Integer> arrayNode) {
+  if (arrayNode.size() == 0 || arrayNode.get(0) == null) {
+    return null;
+  }
+  TreeNode root = new TreeNode(arrayNode.get(0));
+  Queue<TreeNode> nodes = new LinkedList<>();
+  nodes.add(root);
+  for (int i = 0; i < arrayNode.size() && nodes.size() > 0; i++) {
+    TreeNode node = nodes.remove();
+    if (2*i+1 < arrayNode.size() && arrayNode.get(2*i+1) != null) {
+      TreeNode left = new TreeNode(arrayNode.get(2*i+1));
+      node.left = left;
+      nodes.add(left);
+    }
+    if (2*i+2 < arrayNode.size() && arrayNode.get(2*i+2) != null) {
+      TreeNode right = new TreeNode(arrayNode.get(2*i+2));
+      node.right = right;
+      nodes.add(right);
+    }
+  }
+  return root;
+}
+
+public List<Integer> binaryTreeToArray(TreeNode root) {
+  if (root == null) {
+    return new ArrayList<>();
+  }
+  List<Integer> arr = new ArrayList<>();
+  Queue<TreeNode> nodes = new LinkedList<>();
+  nodes.add(root);
+  while (nodes.size() > 0) {
+    TreeNode node = nodes.remove();
+    if (node == null) {
+      arr.add(null);
+      continue;
+    } else {
+      arr.add(node.val);
+    }
+    nodes.add(node.left);
+    nodes.add(node.right);
+  }
+  while (arr.get(arr.size() - 1) == null) {
+    arr.remove((arr.size() - 1));
+  }
+  return arr;
 }
 `
 }
@@ -119,6 +165,7 @@ const typeMap: TypeMap = {
   "Array<boolean>": "List<Boolean>",
   "Array<string>": "List<String>",
   ListNode: "ListNode",
+  TreeNode: 'TreeNode'
 }
 
 /**
@@ -132,6 +179,9 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
   if (type.startsWith('Array')) {
     return `if (!${actual}.equals(Arrays.asList(${expected.replace(/[\[\]]/g, "")}))) {`
   }
+  if (type === 'TreeNode') {
+    return `if (!binaryTreeToArray(${actual}).equals(Arrays.asList(${expected.replace(/[\[\]]/g, "")}))) {`
+  }
   return `if (!${actual}.equals(${expected})) {`
 }
 
@@ -144,7 +194,11 @@ function functionCalledTemplate(name: string, inputs: string[], inputsType?: (ke
   inputs.forEach((input, index) => {
     if (inputsType && inputsType[index] === "ListNode") {
       input = `Arrays.asList(${input.slice(1, -1)})`
-      input = `instantiateLinkedList(${input})`
+      input = `arrayToLinkedList(${input})`
+    }
+    if (inputsType && inputsType[index] === "TreeNode") {
+      input = `Arrays.asList(${input.slice(1, -1)})`
+      input = `arrayToBinaryTree(${input})`
     }
     if (inputsType && inputsType[index].startsWith('Array')) {
       input = `Arrays.asList(${input.slice(1, -1)})`
@@ -163,7 +217,10 @@ function functionCalledTemplate(name: string, inputs: string[], inputsType?: (ke
  * condition is true. It prints the inputs for which
  * it failed and the actual and expected values
  */
-function logTemplate(actual: string, inputs: string[], expected: string): string {
+function logTemplate(actual: string, inputs: string[], expected: string, returnType: keyof TypeMap): string {
+  if (returnType === "TreeNode") {
+    return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", binaryTreeToArray(${actual}));`
+  }
   return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", ${actual});`
 }
 

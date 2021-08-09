@@ -43,14 +43,14 @@
           </div>
           <% challenge.examples.forEach(({input, output, explanation, notes}, indice) => { %>
           <div class="example">
-            <div class="example__number">Example <%= indice %>:</div>
-            <div><em>Input:</em> <%= input %> </div>
-            <div><em>Output:</em> <%= output %> </div>
+            <div class="example__number">Example <%= indice + 1 %>:</div>
+            <div><em>Input:</em> <%- input %> </div>
+            <div><em>Output:</em> <%- output %> </div>
             <% if (explanation) { %>
-            <div><em>Explanation:</em> <%= explanation %> </div>       
+            <div><em>Explanation:</em> <%- explanation %> </div>       
             <% } %>
             <% if (notes) { %>
-            <div><em>Notes:</em> <%= notes %> </div>
+            <div><em>Notes:</em> <%- notes %> </div>
             <% } %>
           </div>
           <% }) %>
