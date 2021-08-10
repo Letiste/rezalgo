@@ -5,7 +5,7 @@ export interface LanguageMap {
   afterTest: string;
   if: (actual: string, expected: string, type: keyof TypeMap) => string;
   fi: string;
-  log: (actual: string, inputs: string[], expected: string, returnType: keyof TypeMap) => string;
+  log: (actual: string, inputs: string[], expected: string, returnType: keyof TypeMap, hideExpected: boolean) => string;
   exit: string;
   functionCalledTemplate: (name: string, inputs: string[], inputsType: (keyof TypeMap)[]) => string;
   defFunctionStart: ({ name, params, returnType }: FunctionSignature) => string;

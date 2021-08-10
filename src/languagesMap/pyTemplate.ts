@@ -126,8 +126,8 @@ const typeMap: TypeMap = {
   'Array<integer>': 'list[int]',
   'Array<boolean>': 'list[bool]',
   'Array<string>': 'list[str]',
-  ListNode: 'ListNode',
-  TreeNode: 'TreeNode',
+  ListNode: 'Optional[ListNode]',
+  TreeNode: 'Optional[TreeNode]',
 };
 
 /**
@@ -168,14 +168,17 @@ function functionCalledTemplate(name: string, inputs: string[], inputsType?: (ke
  * condition is true. It prints the inputs for which
  * it failed and the actual and expected values
  */
-function logTemplate(actual: string, inputs: string[], expected: string, returnType: keyof TypeMap): string {
+function logTemplate(actual: string, inputs: string[], expected: string, returnType: keyof TypeMap, hideExpected: boolean): string {
+  if (hideExpected) {
+    return `print(f"""Inputs: ${inputs.map((input) => input.replace(/null/g, 'None'))}\n Your answer was not correct""", file=sys.stderr)`;
+  }
   if (returnType === 'TreeNode') {
     return `print(f"""Inputs: ${inputs.map((input) => input.replace(/null/g, 'None'))}\nExpected ${expected.replace(
       /null/g,
       'None'
     )} but was {binaryTreeToArray(${actual})}""", file=sys.stderr)`;
   }
-  return `print(f"""Inputs: ${inputs}\nExpected ${expected} but was {${actual}}""", file=sys.stderr)`;
+  return `print(f"""Inputs: ${inputs.map((input) => input.replace(/null/g, 'None'))}\nExpected ${expected} but was {${actual}}""", file=sys.stderr)`;
 }
 
 /**

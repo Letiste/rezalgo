@@ -217,7 +217,10 @@ function functionCalledTemplate(name: string, inputs: string[], inputsType?: (ke
  * condition is true. It prints the inputs for which
  * it failed and the actual and expected values
  */
-function logTemplate(actual: string, inputs: string[], expected: string, returnType: keyof TypeMap): string {
+function logTemplate(actual: string, inputs: string[], expected: string, returnType: keyof TypeMap, hideExpected: boolean): string {
+  if (hideExpected) {
+    return `System.err.format("Inputs: ${inputs}\\n Your answer was not correct");`
+  }
   if (returnType === "TreeNode") {
     return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", binaryTreeToArray(${actual}));`
   }

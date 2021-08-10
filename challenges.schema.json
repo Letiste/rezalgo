@@ -162,6 +162,10 @@
             "type": "string",
             "description": "The expected output of the tested function",
             "minLength": 1
+          },
+          "hideExpected": {
+            "type": "boolean",
+            "description": "If set to true, expected result for the test won't be shown when the test fails. Default to false."
           }
         }
       }
