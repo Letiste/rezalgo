@@ -2,7 +2,7 @@ import { Validators } from 'fastify-envalid';
 
 export function validateEnvVariables(validators: Validators) {
   return {
-    NODE_ENV: validators.str({default: 'development'}),
+    NODE_ENV: validators.str({default: 'development', choices: ['development', 'production']}),
     PORT: validators.num({ default: 3000 }),
     HOST: validators.str({ devDefault: '127.0.0.1', desc: 'Host IP' }),
     SOCKET_PATH: validators.str({
