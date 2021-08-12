@@ -12,6 +12,8 @@ const ListNode = {
     self.val = val
     self.next = next
 def arrayToLinkedList(arrayNode):
+  if len(arrayNode) == 0:
+    return None
   head = ListNode()
   next = head
   length = len(arrayNode)
@@ -23,6 +25,13 @@ def arrayToLinkedList(arrayNode):
       next.next = ListNode()
       next = next.next
   return head
+def linkedListToArray(head):
+  array = []
+  curr = head
+  while curr != None:
+    array.append(curr.val)
+    curr = curr.next
+  return array
 `,
 };
 
@@ -93,7 +102,7 @@ const additionalDataStructures: AdditionalDataStructures = {
  * tests for this language
  */
 export const languageMap: LanguageMap = {
-  imports: ['import sys', 'import time', 'import resource'],
+  imports: ['import sys', 'import time', 'import resource', 'from typing import Union'],
   beforeCodeUser: '',
   beforeTest: '',
   afterTest: '',
@@ -126,8 +135,8 @@ const typeMap: TypeMap = {
   'Array<integer>': 'list[int]',
   'Array<boolean>': 'list[bool]',
   'Array<string>': 'list[str]',
-  ListNode: 'Optional[ListNode]',
-  TreeNode: 'Optional[TreeNode]',
+  ListNode: 'Union[ListNode, None]',
+  TreeNode: 'Union[TreeNode, None]',
 };
 
 /**
@@ -177,6 +186,9 @@ function logTemplate(actual: string, inputs: string[], expected: string, returnT
       /null/g,
       'None'
     )} but was {binaryTreeToArray(${actual})}""", file=sys.stderr)`;
+  }
+  if (returnType === 'ListNode') {
+    return `print(f"""Inputs: ${inputs}\nExpected ${expected} but was {linkedListToArray(${actual})}""", file=sys.stderr)`;
   }
   return `print(f"""Inputs: ${inputs.map((input) => input.replace(/null/g, 'None'))}\nExpected ${expected} but was {${actual}}""", file=sys.stderr)`;
 }

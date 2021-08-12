@@ -121,6 +121,7 @@
             "Array<integer>",
             "Array<float>",
             "Array<boolean>",
+            "ListNode",
             "TreeNode"
           ],
           "description": "The return type of the function"

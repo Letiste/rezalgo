@@ -18,6 +18,7 @@ const ListNode = {
   }
 }
 function arrayToLinkedList(arrayNode) {
+  if (!arrayNode.length) return null;
   const head = new ListNode()
   let next = head
   arrayNode.forEach((node, indice) => {
@@ -30,6 +31,16 @@ function arrayToLinkedList(arrayNode) {
     }
   })
   return head
+}
+
+function linkedListToArray(head) {
+  const array = []
+  let curr = head
+  while (curr) {
+    array.push(curr.val)
+    curr = curr.next
+  }
+  return array
 }
 `,
 };
@@ -153,6 +164,9 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
   if (type === 'TreeNode') {
     return `if (JSON.stringify(binaryTreeToArray(${actual})) !== JSON.stringify(${expected})) {`;
   }
+  if (type === 'ListNode') {
+    return `if (JSON.stringify(linkedListToArray(${actual})) !== JSON.stringify(${expected})) {`;
+  }
   return `if (JSON.stringify(${actual}) !== JSON.stringify(${expected})) {`;
 }
 
@@ -189,6 +203,9 @@ function logTemplate(actual: string, inputs: string[], expected: string, returnT
   }
   if (returnType === 'TreeNode') {
     return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${JSON.stringify(binaryTreeToArray(${actual}))}\`)`;
+  }
+  if (returnType === 'ListNode') {
+    return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${JSON.stringify(linkedListToArray(${actual}))}\`)`;
   }
   return `console.error(\`Inputs: ${inputs}\nExpected ${expected} but was \${JSON.stringify(${actual})}\`)`;
 }

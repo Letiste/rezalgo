@@ -19,20 +19,32 @@ ListNode() {}
 ListNode(int val) { this.val = val; }
 ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 }
-public ListNode arrayToLinkedList(int[] arrayNode) {
+public ListNode arrayToLinkedList(Integer[] arrayNode) {
+  if (arrayNode.length == 0) {
+      return null;
+  }
   ListNode head = new ListNode();
   ListNode next = head;
   int size = arrayNode.length;
   for (int i = 0; i < size; i++) {
-    next.val = arrayNode[i];
-    if (i == size - 1) {
-      next.next = null;
-    } else {
-      next.next = new ListNode();
-      next = next.next;
-    }
+      next.val = arrayNode[i];
+      if (i == size - 1) {
+          next.next = null;
+      } else {
+          next.next = new ListNode();
+          next = next.next;
+      }
   }
   return head;
+}
+public Integer[] linkedListToArray(ListNode head) {
+  List<Integer> array = new ArrayList<>();
+  ListNode curr = head;
+  while (curr != null) {
+      array.add(curr.val);
+      curr = curr.next;
+  }
+  return array.toArray(new Integer[0]);
 }
 `
 
@@ -182,6 +194,9 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
   if (type === 'TreeNode') {
     return `if (!Arrays.equals(binaryTreeToArray(${actual}), new Integer[]{${expected.slice(1, -1)}})) {`
   }
+  if (type === 'ListNode') {
+    return `if (!Arrays.equals(linkedListToArray(${actual}), new Integer[]{${expected.slice(1, -1)}})) {`
+  }
   return `if (!${actual}.equals(${expected})) {`
 }
 
@@ -193,7 +208,7 @@ function functionCalledTemplate(name: string, inputs: string[], inputsType?: (ke
   let template = `${name}(`;
   inputs.forEach((input, index) => {
     if (inputsType && inputsType[index] === "ListNode") {
-      input = `new int[]{${input.slice(1, -1)}}`
+      input = `new Integer[]{${input.slice(1, -1)}}`
       input = `arrayToLinkedList(${input})`
     }
     if (inputsType && inputsType[index] === "TreeNode") {
@@ -223,6 +238,9 @@ function logTemplate(actual: string, inputs: string[], expected: string, returnT
   }
   if (returnType === "TreeNode") {
     return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", Arrays.toString(binaryTreeToArray(${actual})));`
+  }
+  if (returnType === "ListNode") {
+    return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", Arrays.toString(linkedListToArray(${actual})));`
   }
   if (returnType.includes('Array')) {
     return `System.err.format("Inputs: ${inputs}\\nExpected ${expected.replace(/["']/g, "\\\"")} but was %s\\n", Arrays.toString(${actual}));`
