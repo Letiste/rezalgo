@@ -12,6 +12,7 @@ const challenges = readdirSync(path.join(__dirname, '../challenges')).map((file)
 
 const themes = readdirSync(path.join(__dirname, "../public/theme")).map((file) => file.split(".")[0])
 
+const generatedRoutes: string[] = [];
 export default async function routes(fastify: FastifyInstance) {
   for (const challenge of challenges) {
     challenge.description = marked(challenge.description)
@@ -20,6 +21,7 @@ export default async function routes(fastify: FastifyInstance) {
       example.output = marked(example.output)
     }
     const slugName = slugify(challenge.name, {lower: true})
+    generatedRoutes.push(`/${slugName}`)
     fastify.get(`/${slugName}`,{schema: getSchema }, async (_, reply) => {
       reply.view('/view/index.ejs', {
         languages,
@@ -63,6 +65,9 @@ export default async function routes(fastify: FastifyInstance) {
       }
     );
   }
+
+  console.log("The generated routes are: ")
+  generatedRoutes.forEach(route => console.log(route))
 
   fastify.get('*', function (_, reply) {
     reply.view('/view/404.ejs', {
