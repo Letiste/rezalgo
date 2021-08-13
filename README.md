@@ -3,7 +3,21 @@
 This is a project meant to be used as the algorithm and data structure part of a CTF.
 It was inspired by the platform [LeetCode](https://leetcode.com).
 
-Rezalgo lets you run code in Podman containers using its [API](https://docs.podman.io/en/latest/_static/api.html). Podman was selected because of its easy rootless setup. If you prefer to use Docker, you just need to change the API calls and the images used for the languages.
+
+<img src="images/challenge-description.png" style="max-width:50%"></img>
+<img src="images/challenge-error.png" style="max-width:50%"></img>
+<img src="images/challenge-success.png" style="max-width:50%"></img>
+
+
+Rezalgo lets you run code in [Podman](https://podman.io/) containers using its [API](https://docs.podman.io/en/latest/_static/api.html). Podman was selected because of its easy rootless setup. If you prefer to use Docker, you just need to change the API calls and the images used for the languages.
+
+
+## Supported Languages
+
+There are three supported languages for the moment: 
+- Java
+- Javascript
+- Python
 
 ## How to use it
 
