@@ -102,7 +102,7 @@ const additionalDataStructures: AdditionalDataStructures = {
  * tests for this language
  */
 export const languageMap: LanguageMap = {
-  imports: ['import sys', 'import time', 'import resource', 'from typing import Union'],
+  imports: ['import sys', 'import time', 'import resource', 'from typing import Union', 'import math'],
   beforeCodeUser: '',
   beforeTest: '',
   afterTest: '',
