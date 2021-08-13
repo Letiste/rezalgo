@@ -147,6 +147,9 @@ function ifTemplate(actual: string, expected: string, type: keyof TypeMap): stri
   if (type === 'TreeNode') {
     return `if (binaryTreeToArray(${actual}) != ${expected.replace(/null/g, 'None')}) :`;
   }
+  if (type === 'ListNode') {
+    return `if (linkedListToArray(${actual}) != ${expected.replace(/null/g, 'None')}) :`;
+  }
   return `if (${actual} != ${expected.replace(/null/g, 'None')}) :`;
 }
 
