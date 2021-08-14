@@ -14,7 +14,7 @@ const httpAgent = new http.Agent({keepAlive: true})
  * @param method HTTP method
  * @param data Optional body data
  */
-async function dockerSocketRequest(
+async function containerSocketRequest(
   path: string,
   method: 'POST' | 'GET' | 'DELETE',
   data?: string
@@ -27,8 +27,7 @@ async function dockerSocketRequest(
       headers: { 'Content-Type': 'application/json' },
       agent: httpAgent,
     };
-    const callback = (res: http.IncomingMessage) => {
-      console.log(`STATUS: ${res.statusCode}`);
+    const handleResponse = (res: http.IncomingMessage) => {
       res.setEncoding('utf8');
       let output = Buffer.from('');
       res.on('data', (data: string | Buffer) => {
@@ -46,7 +45,7 @@ async function dockerSocketRequest(
       res.on('close', () => resolve(output.toString()));
       res.on('error', (error: any) => reject(error));
     };
-    const clientRequest = http.request(options, callback);
+    const clientRequest = http.request(options, handleResponse);
     if (data) {
       clientRequest.write(data);
     }
@@ -68,21 +67,22 @@ export async function createContainer(
   memoryLimit: number
 ): Promise<string> {
   const memoryLimitMB = 1024 * 1024 * memoryLimit;
+  const containerSetup = JSON.stringify({
+    image: image,
+    command: [...runner.split(' '), `/app/${name}`],
+    env: { JDK_SILENT_JAVA_OPTIONS: `-Xmx${memoryLimit}m -Xms${memoryLimit}m` },
+    mounts: [
+      { type: 'bind', source: `/tmp/${name}`, destination: `/app/${name}` },
+    ],
+    resource_limits: {
+      memory: { limit: memoryLimitMB, swap: memoryLimitMB },
+    },
+  });
   const output = JSON.parse(
-    await dockerSocketRequest(
+    await containerSocketRequest(
       'create',
       'POST',
-      JSON.stringify({
-        image: image,
-        command: [...runner.split(' '), `/app/${name}`],
-        env: {JDK_SILENT_JAVA_OPTIONS: `-Xmx${memoryLimit}m -Xms${memoryLimit}m`},
-        mounts: [
-          { type: 'bind', source: `/tmp/${name}`, destination: `/app/${name}` },
-        ],
-        resource_limits: {
-          memory: { limit: memoryLimitMB, swap: memoryLimitMB },
-        },
-      })
+      containerSetup
     )
   );
   if (!output.Id) {
@@ -97,7 +97,7 @@ export async function createContainer(
  * @param id Container's id
  */
 export async function startContainer(id: string): Promise<void> {
-  return dockerSocketRequest(`${id}/start`, 'POST');
+  return containerSocketRequest(`${id}/start`, 'POST');
 }
 /**
  * Wait until the specified container stop
@@ -107,7 +107,7 @@ export async function startContainer(id: string): Promise<void> {
 export async function waitContainer(
   id: string
 ): Promise<{ action: 'wait'; statusCode: number }> {
-  const statusCode = Number(await dockerSocketRequest(`${id}/wait`, 'POST'));
+  const statusCode = Number(await containerSocketRequest(`${id}/wait`, 'POST'));
   return { action: 'wait', statusCode };
 }
 
@@ -117,7 +117,7 @@ export async function waitContainer(
  * @param id Container's id
  */
 export async function getStdoutContainer(id: string): Promise<string> {
-  return dockerSocketRequest(`${id}/logs?stdout=1`, 'GET');
+  return containerSocketRequest(`${id}/logs?stdout=1`, 'GET');
 }
 
 /**
@@ -125,9 +125,8 @@ export async function getStdoutContainer(id: string): Promise<string> {
  *
  * @param id Container's id
  */
-
 export async function getStderrContainer(id: string): Promise<string> {
-  return dockerSocketRequest(`${id}/logs?stderr=1`, 'GET');
+  return containerSocketRequest(`${id}/logs?stderr=1`, 'GET');
 }
 
 /**
@@ -135,7 +134,6 @@ export async function getStderrContainer(id: string): Promise<string> {
  *
  * @param id Container's id
  */
-
 export async function deleteContainer(id: string): Promise<string> {
-  return dockerSocketRequest(id, 'DELETE');
+  return containerSocketRequest(id, 'DELETE');
 }

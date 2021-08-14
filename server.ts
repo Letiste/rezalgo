@@ -24,9 +24,7 @@ server.register(pov, {
   },
 });
 
-server.register(cors, {
-  origin: '*',
-});
+server.register(cors);
 
 server.register(fastifyHelmet, { contentSecurityPolicy: false });
 

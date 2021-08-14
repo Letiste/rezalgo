@@ -3,6 +3,7 @@ import { languages } from './schemas';
 type Language = keyof typeof languages;
 
 interface Job {
+  /** Fonction executed when the job is runned */
   fn: (
     language: Language,
     name: string,
@@ -11,6 +12,7 @@ interface Job {
     language: Language;
     name: string;
   };
+  /** Callback for the function */
   cb: (...args: any) => any;
 }
 /**
