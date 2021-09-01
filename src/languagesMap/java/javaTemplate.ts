@@ -1,131 +1,16 @@
-import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from '../LanguageMap';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const ListNode = {
-  definition: `/**
-* Definition for singly-linked list.
-* public class ListNode {
-*     int val;
-*     ListNode next;
-*     ListNode() {}
-*     ListNode(int val) { this.val = val; }
-*     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-* }
-*/
-`,
-  implementation: `public class ListNode {
-int val;
-ListNode next;
-ListNode() {}
-ListNode(int val) { this.val = val; }
-ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-}
-public ListNode arrayToLinkedList(Integer[] arrayNode) {
-  if (arrayNode.length == 0) {
-      return null;
-  }
-  ListNode head = new ListNode();
-  ListNode next = head;
-  int size = arrayNode.length;
-  for (int i = 0; i < size; i++) {
-      next.val = arrayNode[i];
-      if (i == size - 1) {
-          next.next = null;
-      } else {
-          next.next = new ListNode();
-          next = next.next;
-      }
-  }
-  return head;
-}
-public Integer[] linkedListToArray(ListNode head) {
-  List<Integer> array = new ArrayList<>();
-  ListNode curr = head;
-  while (curr != null) {
-      array.add(curr.val);
-      curr = curr.next;
-  }
-  return array.toArray(new Integer[0]);
-}
-`
+  definition: fs.readFileSync(path.join(__dirname, './ListNode/definition.java')).toString(),
+  implementation: fs.readFileSync(path.join(__dirname, './ListNode/implementation.java')).toString()
 
 }
 
 const TreeNode = {
-  definition: `/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-`,
-  implementation: `public class TreeNode {
-  int val;
-  TreeNode left;
-  TreeNode right;
-  TreeNode() {}
-  TreeNode(int val) { this.val = val; }
-  TreeNode(int val, TreeNode left, TreeNode right) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
-public TreeNode arrayToBinaryTree(Integer[] arrayNode) {
-  if (arrayNode.length == 0 || arrayNode[0] == null) {
-    return null;
-  }
-  TreeNode root = new TreeNode(arrayNode[0]);
-  Queue<TreeNode> nodes = new LinkedList<>();
-  nodes.add(root);
-  for (int i = 0; i < arrayNode.length && nodes.size() > 0; i++) {
-    TreeNode node = nodes.remove();
-    if (2*i+1 < arrayNode.length && arrayNode[2*i+1] != null) {
-      TreeNode left = new TreeNode(arrayNode[2*i+1]);
-      node.left = left;
-      nodes.add(left);
-    }
-    if (2*i+2 < arrayNode.length && arrayNode[2*i+2] != null) {
-      TreeNode right = new TreeNode(arrayNode[2*i+2]);
-      node.right = right;
-      nodes.add(right);
-    }
-  }
-  return root;
-}
-
-public Integer[] binaryTreeToArray(TreeNode root) {
-  if (root == null) {
-    return new Integer[0];
-  }
-  List<Integer> arr = new ArrayList<>();
-  Queue<TreeNode> nodes = new LinkedList<>();
-  nodes.add(root);
-  while (nodes.size() > 0) {
-    TreeNode node = nodes.remove();
-    if (node == null) {
-      arr.add(null);
-      continue;
-    } else {
-      arr.add(node.val);
-    }
-    nodes.add(node.left);
-    nodes.add(node.right);
-  }
-  while (arr.get(arr.size() - 1) == null) {
-    arr.remove((arr.size() - 1));
-  }
-  return arr.toArray(new Integer[0]);
-}
-`
+  definition: fs.readFileSync(path.join(__dirname, './TreeNode/definition.java')).toString(),
+  implementation: fs.readFileSync(path.join(__dirname, './TreeNode/implementation.java')).toString()
 }
 
 const additionalDataStructures: AdditionalDataStructures = {

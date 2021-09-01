@@ -1,17 +1,18 @@
-import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
-
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from '../LanguageMap';
+import * as fs from 'fs';
+import * as path from 'path';
 /**
  * The implementation and definition of data structures
  * used in challenges
  */
 const additionalDataStructures: AdditionalDataStructures = {
   ListNode: {
-    definition: ``,
-    implementation: ``
+    definition: fs.readFileSync(path.join(__dirname, './ListNode/definition.<%= extension %>')).toString(),
+    implementation: fs.readFileSync(path.join(__dirname, './ListNode/implementation.<%= extension %>')).toString()
   },
   TreeNode: {
-    definition: ``,
-    implementation: ``
+    definition: fs.readFileSync(path.join(__dirname, './TreeNode/definition.<%= extension %>')).toString(),
+    implementation: fs.readFileSync(path.join(__dirname, './TreeNode/implementation.<%= extension %>')).toString()
   }
 }
 
@@ -53,6 +54,8 @@ const typeMap: TypeMap = {
   "Array<integer>": "",
   "Array<boolean>": "",
   "Array<string>": "",
+  ListNode: "ListNode",
+  TreeNode: "TreeNode"
 }
 
 /**

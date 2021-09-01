@@ -5,12 +5,12 @@
  */
 
 export const languages = {
-  <% Object.entries(languages).forEach(([extension, {name, image, runner}]) => { %>
+  <% Object.entries(languages).forEach(([extension, {name, image, runner, codeMirrorMode}]) => { %>
   <%= extension %>: {
     name: "<%= name %>", 
     image: "<%= image %>", 
     runner: "<%= runner %>", 
-    codeMirrorMode: "<%= codeMirrorMode %> ",
+    codeMirrorMode: "<%= codeMirrorMode %>"
   },
   <% }) %>
 } as const

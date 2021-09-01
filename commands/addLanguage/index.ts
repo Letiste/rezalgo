@@ -47,19 +47,32 @@ const questions: prompts.PromptObject[] = [
   },
 ];
 
+function generateDataStructuresFiles(dirDestination: string, extension: string, dataStructures: string[]) {
+  dataStructures.forEach(dataStructure => {
+    fs.mkdirSync(path.join(__dirname, `${dirDestination}/${dataStructure}`))
+    fs.writeFileSync(path.join(__dirname, `${dirDestination}/${dataStructure}/definition.${extension}`), "")
+    fs.writeFileSync(path.join(__dirname, `${dirDestination}/${dataStructure}/implementation.${extension}`), "")
+  })
+}
+
 (async () => {
   try {
-    const { name, extension, image, runner } = await prompts(questions);
-
-    await fs.copyFileSync(
-      path.join(__dirname, 'template.ts'),
-      path.join(__dirname, `../../src/languagesMap/${extension}Template.ts`),
-      fs.constants.COPYFILE_EXCL
-    );
-    console.log(`The file ${extension}Template.ts was generated in ${path.join(__dirname, '../../src/languagesMap')}`);
+    const { name, extension, image, runner, codeMirrorMode } = await prompts(questions);
+    const dirDestination = `../../src/languagesMap/${extension}`
+    fs.mkdirSync(path.join(__dirname, dirDestination), {recursive: true})
+    generateDataStructuresFiles(dirDestination, extension, ['ListNode', 'TreeNode'])
+    await new Promise<void>((resolve, reject) => {
+      ejs.renderFile(path.join(__dirname, './template.ejs'), {extension}, (err, str) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(fs.writeFileSync(path.join(__dirname, `${dirDestination}/${extension}Template.ts`), str));
+      });
+    });
+    console.log(`The file ${extension}Template.ts was generated in ${path.join(__dirname, dirDestination)}`);
     
     const newLanguages: Record<string, unknown> = { ...languages };
-    newLanguages[extension] = { name, image, runner };
+    newLanguages[extension] = { name, image, runner, codeMirrorMode };
     await new Promise<void>((resolve, reject) => {
       ejs.renderFile(path.join(__dirname, './languages.ejs'), {languages: newLanguages}, (err, str) => {
         if (err) {

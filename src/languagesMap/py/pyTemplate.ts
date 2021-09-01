@@ -1,95 +1,15 @@
-import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from './LanguageMap';
+import { AdditionalDataStructures, FunctionSignature, LanguageMap, TypeMap } from '../LanguageMap';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const ListNode = {
-  definition: `# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-`,
-  implementation: `class ListNode:
-  def __init__(self, val=0, next=None):
-    self.val = val
-    self.next = next
-def arrayToLinkedList(arrayNode):
-  if len(arrayNode) == 0:
-    return None
-  head = ListNode()
-  next = head
-  length = len(arrayNode)
-  for i in range(0, length):
-    next.val = arrayNode[i]
-    if i == length - 1:
-      next.next = None
-    else:
-      next.next = ListNode()
-      next = next.next
-  return head
-def linkedListToArray(head):
-  array = []
-  curr = head
-  while curr != None:
-    array.append(curr.val)
-    curr = curr.next
-  return array
-`,
+  definition: fs.readFileSync(path.join(__dirname, './ListNode/definition.py')).toString(),
+  implementation: fs.readFileSync(path.join(__dirname, './ListNode/implementation.py')).toString()
 };
 
 const TreeNode = {
-  definition: `# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-`,
-  implementation: `class TreeNode:
-  def __init__(self, val=0, left=None, right=None):
-    self.val = val
-    self.left = left
-    self.right = right
-def arrayToBinaryTree(arrayNode):
-  if len(arrayNode) == 0 or arrayNode[0] == None:
-    return None
-  
-  root = TreeNode(arrayNode[0])
-  nodes = [root]
-  i = 0
-  while i < len(arrayNode) and len(nodes) > 0:
-    node = nodes.pop(0)
-    if 2*i+1 < len(arrayNode) and arrayNode[2*i+1] != None:
-      left = TreeNode(arrayNode[2*i+1])
-      node.left = left
-      nodes.append(left)
-  
-    if 2*i+2 < len(arrayNode) and arrayNode[2*i+2] != None:
-      right = TreeNode(arrayNode[2*i+2])
-      node.right = right
-      nodes.append(right)
-  
-    i += 1
-  
-  return root
-
-def binaryTreeToArray(root):
-  if root == None:
-    return []
-  
-  arr = []
-  nodes = [root]
-  while len(nodes) > 0:
-    node = nodes.pop(0)
-    if node == None:
-      arr.append(None)
-      continue  
-    else:
-      arr.append(node.val)
-    nodes.append(node.left)
-    nodes.append(node.right)
-  while arr[-1] == None:
-    arr.pop()
-  return arr
-`,
+  definition: fs.readFileSync(path.join(__dirname, './TreeNode/definition.py')).toString(),
+  implementation: fs.readFileSync(path.join(__dirname, './TreeNode/implementation.py')).toString(),
 };
 
 const additionalDataStructures: AdditionalDataStructures = {

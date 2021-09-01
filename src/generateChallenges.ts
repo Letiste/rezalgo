@@ -7,7 +7,7 @@ import { languages } from './schemas';
 
 const languagesMap = Object.keys(languages).map((language) => ({
   language,
-  languageMap: require(`./languagesMap/${language}Template`).languageMap,
+  languageMap: require(`./languagesMap/${language}/${language}Template`).languageMap,
 }));
 
 /**
